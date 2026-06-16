@@ -303,7 +303,11 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     </div>
     <h2 class="ob-title">מה קורה ביום<br>שפוספס?</h2>
     <div class="penalty-cards">
-      <div class="penalty-card selected" id="pc-double" onclick="selectPenalty('double')">
+      <div class="penalty-card selected" id="pc-carryover" onclick="selectPenalty('carryover')">
+        <h3>צבירה</h3>
+        <p>מה שפוספס מצטרף ליום הבא. פספסת 25 — מחר צריך 50. ללא ריבית.</p>
+      </div>
+      <div class="penalty-card" id="pc-double" onclick="selectPenalty('double')">
         <h3>×2 כפול</h3>
         <p>יום שפוספס חוזר פעמיים. פספסת 25 — חוב של 50. פשוט וברור.</p>
       </div>
@@ -331,7 +335,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     <h2 class="ob-title">הדיל שלך</h2>
     <div id="deal-summary">
       <div id="sum-exercises-list"></div>
-      <div class="summary-row"><span class="summary-key">קנס</span><span id="sum-penalty" class="summary-val">כפול ×2</span></div>
+      <div class="summary-row"><span class="summary-key">קנס</span><span id="sum-penalty" class="summary-val">צבירה</span></div>
       <div class="summary-row"><span class="summary-key">מתחיל</span><span class="summary-val">היום</span></div>
     </div>
     <p class="ob-body" style="font-size:13px">לחץ על הכפתור כדי לחתום על הדיל</p>
@@ -520,17 +524,14 @@ function processDealDebt(deal) {
   if (!deal.logs) deal.logs = {};
   const tod = todayStr();
 
-  // Determine start of processing
   let cursor = deal.lastProcessed ? addDays(deal.lastProcessed, 1) : startDate;
 
   while (cursor < tod) {
     if (cursor >= startDate) {
-      // Apply compound interest to existing debt first
       if (penaltyType === 'percent' && deal.debt > 0) {
         const pct = parseFloat(penaltyPercent) || 20;
         deal.debt = Math.ceil(deal.debt * (1 + pct / 100));
       }
-      // Add missed reps
       const logged = deal.logs[cursor] || 0;
       const missed = Math.max(0, dailyTarget - logged);
       if (missed > 0) {
@@ -540,7 +541,6 @@ function processDealDebt(deal) {
     cursor = addDays(cursor, 1);
   }
 
-  // Debt cap: max 5× target — use >= so flag persists after debt is clamped
   const cap = dailyTarget * 5;
   deal.debtOverCap = deal.debt >= cap;
   deal.debt = Math.min(deal.debt, cap);
@@ -560,7 +560,6 @@ function addLogToDeal(exercise, reps) {
   const before = deal.logs[tod] || 0;
   deal.logs[tod] = before + reps;
 
-  // Reps beyond today's target reduce debt
   const overTarget = Math.max(0, (before + reps) - deal.dailyTarget);
   if (overTarget > 0 && deal.debt > 0) {
     deal.debt = Math.max(0, deal.debt - overTarget);
@@ -587,16 +586,14 @@ function getDealDayStatus(deal, d) {
 function getDealStreak(deal) {
   const tod = todayStr();
   let cur = 0, best = 0, d = tod;
-  // count backwards
   while (true) {
     const s = getDealDayStatus(deal, d);
     if (s === 'complete' || s === 'today-partial') { cur++; best = Math.max(best, cur); }
-    else if (s === 'today' || s === 'future') { /* skip today if not done yet */ }
+    else if (s === 'today' || s === 'future') { }
     else break;
     if (d <= deal.startDate) break;
     d = addDays(d, -1);
   }
-  // Also compute all-time best
   let brun = 0, cursor2 = deal.startDate;
   while (cursor2 <= tod) {
     const s = getDealDayStatus(deal, cursor2);
@@ -700,14 +697,14 @@ function closeLog() {
 let obStep = 0;
 let obSelected = new Set();
 let obTargets = {};
-let obPenalty = 'double';
+let obPenalty = 'carryover';
 let obAdding = false;
 
 function startObFlow(adding) {
   obAdding = adding;
   obSelected = new Set();
   obTargets = {};
-  obPenalty = 'double';
+  obPenalty = 'carryover';
   obStep = adding ? 1 : 0;
   document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
   document.getElementById('ob-step-' + obStep).classList.add('active');
@@ -783,6 +780,7 @@ function obPrev() {
 
 function selectPenalty(type) {
   obPenalty = type;
+  document.getElementById('pc-carryover').classList.toggle('selected', type === 'carryover');
   document.getElementById('pc-double').classList.toggle('selected', type === 'double');
   document.getElementById('pc-percent').classList.toggle('selected', type === 'percent');
   document.getElementById('pct-row').style.display = type === 'percent' ? 'flex' : 'none';
@@ -796,9 +794,11 @@ function updateSummary() {
   }).join('');
   if (obPenalty === 'double') {
     document.getElementById('sum-penalty').textContent = 'כפול ×2';
-  } else {
+  } else if (obPenalty === 'percent') {
     const pct = document.getElementById('pct-input').value || 20;
     document.getElementById('sum-penalty').textContent = 'ריבית ' + pct + '% יומי';
+  } else {
+    document.getElementById('sum-penalty').textContent = 'צבירה';
   }
 }
 
@@ -1025,14 +1025,12 @@ function renderCalendar() {
   const deal = deals.find(d => d.exercise === calSelectedExercise);
   const tod = todayStr();
 
-  // Build last 90 days
   const days = [];
   for (let i = 89; i >= 0; i--) days.push(addDays(tod, -i));
 
-  // Group by month
   const months = {};
   days.forEach(d => {
-    const m = d.substring(0, 7); // YYYY-MM
+    const m = d.substring(0, 7);
     if (!months[m]) months[m] = [];
     months[m].push(d);
   });
@@ -1040,15 +1038,11 @@ function renderCalendar() {
   let html = '';
   Object.entries(months).reverse().forEach(([m, mDays]) => {
     const label = getMonthLabel(mDays[0]);
-    // find day of week for first day
     const firstDow = new Date(mDays[0] + 'T12:00:00').getDay();
     const cells = [];
     for (let i = 0; i < firstDow; i++) cells.push(null);
     mDays.forEach(d => cells.push(d));
     while (cells.length % 7 !== 0) cells.push(null);
-
-    const rows = [];
-    for (let i = 0; i < cells.length; i += 7) rows.push(cells.slice(i, i + 7));
 
     html += `<div class="cal-month">
       <div class="cal-month-label">${label}</div>
@@ -1105,7 +1099,6 @@ function renderStats() {
   const { current: streak, best: bestStreak } = getDealStreak(deal);
   const debt = deal.debt || 0;
 
-  // Days since start
   const tod = todayStr();
   const daysSinceStart = Math.max(0, daysBetween(deal.startDate, tod));
   const completedDays = daysSinceStart > 0
@@ -1113,7 +1106,6 @@ function renderStats() {
     : 0;
   const completionRate = daysSinceStart > 0 ? Math.round(completedDays / daysSinceStart * 100) : 0;
 
-  // Last 7 days bar chart
   const last7 = [];
   for (let i = 6; i >= 0; i--) {
     const d = addDays(tod, -i);
@@ -1180,7 +1172,7 @@ function renderSettings() {
   let dealsSection = '';
   deals.forEach(deal => {
     const ex = EXERCISES[deal.exercise];
-    const penStr = deal.penaltyType === 'double' ? 'כפול ×2' : `ריבית ${deal.penaltyPercent}%`;
+    const penStr = deal.penaltyType === 'double' ? 'כפול ×2' : deal.penaltyType === 'percent' ? `ריבית ${deal.penaltyPercent}%` : 'צבירה';
     dealsSection += `
       <div class="set-section-hdr">${ex.name}</div>
       <div class="set-group">
@@ -1349,7 +1341,6 @@ function scheduleInAppReminder() {
   const target = new Date();
   target.setHours(reminderH, 0, 0, 0);
 
-  // If reminder time already passed today, schedule for tomorrow
   if (now >= target) target.setDate(target.getDate() + 1);
 
   const msUntil = target - now;
@@ -1365,7 +1356,7 @@ function scheduleInAppReminder() {
       DATA.lastNotif = todayStr() + '-reminder';
       save();
     }
-    scheduleInAppReminder(); // reschedule for tomorrow
+    scheduleInAppReminder();
   }, msUntil);
 }
 
@@ -1399,7 +1390,6 @@ function checkNotifications() {
 
 // ═══════════════ INSTALL BANNER ═══════════════
 function checkInstallBanner() {
-  // Show only on iOS Safari (not in standalone mode)
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isStandalone = window.navigator.standalone === true;
   const dismissed = localStorage.getItem('install_banner_dismissed');

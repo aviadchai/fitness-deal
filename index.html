@@ -61,14 +61,14 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .qty-btn:active{background:var(--bg3);transform:scale(0.9);}
 .qty-btn.small{width:36px;height:36px;font-size:18px;}
 
-.ob-targets-list{display:flex;flex-direction:column;gap:8px;width:100%;}
+.ob-targets-list{display:flex;flex-direction:column;gap:10px;width:100%;}
 .target-row-compact{display:flex;align-items:center;gap:12px;width:100%;background:var(--bg2);border-radius:12px;padding:10px 14px;}
 .target-ex-name{flex:1;font-size:14px;text-align:right;}
 .target-stepper{display:flex;align-items:center;gap:10px;}
 .target-val{font-size:18px;font-weight:700;min-width:32px;text-align:center;}
 .target-unit-label{font-size:12px;color:var(--label3);min-width:42px;text-align:left;}
 
-.penalty-cards{display:flex;flex-direction:column;gap:10px;width:100%;}
+.penalty-cards{display:flex;flex-direction:column;gap:12px;width:100%;}
 .penalty-card{background:var(--bg2);border-radius:14px;padding:16px 18px;cursor:pointer;text-align:right;transition:all 0.18s;border:2px solid transparent;}
 .penalty-card.selected{border-color:var(--accent);background:var(--accent-cont);}
 .penalty-card h3{font-size:16px;font-weight:600;margin-bottom:4px;}
@@ -83,7 +83,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 
 /* Summary card */
 #deal-summary{background:var(--bg2);border-radius:16px;overflow:hidden;width:100%;}
-.summary-row{display:flex;justify-content:space-between;font-size:15px;padding:13px 18px;border-bottom:1px solid var(--sep);}
+.summary-row{display:flex;justify-content:space-between;font-size:15px;padding:15px 18px;border-bottom:1px solid var(--sep);}
 .summary-row:last-child{border-bottom:none;}
 .summary-key{color:var(--label2);}
 .summary-val{font-weight:500;}
@@ -114,8 +114,8 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .ring-sub{font-size:13px;color:var(--label3);margin-top:2px;}
 .ring-countdown{font-size:12px;color:var(--label3);margin-top:6px;}
 
-.deals-grid{display:flex;flex-direction:column;gap:16px;width:100%;}
-.deal-card{background:var(--bg2);border-radius:20px;padding:20px;width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.deals-grid{display:flex;flex-direction:column;gap:20px;width:100%;}
+.deal-card{background:var(--bg2);border-radius:20px;padding:22px 20px;width:100%;display:flex;flex-direction:column;align-items:center;gap:16px;}
 .deal-card-header{display:flex;align-items:center;justify-content:space-between;width:100%;}
 .deal-card-title{font-size:16px;font-weight:600;}
 .deal-card-streak{font-size:12px;color:var(--label2);}
@@ -132,7 +132,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .deal-tab{flex-shrink:0;background:var(--bg2);border:2px solid transparent;border-radius:50px;padding:8px 18px;font-size:14px;font-weight:500;color:var(--label2);cursor:pointer;transition:all 0.18s;font-family:inherit;}
 .deal-tab.active{border-color:var(--accent);background:var(--accent-cont);color:var(--label);}
 
-.chips-row{display:flex;gap:10px;justify-content:center;}
+.chips-row{display:flex;gap:12px;justify-content:center;}
 .chip{background:var(--bg2);border-radius:12px;padding:10px 18px;text-align:center;display:flex;flex-direction:column;gap:2px;}
 .chip-val{font-size:22px;font-weight:700;letter-spacing:-0.5px;}
 .chip-key{font-size:10px;color:var(--label2);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;}
@@ -203,8 +203,8 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 
 /* Stats */
 #s-stat{padding-bottom:calc(88px + var(--safe-bottom));}
-.stat-body{flex:1;overflow-y:auto;padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;}
-.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.stat-body{flex:1;overflow-y:auto;padding:16px 20px 20px;display:flex;flex-direction:column;gap:16px;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .stat-card{background:var(--bg2);border-radius:18px;padding:18px;}
 .stat-card.wide{grid-column:1/-1;}
 .stat-label{font-size:11px;color:var(--label2);margin-bottom:8px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;}
@@ -222,7 +222,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .set-section-hdr{font-size:12px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;padding:0 6px;margin-top:28px;margin-bottom:8px;}
 .set-section-hdr:first-child{margin-top:8px;}
 .set-group{background:var(--bg2);border-radius:16px;overflow:hidden;}
-.set-row{display:flex;align-items:center;padding:14px 16px;gap:12px;border-bottom:1px solid var(--sep);}
+.set-row{display:flex;align-items:center;padding:16px 16px;gap:12px;border-bottom:1px solid var(--sep);}
 .set-row:last-child{border-bottom:none;}
 .set-label{flex:1;font-size:16px;}
 .set-value{font-size:16px;color:var(--label2);}
@@ -254,11 +254,6 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 ::-webkit-scrollbar{width:0;}
 
-/* FAB */
-.fab{position:fixed;bottom:calc(96px + var(--safe-bottom));left:50%;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(77,182,172,0.55),0 2px 8px rgba(0,0,0,0.4);z-index:50;transition:transform 0.15s,box-shadow 0.15s;}
-.fab.show{display:flex;}
-.fab:active{transform:translateX(-50%) scale(0.88);box-shadow:0 2px 8px rgba(77,182,172,0.35);}
-.fab svg{width:28px;height:28px;stroke:#003731;fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;}
 
 /* Exercise picker */
 .exercise-cards-row{display:flex;gap:8px;width:100%;}
@@ -270,6 +265,10 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 
 /* Camera preview in log sheet */
 .camera-preview{width:100%;border-radius:14px;object-fit:cover;display:none;background:#000;transform:scaleX(-1);aspect-ratio:4/3;max-height:200px;}
+.auto-count-badge{display:none;align-items:center;gap:6px;background:var(--accent-cont);border:1px solid var(--accent);border-radius:10px;padding:6px 14px;font-size:13px;color:var(--accent);font-weight:600;}
+.auto-count-badge.show{display:flex;}
+.auto-count-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-dot 1.2s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
 .log-header-row{display:flex;align-items:center;justify-content:space-between;width:100%;}
 .camera-btn{background:none;border:none;padding:6px;cursor:pointer;color:var(--label3);border-radius:8px;transition:color 0.18s;}
 .camera-btn.on{color:var(--accent);}
@@ -378,6 +377,8 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
       </button>
     </div>
     <video id="camera-preview" class="camera-preview" autoplay playsinline muted></video>
+    <canvas id="motion-canvas" style="display:none"></canvas>
+    <div class="auto-count-badge" id="auto-count-badge"><div class="pulse"></div>ספירה אוטומטית</div>
 
     <!-- Timer for plank -->
     <div id="timer-section" class="timer-section">
@@ -463,9 +464,6 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
   </button>
 </nav>
 
-<button id="fab" class="fab" onclick="fabAction()">
-  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-</button>
 
 <div id="toast"></div>
 
@@ -675,18 +673,7 @@ const EXERCISES = {
   plank:   { name: 'פלאנקים',      unit: 'שניות', defaultTarget: 60, icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM3 18l18-8"/>' },
 };
 
-// ═══════════════ FAB ═══════════════
-function updateFab() {
-  const fab = document.getElementById('fab');
-  if (!fab) return;
-  const activeCount = activeDeals().length;
-  const showFab = currentScreen === 'main' && activeCount < Object.keys(EXERCISES).length;
-  fab.classList.toggle('show', showFab);
-  fab.title = activeCount === 0 ? 'דיל חדש' : 'הוסף אתגר';
-}
-function fabAction() {
-  startObFlow(activeDeals().length > 0);
-}
+function updateFab() {}
 
 // ═══════════════ CAMERA ═══════════════
 let cameraStream = null;
@@ -694,6 +681,7 @@ async function toggleCamera() {
   const vid = document.getElementById('camera-preview');
   const btn = document.getElementById('camera-btn');
   if (cameraStream) {
+    stopMotionDetection();
     cameraStream.getTracks().forEach(t => t.stop());
     cameraStream = null;
     vid.style.display = 'none';
@@ -704,10 +692,14 @@ async function toggleCamera() {
       vid.srcObject = cameraStream;
       vid.style.display = 'block';
       btn.classList.add('on');
+      if (currentLogExercise && !isTimerExercise(currentLogExercise)) {
+        vid.onloadeddata = () => startMotionDetection(vid);
+      }
     } catch { showToast('מצלמה לא זמינה'); }
   }
 }
 function stopCamera() {
+  stopMotionDetection();
   if (cameraStream) {
     cameraStream.getTracks().forEach(t => t.stop());
     cameraStream = null;
@@ -721,6 +713,85 @@ function closeLog() {
   stopCamera();
   resetTimer();
   show('main');
+}
+
+// ═══════════════ PUSHUP AUTO-COUNT ═══════════════
+let _motionDetector = null;
+
+function startMotionDetection(videoEl) {
+  if (_motionDetector) return;
+  const canvas = document.getElementById('motion-canvas');
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const W = 120, H = 90;
+  canvas.width = W;
+  canvas.height = H;
+
+  let prevGray = null;
+  let smoothedY = 0.5;
+  let prevSmoothedY = 0.5;
+  let state = 'idle';
+  let lastRepTime = 0;
+  const MIN_REP_MS = 600;
+  const MOTION_THRESH = 25;
+  const MOVE_THRESH = 0.04;
+
+  _motionDetector = setInterval(() => {
+    if (videoEl.readyState < 2) return;
+    ctx.drawImage(videoEl, 0, 0, W, H);
+    const frame = ctx.getImageData(0, 0, W, H);
+    const gray = new Uint8Array(W * H);
+    for (let i = 0; i < W * H; i++) {
+      const j = i * 4;
+      gray[i] = (frame.data[j] * 77 + frame.data[j+1] * 150 + frame.data[j+2] * 29) >> 8;
+    }
+
+    if (prevGray) {
+      let motionWeightedY = 0, motionTotal = 0;
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+          const i = y * W + x;
+          const diff = Math.abs(gray[i] - prevGray[i]);
+          if (diff > MOTION_THRESH) {
+            motionWeightedY += y * diff;
+            motionTotal += diff;
+          }
+        }
+      }
+
+      if (motionTotal > 500) {
+        const centerY = motionWeightedY / motionTotal / H;
+        smoothedY = smoothedY * 0.6 + centerY * 0.4;
+        const delta = smoothedY - prevSmoothedY;
+        const now = Date.now();
+
+        if (state === 'idle' && delta > MOVE_THRESH) {
+          state = 'down';
+        } else if (state === 'down' && delta < -MOVE_THRESH && (now - lastRepTime) > MIN_REP_MS) {
+          state = 'idle';
+          lastRepTime = now;
+          currentReps++;
+          document.getElementById('reps-display').textContent = currentReps;
+        } else if (state === 'down' && Math.abs(delta) < 0.005) {
+          // Reset if motion stopped
+          setTimeout(() => { if (state === 'down') state = 'idle'; }, 800);
+        }
+
+        prevSmoothedY = smoothedY;
+      }
+    }
+    prevGray = gray;
+  }, 100);
+
+  document.getElementById('auto-count-badge').classList.add('show');
+}
+
+function stopMotionDetection() {
+  if (_motionDetector) {
+    clearInterval(_motionDetector);
+    _motionDetector = null;
+  }
+  const badge = document.getElementById('auto-count-badge');
+  if (badge) badge.classList.remove('show');
 }
 
 // ═══════════════ ONBOARDING ═══════════════

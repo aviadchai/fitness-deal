@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<title>דיל כושר</title>
-<meta name="theme-color" content="#0D1F1C">
+<title>Fitness Deal</title>
+<meta name="theme-color" content="#0A0E1A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="דיל כושר">
+<meta name="apple-mobile-web-app-title" content="Fitness Deal">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="fitness-icon-192.png">
 <link rel="apple-touch-icon" sizes="192x192" href="fitness-icon-192.png">
 <style>
 :root {
-  --bg:#061412;--bg2:#1A2C29;--bg3:#253935;--bg4:#304542;
-  --label:#E0F2F1;--label2:#80CBC4;--label3:rgba(224,242,241,0.38);
-  --sep:rgba(77,182,172,0.14);--fill:rgba(77,182,172,0.12);
-  --accent:#4DB6AC;--accent-cont:rgba(77,182,172,0.15);
-  --green:#69F0AE;--orange:#FFB300;--red:#CF6679;
+  --bg:#0A0E1A;--bg2:#141B2D;--bg3:#1C2640;--bg4:#263354;
+  --label:#E8ECF4;--label2:#7B8CA8;--label3:rgba(232,236,244,0.3);
+  --sep:rgba(59,130,246,0.1);--fill:rgba(59,130,246,0.08);
+  --accent:#3B82F6;--accent-cont:rgba(59,130,246,0.12);
+  --green:#22C55E;--orange:#F59E0B;--red:#EF4444;
   --safe-top:env(safe-area-inset-top);--safe-bottom:env(safe-area-inset-bottom);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -28,7 +28,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .screen.active{opacity:1;pointer-events:all;}
 
 /* Nav — Material 3 Navigation Bar */
-#nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#0D1F1C;border-top:1px solid var(--sep);padding:8px 0 calc(8px + var(--safe-bottom));flex-direction:row;z-index:100;}
+#nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#0C1222;border-top:1px solid var(--sep);padding:8px 0 calc(8px + var(--safe-bottom));flex-direction:row;z-index:100;}
 #nav.show{display:flex;}
 .nav-btn{flex:1;background:none;border:none;cursor:pointer;color:var(--label3);font-family:inherit;font-size:11px;font-weight:500;display:flex;flex-direction:column;align-items:center;gap:0;padding:0;transition:color 0.18s;}
 .nav-indicator{width:56px;height:28px;border-radius:14px;background:transparent;transition:background 0.22s;display:flex;align-items:center;justify-content:center;margin-bottom:3px;}
@@ -38,7 +38,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .nav-btn.active svg{stroke-width:2.4;}
 
 /* Screen header — Material App Bar */
-.s-header{display:flex;align-items:center;gap:12px;padding:0 16px;padding-top:calc(14px + var(--safe-top));padding-bottom:14px;background:#0D1F1C;border-bottom:1px solid var(--sep);flex-shrink:0;}
+.s-header{display:flex;align-items:center;gap:12px;padding:0 16px;padding-top:calc(14px + var(--safe-top));padding-bottom:14px;background:#0C1222;border-bottom:1px solid var(--sep);flex-shrink:0;}
 .s-header h2{font-size:20px;font-weight:500;flex:1;letter-spacing:0.15px;}
 .icon-btn{background:none;border:none;cursor:pointer;color:var(--label2);padding:8px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.15s;}
 .icon-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
@@ -79,7 +79,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 
 .sign-btn{width:150px;height:150px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px var(--accent-cont),0 8px 32px rgba(77,182,172,0.35);transition:all 0.2s;}
 .sign-btn:active{transform:scale(0.93);box-shadow:0 0 0 6px var(--accent-cont),0 4px 16px rgba(77,182,172,0.25);}
-.sign-btn svg{width:68px;height:68px;fill:none;stroke:#003731;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.sign-btn svg{width:68px;height:68px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 
 /* Summary card */
 #deal-summary{background:var(--bg2);border-radius:16px;overflow:hidden;width:100%;}
@@ -89,7 +89,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .summary-val{font-weight:500;}
 
 /* Shared buttons */
-.btn-primary{background:var(--accent);color:#003731;border:none;border-radius:50px;padding:16px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;width:100%;transition:opacity 0.15s;letter-spacing:0.02em;}
+.btn-primary{background:var(--accent);color:#fff;border:none;border-radius:50px;padding:16px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;width:100%;transition:opacity 0.15s;letter-spacing:0.02em;}
 .btn-primary:active{opacity:0.75;}
 .btn-text-cancel{background:none;border:none;color:var(--accent);font-family:inherit;font-size:16px;cursor:pointer;padding:12px;width:100%;text-align:center;}
 .btn-text-cancel:active{opacity:0.6;}
@@ -139,9 +139,9 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .chip.c-debt .chip-val{color:var(--orange);}
 .chip.c-done .chip-val{color:var(--green);}
 
-.main-cta{width:100%;background:var(--accent);color:#003731;border:none;border-radius:50px;padding:18px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:0.02em;}
+.main-cta{width:100%;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:18px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:0.02em;}
 .main-cta:active{opacity:0.75;}
-.main-cta svg{width:20px;height:20px;fill:none;stroke:#003731;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.main-cta svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 
 .cap-card{background:rgba(207,102,121,0.12);border-radius:16px;padding:18px;width:100%;display:flex;flex-direction:column;gap:8px;}
 .cap-title{font-size:16px;font-weight:600;color:var(--red);}
@@ -159,7 +159,10 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .reps-controls{display:flex;align-items:center;gap:24px;}
 .reps-btn{width:64px;height:64px;border-radius:50%;background:var(--bg3);border:none;color:var(--label);font-size:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.1s,background 0.12s;}
 .reps-btn:active{transform:scale(0.88);background:var(--bg4);}
-.log-actions{display:flex;flex-direction:column;gap:8px;width:100%;}
+.log-actions{display:flex;gap:10px;width:100%;}
+.log-actions .btn-primary{flex:1;}
+.log-actions .btn-cancel{flex:1;background:var(--bg3);color:var(--label2);border:none;border-radius:50px;padding:16px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;}
+.log-actions .btn-cancel:active{opacity:0.7;}
 
 /* Plank timer */
 .timer-section{display:none;flex-direction:column;align-items:center;gap:16px;width:100%;}
@@ -172,7 +175,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .timer-ring .ring-fill{fill:none;stroke:var(--accent);stroke-width:12;stroke-linecap:round;stroke-dasharray:502.65;stroke-dashoffset:502.65;transition:stroke-dashoffset 0.3s linear,stroke 0.3s;}
 .timer-ring .ring-fill.done{stroke:var(--green);}
 .timer-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.timer-btn{width:100%;background:var(--accent);color:#003731;border:none;border-radius:50px;padding:16px;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer;transition:all 0.15s;letter-spacing:0.02em;}
+.timer-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:16px;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer;transition:all 0.15s;letter-spacing:0.02em;}
 .timer-btn:active{opacity:0.75;}
 .timer-btn.running{background:var(--red);color:#fff;}
 
@@ -187,16 +190,16 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .ld-missed{background:var(--red);}
 .ld-today{background:var(--accent);}
 .ld-none{background:var(--bg4);}
-.cal-month{margin-bottom:28px;}
-.cal-month-label{font-size:20px;font-weight:500;margin-bottom:12px;}
-.cal-week-labels{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;}
-.cal-week-labels span{font-size:11px;color:var(--label3);text-align:center;font-weight:500;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-cell{aspect-ratio:1;border-radius:8px;background:var(--bg2);}
-.cal-cell.complete{background:var(--green);}
-.cal-cell.partial{background:var(--orange);opacity:0.8;}
-.cal-cell.missed{background:var(--red);opacity:0.85;}
-.cal-cell.today{background:var(--accent);box-shadow:0 0 12px rgba(77,182,172,0.5);}
+.cal-month{margin-bottom:32px;}
+.cal-month-label{font-size:18px;font-weight:600;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.05em;}
+.cal-week-labels{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:8px;}
+.cal-week-labels span{font-size:11px;color:var(--label3);text-align:center;font-weight:600;text-transform:uppercase;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.cal-cell{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--label3);position:relative;border:2px solid transparent;}
+.cal-cell.complete{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,0.1);}
+.cal-cell.partial{border-color:var(--orange);color:var(--orange);background:rgba(245,158,11,0.08);}
+.cal-cell.missed{border-color:transparent;color:var(--label3);background:var(--bg3);}
+.cal-cell.today{border-color:var(--accent);background:var(--accent);color:#fff;box-shadow:0 0 16px rgba(59,130,246,0.4);}
 .cal-cell.future{background:var(--bg2);opacity:0.3;}
 .cal-cell.empty{background:transparent;}
 
@@ -265,7 +268,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 #toast.show{opacity:1;}
 
 /* Install banner */
-#install-banner{position:fixed;bottom:calc(88px + var(--safe-bottom) + 12px);left:16px;right:16px;background:#1A3530;border:1px solid var(--accent);border-radius:16px;padding:14px 16px;display:none;align-items:center;gap:12px;z-index:90;box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+#install-banner{position:fixed;bottom:calc(88px + var(--safe-bottom) + 12px);left:16px;right:16px;background:#141B2D;border:1px solid var(--accent);border-radius:16px;padding:14px 16px;display:none;align-items:center;gap:12px;z-index:90;box-shadow:0 4px 20px rgba(0,0,0,0.5);}
 #install-banner.show{display:flex;}
 .ib-icon{width:40px;height:40px;border-radius:10px;flex-shrink:0;object-fit:cover;}
 .ib-text{flex:1;font-size:13px;line-height:1.5;color:var(--label2);}
@@ -309,48 +312,48 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     <div class="ob-icon-ring">
       <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
     </div>
-    <h1 class="ob-title">דיל כושר</h1>
+    <h1 class="ob-title">Fitness Deal</h1>
     <p class="ob-body">
-      אתה סוגר <strong>דיל</strong> עם עצמך — מחויבות יומית לאימון.<br><br>
-      יום שפוספס לא נמחק. הוא הופך ל<strong>חוב</strong> שגדל.<br><br>
-      כי התחייבות אמיתית לא מתאפסת.
+      You make a <strong>deal</strong> with yourself — a daily commitment to train.<br><br>
+      A missed day doesn't disappear. It becomes <strong>debt</strong> that grows.<br><br>
+      Because real commitment doesn't reset.
     </p>
     <div class="ob-dots">
       <div class="ob-dot on"></div><div class="ob-dot"></div><div class="ob-dot"></div>
     </div>
-    <button class="btn-primary" onclick="obNext()">בואו נתחיל ←</button>
+    <button class="btn-primary" onclick="obNext()">Let's Go →</button>
   </div>
 
   <div id="ob-step-1" class="ob-step">
     <div class="ob-icon-ring">
       <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     </div>
-    <h2 class="ob-title">בחר אתגרים</h2>
-    <p class="ob-body" style="font-size:13px">אפשר לבחור יותר מאחד</p>
+    <h2 class="ob-title">Choose Challenges</h2>
+    <p class="ob-body" style="font-size:13px">You can pick more than one</p>
     <div class="exercise-cards-row" id="ob-exercise-cards"></div>
     <div class="ob-targets-list" id="ob-targets-list"></div>
     <div class="ob-dots">
       <div class="ob-dot"></div><div class="ob-dot on"></div><div class="ob-dot"></div>
     </div>
-    <button class="btn-primary" onclick="obNext()">המשך ←</button>
-    <button class="btn-back" onclick="obPrev()">חזור</button>
+    <button class="btn-primary" onclick="obNext()">Next →</button>
+    <button class="btn-back" onclick="obPrev()">Back</button>
   </div>
 
   <div id="ob-step-2" class="ob-step">
     <div class="ob-icon-ring">
       <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
     </div>
-    <h2 class="ob-title">מה קורה ביום<br>שפוספס?</h2>
+    <h2 class="ob-title">What happens on<br>a missed day?</h2>
     <div class="penalty-cards">
       <div class="penalty-card selected" id="pc-double" onclick="selectPenalty('double')">
-        <h3>×2 כפול</h3>
-        <p>יום שפוספס חוזר פעמיים. פספסת 25 — חוב של 50. פשוט וברור.</p>
+        <h3>×2 Double</h3>
+        <p>Missed reps come back doubled. Miss 25 — owe 50. Simple.</p>
       </div>
       <div class="penalty-card" id="pc-percent" onclick="selectPenalty('percent')">
-        <h3>ריבית מצטברת</h3>
-        <p>החוב גדל כל יום שעובר ללא פירעון. ריבית דריבית.</p>
+        <h3>Compound Interest</h3>
+        <p>Debt grows daily if unpaid. Interest on interest.</p>
         <div class="pct-row" id="pct-row" style="display:none">
-          <label>אחוז יומי:</label>
+          <label>Daily %:</label>
           <input id="pct-input" type="number" value="20" min="10" max="100" placeholder="20">
           <span style="font-size:13px;color:var(--label2)">%</span>
         </div>
@@ -359,21 +362,21 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     <div class="ob-dots" style="margin-top:4px">
       <div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot on"></div>
     </div>
-    <button class="btn-primary" onclick="obNext()">המשך ←</button>
-    <button class="btn-back" onclick="obPrev()">חזור</button>
+    <button class="btn-primary" onclick="obNext()">Next →</button>
+    <button class="btn-back" onclick="obPrev()">Back</button>
   </div>
 
   <div id="ob-step-3" class="ob-step">
     <div class="ob-icon-ring">
       <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>
     </div>
-    <h2 class="ob-title">הדיל שלך</h2>
+    <h2 class="ob-title">Your Deal</h2>
     <div id="deal-summary">
       <div id="sum-exercises-list"></div>
-      <div class="summary-row"><span class="summary-key">קנס</span><span id="sum-penalty" class="summary-val">כפול ×2</span></div>
-      <div class="summary-row"><span class="summary-key">מתחיל</span><span class="summary-val">היום</span></div>
+      <div class="summary-row"><span class="summary-key">Penalty</span><span id="sum-penalty" class="summary-val">כפול ×2</span></div>
+      <div class="summary-row"><span class="summary-key">Starts</span><span class="summary-val">Today</span></div>
     </div>
-    <p class="ob-body" style="font-size:13px">לחץ על הכפתור כדי לחתום על הדיל</p>
+    <p class="ob-body" style="font-size:13px">Tap the button to sign your deal</p>
     <button class="sign-btn" id="sign-btn" onclick="signDeal()">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
     </button>
@@ -383,7 +386,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 <!-- ═══════════════ MAIN ═══════════════ -->
 <div id="s-main" class="screen">
   <div class="s-header">
-    <h2>דיל כושר</h2>
+    <h2>Fitness Deal</h2>
   </div>
   <div class="main-body" id="main-body"></div>
 </div>
@@ -394,8 +397,8 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     <div class="sheet-handle"></div>
     <div class="log-header-row">
       <div>
-        <div class="log-title" id="log-title">רישום אימון</div>
-        <div class="log-sub" id="log-sub">יעד היום: 25</div>
+        <div class="log-title" id="log-title">Log Workout</div>
+        <div class="log-sub" id="log-sub">Goal: 25</div>
       </div>
       <button class="camera-btn" id="camera-btn" onclick="toggleCamera()" title="מצלמה">
         <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
@@ -403,7 +406,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     </div>
     <video id="camera-preview" class="camera-preview" autoplay playsinline muted></video>
     <canvas id="motion-canvas" style="display:none"></canvas>
-    <div class="auto-count-badge" id="auto-count-badge"><div class="pulse"></div>ספירה אוטומטית</div>
+    <div class="auto-count-badge" id="auto-count-badge"><div class="pulse"></div>Auto Count</div>
 
     <!-- Timer for plank -->
     <div id="timer-section" class="timer-section">
@@ -416,7 +419,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
           <div class="timer-display" id="timer-display">00:00</div>
         </div>
       </div>
-      <button class="timer-btn" id="timer-btn" onclick="toggleTimer()">התחל</button>
+      <button class="timer-btn" id="timer-btn" onclick="toggleTimer()">Start</button>
     </div>
 
     <!-- Reps counter for non-timer exercises -->
@@ -428,21 +431,21 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
       </div>
     </div>
     <div class="log-actions">
-      <button class="btn-primary" onclick="saveLog()">שמור</button>
-      <button class="btn-text-cancel" onclick="closeLog()">ביטול</button>
+      <button class="btn-primary" onclick="saveLog()">Save</button>
+      <button class="btn-cancel" onclick="closeLog()">Cancel</button>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════ CALENDAR ═══════════════ -->
 <div id="s-cal" class="screen">
-  <div class="s-header"><h2>יומן אימונים</h2></div>
+  <div class="s-header"><h2>Workout Calendar</h2></div>
   <div class="cal-body">
     <div class="cal-legend">
-      <div class="legend-item"><div class="legend-dot ld-complete"></div>הושלם</div>
-      <div class="legend-item"><div class="legend-dot ld-partial"></div>חלקי</div>
-      <div class="legend-item"><div class="legend-dot ld-missed"></div>פוספס</div>
-      <div class="legend-item"><div class="legend-dot ld-today"></div>היום</div>
+      <div class="legend-item"><div class="legend-dot ld-complete"></div>Done</div>
+      <div class="legend-item"><div class="legend-dot ld-partial"></div>Partial</div>
+      <div class="legend-item"><div class="legend-dot ld-missed"></div>Missed</div>
+      <div class="legend-item"><div class="legend-dot ld-today"></div>Today</div>
     </div>
     <div id="cal-tabs"></div>
     <div id="cal-container"></div>
@@ -451,7 +454,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 
 <!-- ═══════════════ STATS ═══════════════ -->
 <div id="s-stat" class="screen">
-  <div class="s-header"><h2>סטטיסטיקות</h2></div>
+  <div class="s-header"><h2>Statistics</h2></div>
   <div class="stat-body">
     <div id="stat-tabs"></div>
     <div id="stat-content"></div>
@@ -460,7 +463,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 
 <!-- ═══════════════ SETTINGS ═══════════════ -->
 <div id="s-set" class="screen">
-  <div class="s-header"><h2>הגדרות</h2></div>
+  <div class="s-header"><h2>Settings</h2></div>
   <div class="set-body" id="set-body"></div>
 </div>
 
@@ -468,19 +471,19 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 <nav id="nav">
   <button class="nav-btn active" id="nav-main" onclick="show('main')">
     <div class="nav-indicator"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-    ראשי
+    Home
   </button>
   <button class="nav-btn" id="nav-cal" onclick="show('cal')">
     <div class="nav-indicator"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-    יומן
+    Calendar
   </button>
   <button class="nav-btn" id="nav-stat" onclick="show('stat')">
     <div class="nav-indicator"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-    סטטיסטיקות
+    Stats
   </button>
   <button class="nav-btn" id="nav-set" onclick="show('set')">
     <div class="nav-indicator"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
-    הגדרות
+    Settings
   </button>
 </nav>
 
@@ -490,8 +493,8 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 <div id="install-banner">
   <img class="ib-icon" src="fitness-icon-192.png" alt="">
   <div class="ib-text">
-    <strong>הוסף למסך הבית</strong>
-    לחץ על שתף ← "הוסף למסך הבית" כדי לקבל תזכורות
+    <strong>Add to Home Screen</strong>
+    Tap Share → "Add to Home Screen" for reminders
   </div>
   <button class="ib-close" onclick="dismissInstallBanner()">×</button>
 </div>
@@ -554,7 +557,7 @@ function getMonthLabel(s) {
   const d = new Date(s+'T12:00:00');
   return d.toLocaleDateString('he-IL', {month:'long',year:'numeric'});
 }
-const HE_DAYS_SHORT = ['א','ב','ג','ד','ה','ו','ש'];
+const HE_DAYS_SHORT = ['S','M','T','W','T','F','S'];
 
 // ═══════════════ DEBT ENGINE ═══════════════
 function activeDeals() { return (DATA.deals || []).filter(d => d.active); }
@@ -688,9 +691,9 @@ function show(name) {
 
 // ═══════════════ EXERCISES ═══════════════
 const EXERCISES = {
-  pushups: { name: 'שכיבות סמיכה', unit: 'חזרות', defaultTarget: 25, calPerUnit: 0.45, muscles: 'חזה, כתפיים, טרייספס, ליבה', icon: '<path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z"/>' },
-  situps:  { name: 'כפיפות בטן',   unit: 'חזרות', defaultTarget: 20, calPerUnit: 0.3, muscles: 'בטן, כופפי ירך, ליבה', icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM4 18l4-8 2 4 3-4 5 8"/>' },
-  plank:   { name: 'פלאנקים',      unit: 'שניות', defaultTarget: 60, calPerUnit: 0.05, muscles: 'ליבה, כתפיים, גב, ישבן', icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM3 18l18-8"/>' },
+  pushups: { name: 'שכיבות סמיכה', nameEn: 'Push-Ups', unit: 'reps', defaultTarget: 25, calPerUnit: 0.45, muscles: 'Chest, Shoulders, Triceps, Core', icon: '<path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z"/>' },
+  situps:  { name: 'כפיפות בטן',   nameEn: 'Sit-Ups',  unit: 'reps', defaultTarget: 20, calPerUnit: 0.3, muscles: 'Abs, Hip Flexors, Core', icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM4 18l4-8 2 4 3-4 5 8"/>' },
+  plank:   { name: 'פלאנקים',      nameEn: 'Plank',     unit: 'sec',  defaultTarget: 60, calPerUnit: 0.05, muscles: 'Core, Shoulders, Back, Glutes', icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM3 18l18-8"/>' },
 };
 
 function updateFab() {}
@@ -715,7 +718,7 @@ async function toggleCamera() {
       if (currentLogExercise && !isTimerExercise(currentLogExercise)) {
         vid.onloadeddata = () => startMotionDetection(vid);
       }
-    } catch { showToast('מצלמה לא זמינה'); }
+    } catch { showToast('Camera unavailable'); }
   }
 }
 function stopCamera() {
@@ -834,7 +837,7 @@ function renderExerciseCards() {
     const sel = obSelected.has(ex) ? 'selected' : '';
     return `<div class="exercise-card ${sel}" data-ex="${ex}" onclick="toggleExercise('${ex}')">
       <div class="ec-ring"><svg viewBox="0 0 24 24">${e.icon}</svg></div>
-      <div class="ec-name">${e.name}</div>
+      <div class="ec-name">${e.nameEn}</div>
     </div>`;
   }).join('');
   renderObTargets();
@@ -856,7 +859,7 @@ function renderObTargets() {
   container.innerHTML = [...obSelected].map(ex => {
     const e = EXERCISES[ex];
     return `<div class="target-row-compact">
-      <div class="target-ex-name">${e.name}</div>
+      <div class="target-ex-name">${e.nameEn}</div>
       <div class="target-stepper">
         <button class="qty-btn small" onclick="changeObTarget('${ex}',-5)">−</button>
         <div class="target-val">${obTargets[ex]}</div>
@@ -873,7 +876,7 @@ function changeObTarget(type, delta) {
 }
 
 function obNext() {
-  if (obStep === 1 && obSelected.size === 0) { showToast('בחר לפחות תרגיל אחד'); return; }
+  if (obStep === 1 && obSelected.size === 0) { showToast('Pick at least one exercise'); return; }
   document.getElementById('ob-step-' + obStep).classList.remove('active');
   obStep++;
   const el = document.getElementById('ob-step-' + obStep);
@@ -902,13 +905,13 @@ function updateSummary() {
   const list = document.getElementById('sum-exercises-list');
   list.innerHTML = [...obSelected].map(ex => {
     const e = EXERCISES[ex];
-    return `<div class="summary-row"><span class="summary-key">${e.name}</span><span class="summary-val">${obTargets[ex]} ${e.unit}</span></div>`;
+    return `<div class="summary-row"><span class="summary-key">${e.nameEn}</span><span class="summary-val">${obTargets[ex]} ${e.unit}</span></div>`;
   }).join('');
   if (obPenalty === 'double') {
-    document.getElementById('sum-penalty').textContent = 'כפול ×2';
+    document.getElementById('sum-penalty').textContent = 'Double ×2';
   } else {
     const pct = document.getElementById('pct-input').value || 20;
-    document.getElementById('sum-penalty').textContent = 'ריבית ' + pct + '% יומי';
+    document.getElementById('sum-penalty').textContent = pct + '% daily interest';
   }
 }
 
@@ -948,7 +951,7 @@ async function requestNotifications() {
   if (DATA.settings) DATA.settings.notificationsEnabled = (perm === 'granted');
   else DATA.settings = { notificationsEnabled: perm === 'granted', reminderHour: 20 };
   save();
-  if (perm === 'denied') showToast('ההתראות חסומות בדפדפן - יש לאפשר אותן בהגדרות המכשיר');
+  if (perm === 'denied') showToast('Notifications blocked — enable in device settings');
   if (currentScreen === 'set') renderSettings();
 }
 
@@ -961,7 +964,7 @@ function renderMain() {
   if (deals.length === 0) {
     body.innerHTML = `<div class="no-deal">
       <div class="icon-ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-      <p>אין דיל פעיל.<br>לחץ + כדי להתחיל.</p>
+      <p>No active deal.<br>Go to Settings to start one.</p>
     </div>`;
     stopAllCountdowns();
     return;
@@ -988,23 +991,23 @@ function renderDealCard(deal) {
   const numClass = done ? 'r-done' : '';
 
   let chipsHtml = `<div class="chips-row">
-    <div class="chip"><div class="chip-val">${target}</div><div class="chip-key">יעד</div></div>`;
-  if (debt > 0) chipsHtml += `<div class="chip c-debt"><div class="chip-val">${debt}</div><div class="chip-key">חוב</div></div>`;
-  chipsHtml += `<div class="chip c-done"><div class="chip-val">${logged}</div><div class="chip-key">${ex.unit}</div></div></div>`;
+    <div class="chip"><div class="chip-val">${target}</div><div class="chip-key">GOAL</div></div>`;
+  if (debt > 0) chipsHtml += `<div class="chip c-debt"><div class="chip-val">${debt}</div><div class="chip-key">DEBT</div></div>`;
+  chipsHtml += `<div class="chip c-done"><div class="chip-val">${logged}</div><div class="chip-key">DONE</div></div></div>`;
 
   let capHtml = '';
   if (deal.debtOverCap) {
     capHtml = `<div class="cap-card small">
-      <div class="cap-title">תקרת חוב הגיעה</div>
-      <div class="cap-body">החוב הגיע לגבול (${target*5} ${ex.unit}). ניתן לפרוס אותו על פני כמה ימים.</div>
-      <button class="cap-btn" onclick="showSettle('${deal.exercise}')">הסדר חוב</button>
+      <div class="cap-title">Debt Cap Reached</div>
+      <div class="cap-body">Debt hit the limit (${target*5} ${ex.unit}). You can spread it over several days.</div>
+      <button class="cap-btn" onclick="showSettle('${deal.exercise}')">Settle Debt</button>
     </div>`;
   }
 
   return `<div class="deal-card">
     <div class="deal-card-header">
-      <div class="deal-card-title">${ex.name}</div>
-      ${streak > 1 ? `<div class="deal-card-streak">${streak} ימים</div>` : ''}
+      <div class="deal-card-title">${ex.nameEn}</div>
+      ${streak > 1 ? `<div class="deal-card-streak">${streak} days 🔥</div>` : ''}
     </div>
     <div class="ring-wrap small">
       <svg class="ring-svg small" viewBox="0 0 140 140">
@@ -1014,14 +1017,14 @@ function renderDealCard(deal) {
       </svg>
       <div class="ring-center">
         <div class="ring-num small ${numClass}">${done ? '✓' : due}</div>
-        <div class="ring-label small">${done ? 'הושלם היום!' : 'לביצוע היום'}</div>
+        <div class="ring-label small">${done ? 'Done today!' : 'remaining'}</div>
         ${!done ? `<div class="ring-sub small">${logged} / ${total}</div>` : ''}
       </div>
     </div>
     ${!done ? `<div class="ring-countdown small" data-countdown="${deal.exercise}"></div>` : ''}
     ${chipsHtml}
     ${capHtml}
-    ${!done ? `<button class="main-cta small" onclick="openLog('${deal.exercise}')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>רשום ${ex.name}</button>` : ''}
+    ${!done ? `<button class="main-cta small" onclick="openLog('${deal.exercise}')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Log ${ex.nameEn}</button>` : ''}
   </div>`;
 }
 
@@ -1035,7 +1038,7 @@ function updateAllCountdowns() {
   const msLeft = midnight - now;
   const h = Math.floor(msLeft / 3600000);
   const m = Math.floor((msLeft % 3600000) / 60000);
-  const text = `עוד ${h} שע' ו-${m} דק' לסגירת היום`;
+  const text = `${h}h ${m}m left today`;
   els.forEach(el => el.textContent = text);
 }
 function startAllCountdowns() {
@@ -1079,7 +1082,7 @@ function updateTimerUI() {
     display.classList.add('done');
     ringFill.classList.add('done');
     launchConfetti();
-    showToast('כל הכבוד! הגעת ליעד! 💪');
+    showToast('Amazing! Target reached! 💪');
   }
 }
 
@@ -1088,12 +1091,12 @@ function toggleTimer() {
   if (_plankRunning) {
     clearInterval(_plankInterval);
     _plankRunning = false;
-    btn.textContent = _plankSeconds > 0 ? 'המשך' : 'התחל';
+    btn.textContent = _plankSeconds > 0 ? 'Resume' : 'Start';
     btn.classList.remove('running');
     currentReps = _plankSeconds;
   } else {
     _plankRunning = true;
-    btn.textContent = 'עצור';
+    btn.textContent = 'Stop';
     btn.classList.add('running');
     _plankInterval = setInterval(() => {
       _plankSeconds++;
@@ -1114,7 +1117,7 @@ function resetTimer() {
   const btn = document.getElementById('timer-btn');
   if (display) { display.textContent = '00:00'; display.classList.remove('done'); }
   if (ringFill) { ringFill.style.strokeDashoffset = TIMER_CIRCUMFERENCE; ringFill.classList.remove('done'); }
-  if (btn) { btn.textContent = 'התחל'; btn.classList.remove('running'); }
+  if (btn) { btn.textContent = 'Start'; btn.classList.remove('running'); }
 }
 
 function isTimerExercise(exercise) {
@@ -1138,11 +1141,11 @@ function renderLog() {
   const deal = getDeal(currentLogExercise);
   if (!deal) { closeLog(); return; }
   const ex = EXERCISES[deal.exercise];
-  document.getElementById('log-title').textContent = 'רישום ' + ex.name;
+  document.getElementById('log-title').textContent = 'Log ' + ex.nameEn;
   const logged = dealLogged(deal);
   const due = dealDue(deal);
   document.getElementById('log-sub').textContent =
-    logged > 0 ? `כבר רשמת ${logged} — עוד ${Math.max(0, due - logged)} ${ex.unit}` : `יעד היום: ${due} ${ex.unit}`;
+    logged > 0 ? `Done ${logged} — ${Math.max(0, due - logged)} ${ex.unit} left` : `Today's goal: ${due} ${ex.unit}`;
 
   const useTimer = isTimerExercise(deal.exercise);
   const showCamera = deal.exercise === 'pushups';
@@ -1150,6 +1153,9 @@ function renderLog() {
   document.getElementById('reps-section').style.display = useTimer ? 'none' : '';
   document.getElementById('camera-btn').style.display = showCamera ? '' : 'none';
 
+  if (showCamera && !cameraStream) {
+    setTimeout(() => toggleCamera(), 300);
+  }
 }
 
 function changeReps(delta) {
@@ -1158,7 +1164,7 @@ function changeReps(delta) {
 }
 
 function editRepsManual() {
-  const val = prompt('הכנס מספר:', currentReps);
+  const val = prompt('Enter number:', currentReps);
   if (val === null) return;
   const n = parseInt(val);
   if (!isNaN(n) && n >= 0 && n <= 500) {
@@ -1172,7 +1178,7 @@ function handleLogBg(e) {
 }
 
 function saveLog() {
-  if (currentReps <= 0) { showToast('הכנס כמות'); return; }
+  if (currentReps <= 0) { showToast('Enter amount'); return; }
   const deal = getDeal(currentLogExercise);
   if (!deal) return;
   addLogToDeal(currentLogExercise, currentReps);
@@ -1180,9 +1186,9 @@ function saveLog() {
   const done = dealDone(deal);
   closeLog();
   if (done) {
-    setTimeout(() => { launchConfetti(); showToast(`${ex.name} הושלם היום!`); }, 200);
+    setTimeout(() => { launchConfetti(); showToast(`${ex.nameEn} completed today!`); }, 200);
   } else {
-    showToast(`נרשמו ${currentReps} ${ex.unit}`);
+    showToast(`Logged ${currentReps} ${ex.unit}`);
   }
 }
 
@@ -1201,7 +1207,7 @@ function renderCalendar() {
 
   if (deals.length === 0) {
     tabsEl.innerHTML = '';
-    container.innerHTML = '<div class="no-deal"><div class="icon-ring"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><p>אין דיל פעיל</p></div>';
+    container.innerHTML = '<div class="no-deal"><div class="icon-ring"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><p>No active deal</p></div>';
     return;
   }
 
@@ -1210,7 +1216,7 @@ function renderCalendar() {
   }
 
   tabsEl.innerHTML = deals.length > 1
-    ? `<div class="deal-tabs">${deals.map(d => `<button class="deal-tab ${d.exercise===calSelectedExercise?'active':''}" onclick="selectCalTab('${d.exercise}')">${EXERCISES[d.exercise].name}</button>`).join('')}</div>`
+    ? `<div class="deal-tabs">${deals.map(d => `<button class="deal-tab ${d.exercise===calSelectedExercise?'active':''}" onclick="selectCalTab('${d.exercise}')">${EXERCISES[d.exercise].nameEn}</button>`).join('')}</div>`
     : '';
 
   const deal = deals.find(d => d.exercise === calSelectedExercise);
@@ -1230,31 +1236,30 @@ function renderCalendar() {
 
   let html = '';
   Object.entries(months).reverse().forEach(([m, mDays]) => {
-    const label = getMonthLabel(mDays[0]);
-    // find day of week for first day
+    const mLabel = new Date(mDays[0] + 'T12:00:00').toLocaleDateString('en-US', {month:'short'}).toUpperCase();
+    const mYear = mDays[0].substring(0, 4);
     const firstDow = new Date(mDays[0] + 'T12:00:00').getDay();
     const cells = [];
     for (let i = 0; i < firstDow; i++) cells.push(null);
     mDays.forEach(d => cells.push(d));
     while (cells.length % 7 !== 0) cells.push(null);
 
-    const rows = [];
-    for (let i = 0; i < cells.length; i += 7) rows.push(cells.slice(i, i + 7));
-
     html += `<div class="cal-month">
-      <div class="cal-month-label">${label}</div>
+      <div class="cal-month-label">${mLabel} ${mYear}</div>
       <div class="cal-week-labels">${HE_DAYS_SHORT.map(d=>`<span>${d}</span>`).join('')}</div>
       <div class="cal-grid">
         ${cells.map(d => {
           if (!d) return '<div class="cal-cell empty"></div>';
           const s = getDealDayStatus(deal, d);
           const logged = (deal.logs && deal.logs[d]) || 0;
+          const dayNum = parseInt(d.substring(8));
           const cls = {
             'complete': 'complete', 'partial': 'partial', 'missed': 'missed',
             'today': 'today', 'today-partial': 'today',
             'future': 'future', 'no-deal': 'future'
           }[s] || '';
-          return `<div class="cal-cell ${cls}" title="${d}: ${logged} ${EXERCISES[deal.exercise].unit}"></div>`;
+          const label = logged > 0 ? logged : dayNum;
+          return `<div class="cal-cell ${cls}" title="${d}: ${logged}">${label}</div>`;
         }).join('')}
       </div>
     </div>`;
@@ -1277,7 +1282,7 @@ function renderStats() {
 
   if (deals.length === 0) {
     tabsEl.innerHTML = '';
-    content.innerHTML = '<div class="no-deal"><div class="icon-ring"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><p>אין דיל פעיל</p></div>';
+    content.innerHTML = '<div class="no-deal"><div class="icon-ring"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><p>No active deal</p></div>';
     return;
   }
 
@@ -1286,7 +1291,7 @@ function renderStats() {
   }
 
   tabsEl.innerHTML = deals.length > 1
-    ? `<div class="deal-tabs">${deals.map(d => `<button class="deal-tab ${d.exercise===statSelectedExercise?'active':''}" onclick="selectStatTab('${d.exercise}')">${EXERCISES[d.exercise].name}</button>`).join('')}</div>`
+    ? `<div class="deal-tabs">${deals.map(d => `<button class="deal-tab ${d.exercise===statSelectedExercise?'active':''}" onclick="selectStatTab('${d.exercise}')">${EXERCISES[d.exercise].nameEn}</button>`).join('')}</div>`
     : '';
 
   const deal = deals.find(d => d.exercise === statSelectedExercise);
@@ -1327,17 +1332,15 @@ function renderStats() {
     const color = v >= target ? 'var(--green)' : v > 0 ? 'var(--orange)' : 'var(--bg4)';
     return `<div class="progress-bar-wrap"><div class="progress-bar" style="height:${Math.max(h, 4)}%;background:${color}"></div></div>`;
   }).join('');
-  const day30Label = formatDate(last30[0]);
-  const dayTodayLabel = formatDate(last30[29]);
+  const d30Start = new Date(last30[0] + 'T12:00:00').toLocaleDateString('en-US', {month:'short',day:'numeric'});
+  const d30End = new Date(last30[29] + 'T12:00:00').toLocaleDateString('en-US', {month:'short',day:'numeric'});
 
-  // Muscles
   const musclesTags = (exDef.muscles || '').split(',').map(m =>
     `<span class="muscles-tag">💪 ${m.trim()}</span>`
   ).join('');
 
-  // Debt
   const debtHtml = debt > 0
-    ? `<div class="debt-banner"><div class="debt-num">${debt}</div><div class="debt-info">חוב פתוח של <strong>${debt} ${unit}</strong><br>יש לסגור מעבר ליעד היומי</div></div>`
+    ? `<div class="debt-banner"><div class="debt-num">${debt}</div><div class="debt-info">Open debt of <strong>${debt} ${unit}</strong><br>Do extra reps to pay it off</div></div>`
     : '';
 
   content.innerHTML = `
@@ -1352,16 +1355,16 @@ function renderStats() {
       </div>
       <div class="stat-hero-info">
         <div class="stat-hero-row">
-          <div class="stat-hero-num">${totalReps.toLocaleString('he')}</div>
-          <div class="stat-hero-unit">${unit} סה"כ</div>
+          <div class="stat-hero-num">${totalReps.toLocaleString('en')}</div>
+          <div class="stat-hero-unit">total ${unit}</div>
         </div>
         <div class="stat-hero-row">
-          <div class="stat-hero-num" style="color:var(--orange)">${totalCal.toLocaleString('he')}</div>
-          <div class="stat-hero-unit">קלוריות נשרפו</div>
+          <div class="stat-hero-num" style="color:var(--orange)">${totalCal.toLocaleString('en')}</div>
+          <div class="stat-hero-unit">calories burned</div>
         </div>
         <div class="stat-hero-row">
           <div class="stat-hero-num" style="color:var(--accent)">${todayCal}</div>
-          <div class="stat-hero-unit">kcal היום</div>
+          <div class="stat-hero-unit">kcal today</div>
         </div>
       </div>
     </div>
@@ -1371,21 +1374,21 @@ function renderStats() {
       <div class="streak-info">
         <div class="streak-top">
           <div class="streak-num">${streak}</div>
-          <div class="streak-lbl">ימים ברצף</div>
+          <div class="streak-lbl">day streak</div>
         </div>
         <div class="streak-bar-bg"><div class="streak-bar-fill" style="width:${streakPct}%"></div></div>
-        <div class="streak-best">שיא: ${bestStreak} ימים</div>
+        <div class="streak-best">Best: ${bestStreak} days</div>
       </div>
     </div>
 
     <div class="stat-card wide">
-      <div class="stat-label">התקדמות — 30 ימים</div>
+      <div class="stat-label">30-DAY PROGRESS</div>
       <div class="progress-chart">${progressBars}</div>
-      <div class="progress-labels"><span>${day30Label}</span><span>${dayTodayLabel}</span></div>
+      <div class="progress-labels"><span>${d30Start}</span><span>${d30End}</span></div>
     </div>
 
     <div class="stat-card wide">
-      <div class="stat-label">שרירים שמתחזקים</div>
+      <div class="stat-label">MUSCLES WORKED</div>
       <div class="muscles-wrap">${musclesTags}</div>
     </div>
 
@@ -1403,15 +1406,16 @@ function renderSettings() {
   let dealsSection = '';
   deals.forEach(deal => {
     const ex = EXERCISES[deal.exercise];
-    const penStr = deal.penaltyType === 'double' ? 'כפול ×2' : `ריבית ${deal.penaltyPercent}%`;
+    const penStr = deal.penaltyType === 'double' ? 'Double ×2' : `Interest ${deal.penaltyPercent}%`;
+    const startStr = new Date(deal.startDate + 'T12:00:00').toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
     dealsSection += `
-      <div class="set-section-hdr">${ex.name}</div>
+      <div class="set-section-hdr">${ex.nameEn}</div>
       <div class="set-group">
-        <div class="set-row"><span class="set-label">יעד יומי</span><span class="set-value">${deal.dailyTarget} ${ex.unit}</span></div>
-        <div class="set-row"><span class="set-label">קנס</span><span class="set-value">${penStr}</span></div>
-        <div class="set-row"><span class="set-label">התחיל</span><span class="set-value">${formatDate(deal.startDate)}</span></div>
-        <div class="set-row"><span class="set-label">חוב פתוח</span><span class="set-value" style="color:${deal.debt>0?'var(--orange)':'var(--green)'}">${deal.debt > 0 ? deal.debt + ' ' + ex.unit : 'אין ✓'}</span></div>
-        <div class="set-row"><button class="danger-btn" style="padding:10px" onclick="removeDeal('${deal.exercise}')">הסר אתגר</button></div>
+        <div class="set-row"><span class="set-label">Daily Goal</span><span class="set-value">${deal.dailyTarget} ${ex.unit}</span></div>
+        <div class="set-row"><span class="set-label">Penalty</span><span class="set-value">${penStr}</span></div>
+        <div class="set-row"><span class="set-label">Started</span><span class="set-value">${startStr}</span></div>
+        <div class="set-row"><span class="set-label">Open Debt</span><span class="set-value" style="color:${deal.debt>0?'var(--orange)':'var(--green)'}">${deal.debt > 0 ? deal.debt + ' ' + ex.unit : 'None ✓'}</span></div>
+        <div class="set-row"><button class="danger-btn" style="padding:10px" onclick="removeDeal('${deal.exercise}')">Remove</button></div>
       </div>`;
   });
 
@@ -1421,22 +1425,22 @@ function renderSettings() {
 
   body.innerHTML = `
     ${dealsSection}
-    <div class="set-section-hdr">התראות</div>
+    <div class="set-section-hdr">Notifications</div>
     <div class="set-group">
       <div class="set-row">
-        <span class="set-label">תזכורת יומית</span>
+        <span class="set-label">Daily Reminder</span>
         <button class="toggle ${notifToggle}" id="notif-toggle" onclick="toggleNotif()"></button>
       </div>
       <div class="set-row">
-        <span class="set-label">שעת תזכורת</span>
+        <span class="set-label">Reminder Time</span>
         <input class="set-input" type="time" value="${reminderTime}" onchange="setReminderTime(this.value)">
       </div>
     </div>
     <div class="set-danger">
-      ${deals.length > 0 && canAddMore ? `<button class="btn-primary" onclick="addNewChallenge()" style="margin-bottom:10px">+ הוסף אתגר</button>` : ''}
+      ${deals.length > 0 && canAddMore ? `<button class="btn-primary" onclick="addNewChallenge()" style="margin-bottom:10px">+ Add Challenge</button>` : ''}
       ${deals.length > 0
-        ? `<button class="danger-btn" onclick="confirmReset()">אתחל הכל מחדש</button>`
-        : `<button class="btn-primary" onclick="addNewChallenge()">+ צור דיל חדש</button>`}
+        ? `<button class="danger-btn" onclick="confirmReset()">Reset Everything</button>`
+        : `<button class="btn-primary" onclick="addNewChallenge()">+ New Deal</button>`}
     </div>
   `;
 }
@@ -1457,7 +1461,7 @@ function setReminderTime(val) {
   if (!DATA.settings) DATA.settings = {};
   DATA.settings.reminderHour = parseInt(h);
   save();
-  showToast('שעת התזכורת עודכנה');
+  showToast('Reminder time updated');
 }
 
 function addNewChallenge() {
@@ -1470,8 +1474,8 @@ function removeDeal(exercise) {
   const ex = EXERCISES[exercise];
   const debt = deal.debt || 0;
   const msg = debt > 0
-    ? `יש לך חוב פתוח של ${debt} ${ex.unit} ב${ex.name}. להסיר את האתגר ולאבד את ההיסטוריה?`
-    : `להסיר את אתגר ${ex.name} ולאבד את ההיסטוריה?`;
+    ? `You have ${debt} ${ex.unit} debt in ${ex.nameEn}. Remove this challenge and lose history?`
+    : `Remove ${ex.nameEn} challenge and lose history?`;
   if (!confirm(msg)) return;
   DATA.deals = DATA.deals.filter(d => d.exercise !== exercise);
   save();
@@ -1487,8 +1491,8 @@ function removeDeal(exercise) {
 function confirmReset() {
   const totalDebt = activeDeals().reduce((a, d) => a + (d.debt || 0), 0);
   const msg = totalDebt > 0
-    ? `יש לך חוב פתוח כולל של ${totalDebt}. לאתחל את כל הדילים ולאבד את ההיסטוריה?`
-    : 'לאתחל את כל הדילים ולאבד את כל ההיסטוריה?';
+    ? `Total debt: ${totalDebt}. Reset all deals and lose history?`
+    : 'Reset all deals and lose all history?';
   if (!confirm(msg)) return;
   DATA = {};
   save();
@@ -1502,7 +1506,7 @@ function showSettle(exercise) {
   const ex = EXERCISES[exercise];
   const target = deal.dailyTarget;
   const days = Math.ceil((deal.debt || 0) / target);
-  alert(`הסדר חוב ב${ex.name}:\nהחוב שלך (${deal.debt} ${ex.unit}) יפרס ל-${days} ימים —\n${target} ${ex.unit} ביום בנוסף ליעד הרגיל.\n\n(הגדרה זו תיכנס לתוקף בגרסה הבאה)`);
+  alert(`Settle ${ex.nameEn} debt:\nהחוב שלך (${deal.debt} ${ex.unit}) יפרס ל-${days} ימים —\n${target} ${ex.unit} ביום בנוסף ליעד הרגיל.\n\n(הגדרה זו תיכנס לתוקף בגרסה הבאה)`);
 }
 
 // ═══════════════ TOAST ═══════════════
@@ -1556,9 +1560,9 @@ function undoneDealsMessage() {
   if (undone.length === 0) return null;
   if (undone.length === 1) {
     const d = undone[0];
-    return `יש לך דיל פתוח ב${EXERCISES[d.exercise].name} — עוד ${dealDue(d)} ${EXERCISES[d.exercise].unit} להיום`;
+    return `${EXERCISES[d.exercise].nameEn}: ${dealDue(d)} ${EXERCISES[d.exercise].unit} left today`;
   }
-  return `יש לך ${undone.length} דילים פתוחים היום — ${undone.map(d => EXERCISES[d.exercise].name).join(', ')}`;
+  return `${undone.length} deals left today — ${undone.map(d => EXERCISES[d.exercise].nameEn).join(', ')}`;
 }
 
 function scheduleInAppReminder() {

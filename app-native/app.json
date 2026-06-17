@@ -6,27 +6,9 @@
     "orientation": "portrait",
     "scheme": "fitness-deal",
     "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
-    "splash": {
-      "backgroundColor": "#0A0E1A"
-    },
-    "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.aviadchai.fitnessdeal",
-      "infoPlist": {
-        "NSCameraUsageDescription": "Camera is used for automatic push-up counting",
-        "NSMotionUsageDescription": "Step counting for fitness tracking"
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#0A0E1A"
-      },
-      "package": "com.aviadchai.fitnessdeal"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-notifications"
-    ]
+    "splash": { "backgroundColor": "#0A0E1A" },
+    "ios": { "supportsTablet": false, "bundleIdentifier": "com.aviadchai.fitnessdeal" },
+    "android": { "adaptiveIcon": { "backgroundColor": "#0A0E1A" }, "package": "com.aviadchai.fitnessdeal" },
+    "plugins": ["expo-router"]
   }
 }

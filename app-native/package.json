@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "fitness-deal",
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
@@ -12,6 +12,8 @@
     "expo-linking": "~8.0.12",
     "expo-router": "~6.0.24",
     "expo-status-bar": "~3.0.9",
+    "react": "19.1.1",
+    "react-native": "0.82.1",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",

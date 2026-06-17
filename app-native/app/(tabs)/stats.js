@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   streakNum: { fontSize: 28, fontWeight: '700', color: COLORS.label, letterSpacing: -1 },
   streakLbl: { fontSize: 13, color: COLORS.label2 },
   barBg: { height: 8, borderRadius: 4, backgroundColor: COLORS.bg4, overflow: 'hidden' },
-  barFill: { height: '100%', borderRadius: 4, background: 'linear-gradient(90deg, #F59E0B, #22C55E)' },
+  barFill: { height: '100%', borderRadius: 4, backgroundColor: COLORS.green },
   streakBest: { fontSize: 11, color: COLORS.label3 },
   sectionLabel: { fontSize: 11, color: COLORS.label2, fontWeight: '500', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 14 },
   chart: { flexDirection: 'row', alignItems: 'flex-end', height: 110, gap: 2 },

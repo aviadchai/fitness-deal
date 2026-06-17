@@ -1,0 +1,17 @@
+export const COLORS = {
+  bg: '#0A0E1A',
+  bg2: '#141B2D',
+  bg3: '#1C2640',
+  bg4: '#263354',
+  label: '#E8ECF4',
+  label2: '#7B8CA8',
+  label3: 'rgba(232,236,244,0.3)',
+  sep: 'rgba(59,130,246,0.1)',
+  fill: 'rgba(59,130,246,0.08)',
+  accent: '#3B82F6',
+  accentCont: 'rgba(59,130,246,0.12)',
+  green: '#22C55E',
+  orange: '#F59E0B',
+  red: '#EF4444',
+  navBg: '#0C1222',
+};

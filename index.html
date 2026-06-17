@@ -154,23 +154,22 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--bg4);margin-bottom:4px;}
 .log-title{font-size:20px;font-weight:500;align-self:flex-start;}
-.log-sub{font-size:14px;color:var(--label2);align-self:flex-start;margin-top:-10px;}
-.reps-display{font-size:88px;font-weight:700;letter-spacing:-5px;color:var(--accent);text-align:center;line-height:1;}
+.log-sub{font-size:14px;color:var(--label2);align-self:flex-start;margin-top:2px;}
+.reps-display{font-size:88px;font-weight:700;letter-spacing:-5px;color:var(--accent);text-align:center;line-height:1;cursor:pointer;-webkit-user-select:none;user-select:none;}
 .reps-controls{display:flex;align-items:center;gap:24px;}
 .reps-btn{width:64px;height:64px;border-radius:50%;background:var(--bg3);border:none;color:var(--label);font-size:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.1s,background 0.12s;}
 .reps-btn:active{transform:scale(0.88);background:var(--bg4);}
-.small-btns{display:flex;gap:8px;width:100%;}
-.log-actions{display:flex;flex-direction:column;gap:4px;width:100%;}
+.log-actions{display:flex;flex-direction:column;gap:8px;width:100%;}
 
 /* Plank timer */
 .timer-section{display:none;flex-direction:column;align-items:center;gap:16px;width:100%;}
 .timer-section.show{display:flex;}
-.timer-display{font-size:72px;font-weight:700;letter-spacing:-3px;color:var(--accent);font-variant-numeric:tabular-nums;text-align:center;line-height:1;}
+.timer-display{font-size:48px;font-weight:700;letter-spacing:-2px;color:var(--accent);font-variant-numeric:tabular-nums;text-align:center;line-height:1;}
 .timer-display.done{color:var(--green);}
-.timer-ring{position:relative;width:180px;height:180px;}
-.timer-ring svg{width:180px;height:180px;transform:rotate(-90deg);}
+.timer-ring{position:relative;width:200px;height:200px;}
+.timer-ring svg{width:200px;height:200px;transform:rotate(-90deg);}
 .timer-ring .ring-track{fill:none;stroke:var(--bg3);stroke-width:12;}
-.timer-ring .ring-fill{fill:none;stroke:var(--accent);stroke-width:12;stroke-linecap:round;stroke-dasharray:439.82;stroke-dashoffset:439.82;transition:stroke-dashoffset 0.3s linear,stroke 0.3s;}
+.timer-ring .ring-fill{fill:none;stroke:var(--accent);stroke-width:12;stroke-linecap:round;stroke-dasharray:502.65;stroke-dashoffset:502.65;transition:stroke-dashoffset 0.3s linear,stroke 0.3s;}
 .timer-ring .ring-fill.done{stroke:var(--green);}
 .timer-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .timer-btn{width:100%;background:var(--accent);color:#003731;border:none;border-radius:50px;padding:16px;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer;transition:all 0.15s;letter-spacing:0.02em;}
@@ -215,6 +214,11 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .week-bar{width:100%;border-radius:5px 5px 0 0;background:var(--accent-cont);min-height:3px;transition:height 0.4s ease;}
 .week-bar.done{background:var(--accent);}
 .week-bar-label{font-size:9px;color:var(--label3);font-weight:500;}
+
+.progress-chart{display:flex;align-items:flex-end;gap:3px;height:80px;margin-top:12px;width:100%;}
+.progress-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0;}
+.progress-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;transition:height 0.3s ease;}
+.muscles-tag{display:inline-block;background:var(--accent-cont);color:var(--accent);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:500;margin:2px;}
 
 /* Settings — Material 3 grouped */
 #s-set{padding-bottom:calc(88px + var(--safe-bottom));}
@@ -383,9 +387,9 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     <!-- Timer for plank -->
     <div id="timer-section" class="timer-section">
       <div class="timer-ring">
-        <svg viewBox="0 0 160 160">
-          <circle class="ring-track" cx="80" cy="80" r="70"/>
-          <circle class="ring-fill" id="timer-ring-fill" cx="80" cy="80" r="70"/>
+        <svg viewBox="0 0 200 200">
+          <circle class="ring-track" cx="100" cy="100" r="80"/>
+          <circle class="ring-fill" id="timer-ring-fill" cx="100" cy="100" r="80"/>
         </svg>
         <div class="timer-center">
           <div class="timer-display" id="timer-display">00:00</div>
@@ -397,14 +401,9 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
     <!-- Reps counter for non-timer exercises -->
     <div id="reps-section">
       <div class="reps-controls">
-        <button class="reps-btn" onclick="changeReps(-5)">−</button>
-        <div class="reps-display" id="reps-display">0</div>
-        <button class="reps-btn" onclick="changeReps(5)">+</button>
-      </div>
-      <div class="small-btns">
-        <button id="log-minus1" class="btn-outline" onclick="changeReps(-1)">−1</button>
-        <button id="log-plus1" class="btn-outline" onclick="changeReps(1)">+1</button>
-        <button class="btn-outline" style="flex:2" id="log-all-btn" onclick="logAll()">כל היעד</button>
+        <button class="reps-btn" onclick="changeReps(-1)">−</button>
+        <div class="reps-display" id="reps-display" onclick="editRepsManual()">0</div>
+        <button class="reps-btn" onclick="changeReps(1)">+</button>
       </div>
     </div>
     <div class="log-actions">
@@ -668,9 +667,9 @@ function show(name) {
 
 // ═══════════════ EXERCISES ═══════════════
 const EXERCISES = {
-  pushups: { name: 'שכיבות סמיכה', unit: 'חזרות', defaultTarget: 25, icon: '<path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z"/>' },
-  situps:  { name: 'כפיפות בטן',   unit: 'חזרות', defaultTarget: 20, icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM4 18l4-8 2 4 3-4 5 8"/>' },
-  plank:   { name: 'פלאנקים',      unit: 'שניות', defaultTarget: 60, icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM3 18l18-8"/>' },
+  pushups: { name: 'שכיבות סמיכה', unit: 'חזרות', defaultTarget: 25, calPerUnit: 0.45, muscles: 'חזה, כתפיים, טרייספס, ליבה', icon: '<path d="M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z"/>' },
+  situps:  { name: 'כפיפות בטן',   unit: 'חזרות', defaultTarget: 20, calPerUnit: 0.3, muscles: 'בטן, כופפי ירך, ליבה', icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM4 18l4-8 2 4 3-4 5 8"/>' },
+  plank:   { name: 'פלאנקים',      unit: 'שניות', defaultTarget: 60, calPerUnit: 0.05, muscles: 'ליבה, כתפיים, גב, ישבן', icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM3 18l18-8"/>' },
 };
 
 function updateFab() {}
@@ -726,60 +725,52 @@ function startMotionDetection(videoEl) {
   canvas.width = W;
   canvas.height = H;
 
+  const cx1 = Math.floor(W * 0.2), cx2 = Math.floor(W * 0.8);
+  const cy1 = Math.floor(H * 0.05), cy2 = Math.floor(H * 0.55);
   let prevGray = null;
-  let smoothedY = 0.5;
-  let prevSmoothedY = 0.5;
-  let state = 'idle';
+  let sizeHistory = [];
+  let smoothedSize = 0;
+  let prevSmoothed = 0;
+  let state = 'up';
   let lastRepTime = 0;
-  const MIN_REP_MS = 600;
-  const MOTION_THRESH = 25;
-  const MOVE_THRESH = 0.04;
+  let calibrating = 10;
 
   _motionDetector = setInterval(() => {
     if (videoEl.readyState < 2) return;
     ctx.drawImage(videoEl, 0, 0, W, H);
     const frame = ctx.getImageData(0, 0, W, H);
-    const gray = new Uint8Array(W * H);
-    for (let i = 0; i < W * H; i++) {
-      const j = i * 4;
-      gray[i] = (frame.data[j] * 77 + frame.data[j+1] * 150 + frame.data[j+2] * 29) >> 8;
-    }
 
-    if (prevGray) {
-      let motionWeightedY = 0, motionTotal = 0;
-      for (let y = 0; y < H; y++) {
-        for (let x = 0; x < W; x++) {
-          const i = y * W + x;
-          const diff = Math.abs(gray[i] - prevGray[i]);
-          if (diff > MOTION_THRESH) {
-            motionWeightedY += y * diff;
-            motionTotal += diff;
-          }
-        }
-      }
-
-      if (motionTotal > 500) {
-        const centerY = motionWeightedY / motionTotal / H;
-        smoothedY = smoothedY * 0.6 + centerY * 0.4;
-        const delta = smoothedY - prevSmoothedY;
-        const now = Date.now();
-
-        if (state === 'idle' && delta > MOVE_THRESH) {
-          state = 'down';
-        } else if (state === 'down' && delta < -MOVE_THRESH && (now - lastRepTime) > MIN_REP_MS) {
-          state = 'idle';
-          lastRepTime = now;
-          currentReps++;
-          document.getElementById('reps-display').textContent = currentReps;
-        } else if (state === 'down' && Math.abs(delta) < 0.005) {
-          // Reset if motion stopped
-          setTimeout(() => { if (state === 'down') state = 'idle'; }, 800);
-        }
-
-        prevSmoothedY = smoothedY;
+    let brightCount = 0;
+    for (let y = cy1; y < cy2; y++) {
+      for (let x = cx1; x < cx2; x++) {
+        const i = (y * W + x) * 4;
+        const r = frame.data[i], g = frame.data[i+1], b = frame.data[i+2];
+        const lum = (r * 77 + g * 150 + b * 29) >> 8;
+        if (lum > 80 && r > 60 && (r - b) > -20) brightCount++;
       }
     }
-    prevGray = gray;
+
+    sizeHistory.push(brightCount);
+    if (sizeHistory.length > 60) sizeHistory.shift();
+
+    if (calibrating > 0) { calibrating--; smoothedSize = brightCount; prevSmoothed = brightCount; return; }
+
+    smoothedSize = smoothedSize * 0.65 + brightCount * 0.35;
+    const baseline = sizeHistory.reduce((a, b) => a + b) / sizeHistory.length;
+    const deviation = smoothedSize - baseline;
+    const threshold = baseline * 0.06;
+    const now = Date.now();
+
+    if (state === 'up' && deviation > threshold) {
+      state = 'down';
+    } else if (state === 'down' && deviation < -threshold * 0.3 && (now - lastRepTime) > 700) {
+      state = 'up';
+      lastRepTime = now;
+      currentReps++;
+      document.getElementById('reps-display').textContent = currentReps;
+    }
+
+    prevSmoothed = smoothedSize;
   }, 100);
 
   document.getElementById('auto-count-badge').classList.add('show');
@@ -1043,7 +1034,7 @@ let _plankInterval = null;
 let _plankSeconds = 0;
 let _plankRunning = false;
 let _plankTargetReached = false;
-const TIMER_CIRCUMFERENCE = 2 * Math.PI * 70; // 439.82
+const TIMER_CIRCUMFERENCE = 2 * Math.PI * 80; // 502.65
 
 function formatTimer(sec) {
   const m = Math.floor(sec / 60);
@@ -1133,13 +1124,11 @@ function renderLog() {
     logged > 0 ? `כבר רשמת ${logged} — עוד ${Math.max(0, due - logged)} ${ex.unit}` : `יעד היום: ${due} ${ex.unit}`;
 
   const useTimer = isTimerExercise(deal.exercise);
+  const showCamera = deal.exercise === 'pushups';
   document.getElementById('timer-section').classList.toggle('show', useTimer);
   document.getElementById('reps-section').style.display = useTimer ? 'none' : '';
+  document.getElementById('camera-btn').style.display = showCamera ? '' : 'none';
 
-  if (!useTimer) {
-    document.getElementById('log-all-btn').textContent =
-      due > 0 ? `כל היעד (${due})` : 'כל היעד';
-  }
 }
 
 function changeReps(delta) {
@@ -1147,11 +1136,14 @@ function changeReps(delta) {
   document.getElementById('reps-display').textContent = currentReps;
 }
 
-function logAll() {
-  const deal = getDeal(currentLogExercise);
-  if (!deal) return;
-  currentReps = dealDue(deal);
-  document.getElementById('reps-display').textContent = currentReps;
+function editRepsManual() {
+  const val = prompt('הכנס מספר:', currentReps);
+  if (val === null) return;
+  const n = parseInt(val);
+  if (!isNaN(n) && n >= 0 && n <= 500) {
+    currentReps = n;
+    document.getElementById('reps-display').textContent = currentReps;
+  }
 }
 
 function handleLogBg(e) {
@@ -1308,6 +1300,21 @@ function renderStats() {
     </div>`;
   }).join('');
 
+  const exDef = EXERCISES[deal.exercise];
+  const totalCal = Math.round(totalReps * (exDef.calPerUnit || 0));
+  const musclesTags = (exDef.muscles || '').split(',').map(m => `<span class="muscles-tag">${m.trim()}</span>`).join('');
+
+  // 30-day progress chart
+  const last30 = [];
+  for (let i = 29; i >= 0; i--) last30.push(addDays(tod, -i));
+  const max30 = Math.max(...last30.map(d => (deal.logs && deal.logs[d]) || 0), target);
+  const progressBars = last30.map(d => {
+    const v = (deal.logs && deal.logs[d]) || 0;
+    const h = max30 > 0 ? Math.round((v / max30) * 100) : 0;
+    const color = v >= target ? 'var(--green)' : v > 0 ? 'var(--orange)' : 'var(--bg4)';
+    return `<div class="progress-bar-wrap"><div class="progress-bar" style="height:${Math.max(h,3)}%;background:${color}"></div></div>`;
+  }).join('');
+
   content.innerHTML = `
     <div class="stat-row">
       <div class="stat-card">
@@ -1315,19 +1322,27 @@ function renderStats() {
         <div class="stat-value">${totalReps.toLocaleString('he')}<span class="stat-unit"> 💪</span></div>
       </div>
       <div class="stat-card">
+        <div class="stat-label">קלוריות נשרפו</div>
+        <div class="stat-value" style="color:var(--orange)">${totalCal.toLocaleString('he')}<span class="stat-unit"> kcal</span></div>
+      </div>
+    </div>
+    <div class="stat-card wide">
+      <div class="stat-label">שרירים שמתחזקים</div>
+      <div style="margin-top:8px">${musclesTags}</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card">
         <div class="stat-label">רצף נוכחי</div>
         <div class="stat-value">${streak}<span class="stat-unit"> ימים</span></div>
       </div>
-    </div>
-    <div class="stat-row">
       <div class="stat-card">
         <div class="stat-label">רצף שיא</div>
         <div class="stat-value">${bestStreak}<span class="stat-unit"> ימים</span></div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">אחוז השלמה</div>
-        <div class="stat-value">${completionRate}<span class="stat-unit">%</span></div>
-      </div>
+    </div>
+    <div class="stat-card wide">
+      <div class="stat-label">התקדמות — 30 ימים</div>
+      <div class="progress-chart">${progressBars}</div>
     </div>
     <div class="stat-card wide">
       <div class="stat-label">7 ימים אחרונים</div>
@@ -1335,14 +1350,24 @@ function renderStats() {
     </div>
     <div class="stat-row">
       <div class="stat-card">
-        <div class="stat-label">ימים מושלמים</div>
-        <div class="stat-value">${completedDays}<span class="stat-unit"> / ${daysSinceStart}</span></div>
+        <div class="stat-label">אחוז השלמה</div>
+        <div class="stat-value">${completionRate}<span class="stat-unit">%</span></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">חוב פתוח</div>
         <div class="stat-value" style="color:${debt>0?'var(--orange)':'var(--green)'}">
           ${debt > 0 ? debt : '✓'}<span class="stat-unit">${debt > 0 ? ' '+unit:''}</span>
         </div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">ימים מושלמים</div>
+        <div class="stat-value">${completedDays}<span class="stat-unit"> / ${daysSinceStart}</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">קלוריות היום</div>
+        <div class="stat-value" style="color:var(--orange)">${Math.round(((deal.logs && deal.logs[tod]) || 0) * (exDef.calPerUnit || 0))}<span class="stat-unit"> kcal</span></div>
       </div>
     </div>
   `;

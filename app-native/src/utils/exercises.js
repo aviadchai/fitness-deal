@@ -8,7 +8,7 @@ export const EXERCISES = {
     muscles: 'Chest, Shoulders, Triceps, Core',
     musclesHe: 'חזה, כתפיים, טריצפס, לב',
     icon: 'fitness',
-    emoji: '\u{1F4AA}',
+    emoji: '💪',
   },
   situps: {
     name: 'כפיפות בטן',
@@ -19,7 +19,7 @@ export const EXERCISES = {
     muscles: 'Abs, Hip Flexors, Core',
     musclesHe: 'בטן, כופפי ירך, לב',
     icon: 'body',
-    emoji: '\u{1F9D8}',
+    emoji: '🧘',
   },
   plank: {
     name: 'פלאנקים',
@@ -30,7 +30,7 @@ export const EXERCISES = {
     muscles: 'Core, Shoulders, Back, Glutes',
     musclesHe: 'לב, כתפיים, גב, ישבן',
     icon: 'timer',
-    emoji: '\u{1F9D8}‍♂️',
+    emoji: '🧘',
   },
 };
 

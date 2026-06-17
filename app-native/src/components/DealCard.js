@@ -34,7 +34,7 @@ export default function DealCard({ deal, onLog }) {
       <View style={styles.header}>
         <Text style={styles.title}>{name}</Text>
         {streak > 1 && (
-          <Text style={styles.streak}>{streak} {t('days', lang)} \u{1F525}</Text>
+          <Text style={styles.streak}>{streak} {t('days', lang)} {'🔥'}</Text>
         )}
       </View>
 

@@ -42,7 +42,7 @@ export default function StatsScreen() {
 
   const heroColor = completionRate >= 80 ? COLORS.green : completionRate >= 40 ? COLORS.orange : COLORS.accent;
   const streakPct = bestStreak > 0 ? Math.min(100, Math.round(streak / bestStreak * 100)) : (streak > 0 ? 100 : 0);
-  const fireEmoji = streak >= 3 ? '\u{1F525}' : streak >= 1 ? '\u{1F4AA}' : '\u{1F634}';
+  const fireEmoji = streak >= 3 ? '🔥' : streak >= 1 ? '💪' : '😴';
 
   const last30 = [];
   for (let i = 29; i >= 0; i--) last30.push(addDays(tod, -i));
@@ -134,7 +134,7 @@ export default function StatsScreen() {
         <View style={styles.musclesWrap}>
           {muscles.map(m => (
             <View key={m} style={styles.muscleTag}>
-              <Text style={styles.muscleText}>\u{1F4AA} {m}</Text>
+              <Text style={styles.muscleText}>{'💪'} {m}</Text>
             </View>
           ))}
         </View>

@@ -21,6 +21,12 @@ npx expo start
 ```
 User has iPhone with Expo Go (SDK 54). Scan QR code to open.
 
+## IMPORTANT: Language & Terminal
+- The user speaks Hebrew. Communicate in Hebrew.
+- The Windows terminal does NOT support RTL. Hebrew appears reversed.
+- Therefore: write all terminal output, logs, and messages in ENGLISH.
+- Only use Hebrew when communicating in chat/comments, not in terminal output.
+
 ## File Structure
 - `app/_layout.js` - Root Stack layout, loads data on mount
 - `app/(tabs)/` - Tab screens: Home, Calendar, Stats, Settings
@@ -38,7 +44,7 @@ User has iPhone with Expo Go (SDK 54). Scan QR code to open.
 - react must be pinned to 19.1.1 (react-native-renderer requires exact match)
 - react-native-worklets must be installed (required by reanimated)
 - No linear-gradient in StyleSheet (use solid colors or LinearGradient component)
-- Emoji in JSX: use {'💪'} syntax, NOT \u{1F4AA}
+- Emoji in JSX: use {'💪'} syntax, NOT \\u{1F4AA}
 - app.json must NOT reference icon/splash image files that don't exist
 
 ## GitHub Repo
@@ -53,3 +59,4 @@ User has iPhone with Expo Go (SDK 54). Scan QR code to open.
 - User has no Apple Developer account yet
 - User accesses PC remotely from phone sometimes
 - Keep terminal commands minimal and tested
+- Always test changes locally before asking user to run anything

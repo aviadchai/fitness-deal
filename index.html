@@ -13,12 +13,21 @@
 <link rel="apple-touch-icon" sizes="192x192" href="fitness-icon-192.png">
 <style>
 :root {
-  --bg:#05080F;--bg2:#0C1525;--bg3:#132038;--bg4:#1B2D48;
-  --label:#EEF2FF;--label2:#697A96;--label3:rgba(238,242,255,0.28);
-  --sep:rgba(255,255,255,0.07);--fill:rgba(170,255,0,0.08);
-  --accent:#AAFF00;--accent-dark:#040800;--accent-cont:rgba(170,255,0,0.12);
-  --green:#AAFF00;--orange:#FF8C00;--red:#FF4055;
+  --bg:#0A0A0F;--bg2:#141418;--bg3:#1C1C22;--bg4:#26262E;
+  --label:#F5F5FF;--label2:#888898;--label3:rgba(245,245,255,0.28);
+  --sep:rgba(255,255,255,0.07);--fill:rgba(255,107,0,0.08);
+  --accent:#FF6B00;--accent-dark:#1A0800;--accent-cont:rgba(255,107,0,0.15);
+  --green:#30D158;--orange:#FF8C00;--red:#FF453A;
+  --card-bg:linear-gradient(145deg,#1A1A20,#111116);--card-border:rgba(255,255,255,0.07);
   --safe-top:env(safe-area-inset-top);--safe-bottom:env(safe-area-inset-bottom);
+}
+body.light-mode{
+  --bg:#F2F2F7;--bg2:#FFFFFF;--bg3:#E8E8EF;--bg4:#D4D4DC;
+  --label:#0A0A0F;--label2:#6E6E80;--label3:rgba(10,10,15,0.35);
+  --sep:rgba(0,0,0,0.08);--fill:rgba(255,85,0,0.06);
+  --accent:#FF5500;--accent-dark:#FFFFFF;--accent-cont:rgba(255,85,0,0.12);
+  --green:#34C759;--orange:#FF6B00;--red:#FF3B30;
+  --card-bg:linear-gradient(145deg,#FFFFFF,#F8F8FC);--card-border:rgba(0,0,0,0.08);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--label);overflow:hidden;font-variant-numeric:tabular-nums;}
@@ -107,6 +116,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .ring-svg{width:220px;height:220px;transform:rotate(-90deg);}
 .ring-track{fill:none;stroke:var(--bg3);stroke-width:18;}
 .ring-fill{fill:none;stroke:var(--accent);stroke-width:18;stroke-linecap:round;stroke-dasharray:502.65;stroke-dashoffset:502.65;transition:stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1),stroke 0.3s;}
+.ring-svg{overflow:visible;}
 .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
 .ring-num{font-size:64px;font-weight:700;letter-spacing:-3px;line-height:1;}
 .ring-num.r-done{color:var(--green);}
@@ -115,7 +125,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .ring-countdown{font-size:12px;color:var(--label3);margin-top:6px;}
 
 .deals-grid{display:flex;flex-direction:column;gap:20px;width:100%;}
-.deal-card{background:linear-gradient(145deg,#0F1E38,#0A1420);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:22px 20px;width:100%;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.deal-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:22px 20px;width:100%;display:flex;flex-direction:column;align-items:center;gap:16px;}
 .deal-card-header{display:flex;align-items:center;justify-content:space-between;width:100%;}
 .deal-card-title{font-size:16px;font-weight:600;}
 .deal-card-streak{font-size:12px;color:var(--orange);font-weight:600;background:rgba(255,140,0,0.12);padding:3px 10px;border-radius:20px;}
@@ -150,7 +160,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 
 /* Log sheet */
 #s-log{background:rgba(0,0,0,0.6);justify-content:flex-end;align-items:center;z-index:110;}
-.log-sheet{background:linear-gradient(180deg,#0F1E38,#0A1420);border-radius:28px 28px 0 0;border-top:2px solid rgba(170,255,0,0.35);padding:12px 24px calc(24px + var(--safe-bottom));width:100%;max-width:480px;display:flex;flex-direction:column;align-items:center;gap:16px;animation:slideUp 0.3s cubic-bezier(0.34,1.1,0.64,1);}
+.log-sheet{background:var(--bg2);border-radius:28px 28px 0 0;border-top:2px solid rgba(255,107,0,0.4);padding:12px 24px calc(24px + var(--safe-bottom));width:100%;max-width:480px;display:flex;flex-direction:column;align-items:center;gap:16px;animation:slideUp 0.3s cubic-bezier(0.34,1.1,0.64,1);}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--bg4);margin-bottom:4px;}
 .log-title{font-size:20px;font-weight:500;align-self:flex-start;}
@@ -196,17 +206,17 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .cal-week-labels span{font-size:11px;color:var(--label3);text-align:center;font-weight:600;text-transform:uppercase;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
 .cal-cell{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--label3);position:relative;border:2px solid transparent;}
-.cal-cell.complete{border-color:var(--accent);color:var(--accent);background:rgba(170,255,0,0.1);}
+.cal-cell.complete{border-color:var(--accent);color:var(--accent);background:rgba(255,107,0,0.12);}
 .cal-cell.partial{border-color:var(--orange);color:var(--orange);background:rgba(245,158,11,0.08);}
 .cal-cell.missed{border-color:transparent;color:var(--label3);background:var(--bg3);}
-.cal-cell.today{border-color:var(--accent);background:var(--accent);color:#040800;font-weight:700;box-shadow:0 0 16px rgba(170,255,0,0.35);}
+.cal-cell.today{border-color:var(--accent);background:var(--accent);color:var(--accent-dark);font-weight:700;box-shadow:0 0 16px rgba(255,107,0,0.4);}
 .cal-cell.future{background:var(--bg2);opacity:0.3;}
 .cal-cell.empty{background:transparent;}
 
 /* Stats */
 #s-stat{padding-bottom:calc(88px + var(--safe-bottom));}
 .stat-body{flex:1;overflow-y:auto;padding:20px 20px 28px;display:flex;flex-direction:column;gap:20px;}
-.stat-card{background:linear-gradient(145deg,#0F1E38,#0A1420);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:28px 24px;}
+.stat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px 24px;}
 .stat-card.wide{width:100%;}
 .stat-label{font-size:11px;color:var(--label2);margin-bottom:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;}
 
@@ -241,6 +251,15 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .muscles-tag{display:flex;align-items:center;gap:5px;background:var(--accent-cont);color:var(--accent);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:500;}
 
 .debt-banner{display:flex;align-items:center;gap:14px;background:rgba(255,179,0,0.1);border:1px solid rgba(255,179,0,0.25);border-radius:16px;padding:16px 20px;}
+.stat-big-num{font-size:80px;font-weight:800;letter-spacing:-5px;line-height:1;margin-bottom:4px;}
+.stat-vs-row{display:flex;gap:32px;margin-top:16px;}
+.stat-vs-item{display:flex;flex-direction:column;gap:4px;}
+.stat-vs-val{font-size:36px;font-weight:700;letter-spacing:-1.5px;line-height:1;}
+.stat-vs-lbl{font-size:11px;color:var(--label2);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;}
+.stat-vs-bar{height:6px;border-radius:3px;background:var(--bg4);margin-top:10px;overflow:hidden;position:relative;}
+.stat-vs-bar-fill{height:100%;border-radius:3px;background:var(--accent);transition:width 0.6s ease;}
+.theme-toggle-row{display:flex;align-items:center;gap:12px;}
+.theme-icon{font-size:18px;line-height:1;}
 .debt-num{font-size:32px;font-weight:700;color:var(--orange);letter-spacing:-1.5px;}
 .debt-info{flex:1;font-size:14px;color:var(--label2);line-height:1.5;}
 
@@ -249,7 +268,7 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .set-body{flex:1;overflow-y:auto;padding:8px 16px 32px;}
 .set-section-hdr{font-size:12px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;padding:0 6px;margin-top:28px;margin-bottom:8px;}
 .set-section-hdr:first-child{margin-top:8px;}
-.set-group{background:linear-gradient(145deg,#0F1E38,#0A1420);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;}
+.set-group{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;overflow:hidden;}
 .set-row{display:flex;align-items:center;padding:16px 16px;gap:12px;border-bottom:1px solid var(--sep);}
 .set-row:last-child{border-bottom:none;}
 .set-label{flex:1;font-size:16px;}
@@ -264,11 +283,11 @@ html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,s
 .danger-btn:active{background:rgba(207,102,121,0.2);}
 
 /* Toast */
-#toast{position:fixed;top:calc(52px + var(--safe-top));left:50%;transform:translateX(-50%);background:#131E35;border:1px solid rgba(170,255,0,0.25);border-radius:10px;padding:10px 20px;font-size:14px;font-weight:500;white-space:nowrap;z-index:200;opacity:0;pointer-events:none;transition:opacity 0.2s;box-shadow:0 4px 20px rgba(0,0,0,0.6);}
+#toast{position:fixed;top:calc(52px + var(--safe-top));left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid rgba(255,107,0,0.3);border-radius:10px;padding:10px 20px;font-size:14px;font-weight:500;white-space:nowrap;z-index:200;opacity:0;pointer-events:none;transition:opacity 0.2s;box-shadow:0 4px 20px rgba(0,0,0,0.6);}
 #toast.show{opacity:1;}
 
 /* Install banner */
-#install-banner{position:fixed;bottom:calc(88px + var(--safe-bottom) + 12px);left:16px;right:16px;background:#0C1525;border:1px solid rgba(170,255,0,0.4);border-radius:16px;padding:14px 16px;display:none;align-items:center;gap:12px;z-index:90;box-shadow:0 4px 20px rgba(0,0,0,0.6);}
+#install-banner{position:fixed;bottom:calc(88px + var(--safe-bottom) + 12px);left:16px;right:16px;background:var(--bg2);border:1px solid rgba(255,107,0,0.4);border-radius:16px;padding:14px 16px;display:none;align-items:center;gap:12px;z-index:90;box-shadow:0 4px 20px rgba(0,0,0,0.6);}
 #install-banner.show{display:flex;}
 .ib-icon{width:40px;height:40px;border-radius:10px;flex-shrink:0;object-fit:cover;}
 .ib-text{flex:1;font-size:13px;line-height:1.5;color:var(--label2);}
@@ -299,7 +318,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 .exercise-cards-row{display:flex;gap:8px;width:100%;}
 .exercise-card{flex:1;background:var(--bg2);border:2px solid transparent;border-radius:14px;padding:12px 6px;cursor:pointer;text-align:center;transition:all 0.18s;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .exercise-card.selected{border-color:var(--accent);background:var(--accent-cont);}
-.ec-ring{width:44px;height:44px;border-radius:50%;background:rgba(170,255,0,0.1);display:flex;align-items:center;justify-content:center;}
+.ec-ring{width:44px;height:44px;border-radius:50%;background:rgba(255,107,0,0.12);display:flex;align-items:center;justify-content:center;}
 .ec-ring svg{width:22px;height:22px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 .ec-name{font-size:12px;font-weight:600;line-height:1.3;}
 
@@ -849,6 +868,23 @@ const EXERCISES = {
 
 function updateFab() {}
 
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  if (!DATA.settings) DATA.settings = {};
+  DATA.settings.theme = isLight ? 'light' : 'dark';
+  save();
+  renderSettings();
+}
+
+function applyTheme() {
+  const theme = DATA.settings?.theme;
+  if (theme === 'light') { document.body.classList.add('light-mode'); }
+  else if (theme === 'dark') { document.body.classList.remove('light-mode'); }
+  else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+    document.body.classList.add('light-mode');
+  }
+}
+
 function updateTranslatedUI() {
   applyLang();
   const el = (id) => document.getElementById(id);
@@ -1168,6 +1204,8 @@ function renderDealCard(deal) {
   const numClass = done ? 'r-done' : '';
 
   const eName = exName(deal.exercise);
+  const ringGlow = done ? 'rgba(48,209,88,0.55)' : debt > 0 ? 'rgba(255,140,0,0.55)' : 'rgba(255,107,0,0.55)';
+  const trackOpacity = done ? 'rgba(48,209,88,0.15)' : debt > 0 ? 'rgba(255,140,0,0.15)' : 'rgba(255,107,0,0.15)';
   let chipsHtml = `<div class="chips-row">
     <div class="chip"><div class="chip-val">${target}</div><div class="chip-key">${t('goal')}</div></div>`;
   if (debt > 0) chipsHtml += `<div class="chip c-debt"><div class="chip-val">${debt}</div><div class="chip-key">${t('debt')}</div></div>`;
@@ -1189,9 +1227,9 @@ function renderDealCard(deal) {
     </div>
     <div class="ring-wrap small">
       <svg class="ring-svg small" viewBox="0 0 140 140">
-        <circle class="ring-track" cx="70" cy="70" r="55"/>
+        <circle class="ring-track" cx="70" cy="70" r="55" style="stroke:${trackOpacity}"/>
         <circle class="ring-fill" cx="70" cy="70" r="55"
-          style="stroke-dasharray:${C};stroke-dashoffset:${offset};stroke:${ringColor}"/>
+          style="stroke-dasharray:${C};stroke-dashoffset:${offset};stroke:${ringColor};filter:drop-shadow(0 0 8px ${ringGlow})"/>
       </svg>
       <div class="ring-center">
         <div class="ring-num small ${numClass}">${done ? '✓' : due}</div>
@@ -1543,48 +1581,41 @@ function renderStats() {
     ? `<div class="debt-banner"><div class="debt-num">${debt}</div><div class="debt-info">${t('openDebt')(debt, unit)}</div></div>`
     : '';
 
+  const streakBarW = bestStreak > 0 ? Math.round(streak/bestStreak*100) : (streak>0?100:0);
+  const bestBarW = 100;
   content.innerHTML = `
-    <div class="stat-card wide stat-hero">
-      <div class="stat-hero-ring">
-        <svg viewBox="0 0 120 120">
-          <circle class="h-track" cx="60" cy="60" r="46"/>
-          <circle class="h-fill" cx="60" cy="60" r="46"
-            style="stroke-dasharray:${heroC.toFixed(1)};stroke-dashoffset:${heroOffset};stroke:${heroColor}"/>
-        </svg>
-        <div class="stat-hero-pct" style="color:${heroColor}">${completionRate}%</div>
-      </div>
-      <div class="stat-hero-info">
-        <div class="stat-hero-row">
-          <div class="stat-hero-num">${totalReps.toLocaleString(locale)}</div>
-          <div class="stat-hero-unit">${t('totalUnit')(unit)}</div>
-        </div>
-        <div class="stat-hero-row">
-          <div class="stat-hero-num" style="color:var(--orange)">${totalCal.toLocaleString(locale)}</div>
-          <div class="stat-hero-unit">${t('caloriesBurned')}</div>
-        </div>
-        <div class="stat-hero-row">
-          <div class="stat-hero-num" style="color:var(--accent)">${todayCal}</div>
-          <div class="stat-hero-unit">${t('kcalToday')}</div>
-        </div>
-      </div>
+    <div class="stat-card wide">
+      <div class="stat-label">${t('progress30')}</div>
+      <div class="stat-big-num" style="color:${heroColor}">${completionRate}%</div>
+      <div style="font-size:13px;color:var(--label2);margin-bottom:16px">${completedDays} ${lang()==='he'?'ימים הושלמו מתוך':'days completed out of'} ${daysSinceStart}</div>
+      <div class="progress-chart">${progressBars}</div>
+      <div class="progress-labels"><span>${d30Start}</span><span>${d30End}</span></div>
     </div>
 
-    <div class="stat-card wide streak-visual">
-      <div class="streak-fire">${fireEmoji}</div>
-      <div class="streak-info">
-        <div class="streak-top">
-          <div class="streak-num">${streak}</div>
-          <div class="streak-lbl">${t('dayStreak')}</div>
+    <div class="stat-card wide">
+      <div class="stat-label">${t('dayStreak')} ${fireEmoji}</div>
+      <div class="stat-vs-row">
+        <div class="stat-vs-item">
+          <div class="stat-vs-val" style="color:var(--accent)">${streak}</div>
+          <div class="stat-vs-lbl">${lang()==='he'?'נוכחי':'Current'}</div>
         </div>
-        <div class="streak-bar-bg"><div class="streak-bar-fill" style="width:${streakPct}%"></div></div>
-        <div class="streak-best">${t('best')(bestStreak)}</div>
+        <div class="stat-vs-item">
+          <div class="stat-vs-val" style="color:var(--label2)">${bestStreak}</div>
+          <div class="stat-vs-lbl">${lang()==='he'?'שיא':'Best'}</div>
+        </div>
+      </div>
+      <div class="stat-vs-bar" style="margin-top:14px">
+        <div class="stat-vs-bar-fill" style="width:${streakBarW}%"></div>
       </div>
     </div>
 
     <div class="stat-card wide">
-      <div class="stat-label">${t('progress30')}</div>
-      <div class="progress-chart">${progressBars}</div>
-      <div class="progress-labels"><span>${d30Start}</span><span>${d30End}</span></div>
+      <div class="stat-label">${t('totalUnit')(unit)}</div>
+      <div class="stat-big-num" style="color:var(--label)">${totalReps.toLocaleString(locale)}</div>
+      <div style="display:flex;gap:20px;margin-top:4px">
+        <div><span style="font-size:22px;font-weight:700;color:var(--orange)">${totalCal.toLocaleString(locale)}</span> <span style="font-size:12px;color:var(--label2)">${t('caloriesBurned')}</span></div>
+        <div><span style="font-size:22px;font-weight:700;color:var(--accent)">${todayCal}</span> <span style="font-size:12px;color:var(--label2)">${t('kcalToday')}</span></div>
+      </div>
     </div>
 
     <div class="stat-card wide">
@@ -1629,6 +1660,13 @@ function renderSettings() {
 
   body.innerHTML = `
     ${dealsSection}
+    <div class="set-section-hdr">Appearance</div>
+    <div class="set-group">
+      <div class="set-row">
+        <span class="set-label theme-toggle-row"><span class="theme-icon">${document.body.classList.contains('light-mode') ? '☀️' : '🌙'}</span> ${document.body.classList.contains('light-mode') ? 'Light Mode' : 'Dark Mode'}</span>
+        <button class="toggle ${document.body.classList.contains('light-mode') ? 'on' : ''}" onclick="toggleTheme()"></button>
+      </div>
+    </div>
     <div class="set-section-hdr">${t('language')}</div>
     <div class="set-group">
       <div class="set-row">
@@ -1867,6 +1905,7 @@ function dismissInstallBanner() {
 function init() {
   load();
   applyLang();
+  applyTheme();
   if (activeDeals().length > 0) {
     processDebt();
     document.getElementById('nav').classList.add('show');

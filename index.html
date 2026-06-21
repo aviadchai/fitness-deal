@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Fitness Deal">
+<meta name="screen-orientation" content="portrait">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="fitness-icon-192.png">
 <link rel="apple-touch-icon" sizes="192x192" href="fitness-icon-192.png">
@@ -220,7 +221,8 @@ body.light-mode .s-header { background: rgba(242,242,247,0.92); border-bottom: 1
 .cal-week-labels{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
 .cal-week-labels span{font-size:11px;color:var(--label3);text-align:center;font-weight:600;text-transform:uppercase;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-cell{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--label3);position:relative;border:2px solid transparent;}
+.cal-cell{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--label3);position:relative;border:2px solid transparent;overflow:visible;}
+.cal-extra{position:absolute;bottom:-2px;right:-2px;font-size:8px;background:var(--accent);color:var(--accent-dark);border-radius:4px;padding:0 3px;font-weight:700;z-index:1;}
 .cal-cell.complete{border-color:transparent;color:var(--accent-dark);background:var(--accent);}
 .cal-cell.partial{border-color:var(--accent);color:var(--accent);background:transparent;}
 .cal-cell.missed{border-color:transparent;color:var(--label3);background:var(--bg3);opacity:0.6;}
@@ -230,8 +232,8 @@ body.light-mode .s-header { background: rgba(242,242,247,0.92); border-bottom: 1
 
 /* Stats */
 #s-stat{padding-bottom:0;}
-.stat-body{flex:1;overflow-y:auto;padding:20px 20px calc(80px + var(--safe-bottom));display:flex;flex-direction:column;gap:16px;}
-.stat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px 24px;}
+.stat-body{flex:1;overflow-y:auto;padding:20px 20px calc(80px + var(--safe-bottom));display:flex;flex-direction:column;gap:24px;}
+.stat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px 24px;margin-bottom:0;}
 .stat-card.wide{width:100%;}
 .stat-label{font-size:11px;color:var(--label2);margin-bottom:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;}
 
@@ -349,6 +351,20 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 .camera-btn{background:none;border:none;padding:6px;cursor:pointer;color:var(--label3);border-radius:8px;transition:color 0.18s;}
 .camera-btn.on{color:var(--accent);}
 .camera-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+/* Fact card */
+.fact-card{text-align:center;padding:24px 20px;}
+.fact-icon{font-size:32px;margin-bottom:8px;}
+.fact-label{font-size:11px;color:var(--label2);text-transform:uppercase;letter-spacing:0.5px;font-weight:500;margin-bottom:8px;}
+.fact-text{font-size:15px;color:var(--label);line-height:1.6;}
+
+/* Dual rings layout */
+.rings-dual-wrap{display:flex;justify-content:center;gap:24px;width:100%;}
+.rings-dual-col{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.rings-dual-col .rings-svg-wrap{width:150px;height:150px;}
+.rings-dual-col .rings-svg-wrap svg{width:100%;height:100%;transform:rotate(-90deg);}
+.rings-dual-col .rings-center-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none;}
+.rings-dual-label{font-size:11px;color:var(--label2);font-weight:500;text-transform:uppercase;letter-spacing:0.04em;}
 </style>
 </head>
 <body>
@@ -883,6 +899,19 @@ const EXERCISES = {
   plank:   { name: 'פלאנקים',      nameEn: 'Plank',     unit: 'sec',  defaultTarget: 60, calPerUnit: 0.05, muscles: 'Core, Shoulders, Back, Glutes', icon: '<path d="M12 2a2 2 0 110 4 2 2 0 010-4zM3 18l18-8"/>' },
 };
 
+const FITNESS_FACTS = [
+  { he: 'שכיבות סמיכה מחזקות יותר מ-200 שרירים בגוף', en: 'Push-ups strengthen over 200 muscles in your body' },
+  { he: '30 דקות אימון יומי מפחיתות סיכון למחלות לב ב-35%', en: '30 minutes of daily exercise reduces heart disease risk by 35%' },
+  { he: 'פלאנק של דקה שורף כ-3-5 קלוריות אבל מחזק את כל הליבה', en: 'A 1-minute plank burns 3-5 calories but strengthens your entire core' },
+  { he: 'כפיפות בטן משפרות יציבה ומפחיתות כאבי גב', en: 'Sit-ups improve posture and reduce back pain' },
+  { he: 'אימון עקבי ל-21 יום יוצר הרגל שנשאר לכל החיים', en: '21 days of consistent training creates a lifelong habit' },
+  { he: 'פעילות גופנית משחררת אנדורפינים שמשפרים מצב רוח', en: 'Exercise releases endorphins that improve mood' },
+  { he: 'שכיבות סמיכה הן התרגיל היעיל ביותר למשקל גוף בלבד', en: 'Push-ups are the most effective bodyweight exercise' },
+  { he: 'אימון בבוקר מגביר מטבוליזם ל-72 שעות', en: 'Morning workouts boost metabolism for up to 72 hours' },
+  { he: 'פלאנק מחזק את שרירי הבטן, הגב, הכתפיים והרגליים בו-זמנית', en: 'Plank strengthens abs, back, shoulders and legs simultaneously' },
+  { he: '10 דקות אימון עדיף על אפס. כל תנועה חשובה!', en: '10 minutes of exercise is better than zero. Every movement counts!' },
+];
+
 function updateFab() {}
 
 function toggleTheme() {
@@ -1212,14 +1241,18 @@ function renderConcentricRings(deals) {
   const RING_COLORS = ['var(--ring1)','var(--ring2)','var(--ring3)'];
   const RAW_COLORS = ['#FF6B00','#FF4D8C','#4DA6FF'];
   const n = deals.length;
+  // Configs for 150px SVG (viewBox 150x150, center 75)
   let configs = [];
-  if (n === 1) configs = [{r:85, sw:22}];
-  else if (n === 2) configs = [{r:85, sw:18},{r:60, sw:18}];
-  else configs = [{r:85, sw:16},{r:63, sw:16},{r:41, sw:16}];
+  if (n === 1) configs = [{r:55, sw:16}];
+  else if (n === 2) configs = [{r:55, sw:14},{r:36, sw:14}];
+  else configs = [{r:55, sw:12},{r:39, sw:12},{r:23, sw:12}];
 
-  let totalPct = 0;
+  const tod = todayStr();
+
+  // --- Daily Progress rings ---
+  let dailyTotalPct = 0;
   let allDone = true;
-  let circles = '';
+  let dailyCircles = '';
   let legendItems = '';
 
   deals.forEach((deal, i) => {
@@ -1230,7 +1263,7 @@ function renderConcentricRings(deals) {
     const pct = total > 0 ? Math.min(1, logged / total) : 1;
     const done = dealDone(deal);
     if (!done) allDone = false;
-    totalPct += pct;
+    dailyTotalPct += pct;
 
     const cfg = configs[i] || configs[configs.length - 1];
     const C = 2 * Math.PI * cfg.r;
@@ -1238,23 +1271,67 @@ function renderConcentricRings(deals) {
     const color = RING_COLORS[i] || RING_COLORS[0];
     const rawColor = RAW_COLORS[i] || RAW_COLORS[0];
 
-    circles += `<circle cx="110" cy="110" r="${cfg.r}" fill="none" stroke="${rawColor}" stroke-width="${cfg.sw}" stroke-opacity="0.12" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="0"/>`;
-    circles += `<circle cx="110" cy="110" r="${cfg.r}" fill="none" stroke="${color}" stroke-width="${cfg.sw}" stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${offset}" style="filter:drop-shadow(0 0 12px ${rawColor}) drop-shadow(0 0 25px ${rawColor})"/>`;
+    dailyCircles += `<circle cx="75" cy="75" r="${cfg.r}" fill="none" stroke="${rawColor}" stroke-width="${cfg.sw}" stroke-opacity="0.12" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="0"/>`;
+    dailyCircles += `<circle cx="75" cy="75" r="${cfg.r}" fill="none" stroke="${color}" stroke-width="${cfg.sw}" stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${offset}" style="filter:drop-shadow(0 0 8px ${rawColor}) drop-shadow(0 0 16px ${rawColor})"/>`;
 
     const eName = exName(deal.exercise);
-    const due = dealDue(deal);
     legendItems += `<div class="rings-legend-item"><div class="rings-legend-dot" style="background:${color}"></div>${eName} <span class="rings-legend-val">${logged}/${total}</span></div>`;
   });
 
-  const avgPct = Math.round((totalPct / n) * 100);
-  const centerContent = allDone
-    ? `<div class="rings-center-pct" style="color:var(--accent)">&#10003;</div><div class="rings-center-label">${t('doneToday')}</div>`
-    : `<div class="rings-center-pct">${avgPct}%</div><div class="rings-center-label">${n > 1 ? (lang()==='he'?'ממוצע':'avg') : ''}</div>`;
+  const dailyAvgPct = Math.round((dailyTotalPct / n) * 100);
+  const dailyCenterContent = allDone
+    ? `<div class="rings-center-pct" style="color:var(--accent);font-size:28px">&#10003;</div><div class="rings-center-label" style="font-size:10px">${t('doneToday')}</div>`
+    : `<div class="rings-center-pct" style="font-size:28px">${dailyAvgPct}%</div>`;
+
+  // --- Consistency rings ---
+  let consistencyCircles = '';
+  let consistencyTotalPct = 0;
+
+  deals.forEach((deal, i) => {
+    const target = deal.dailyTarget;
+    const daysSinceStart = Math.max(1, daysBetween(deal.startDate, tod) + 1);
+    let completedDays = 0;
+    let cursor = deal.startDate;
+    while (cursor <= tod) {
+      const logged = (deal.logs && deal.logs[cursor]) || 0;
+      if (logged >= target) completedDays++;
+      cursor = addDays(cursor, 1);
+    }
+    const pct = Math.min(1, completedDays / daysSinceStart);
+    consistencyTotalPct += pct;
+
+    const cfg = configs[i] || configs[configs.length - 1];
+    const C = 2 * Math.PI * cfg.r;
+    const offset = (C * (1 - pct)).toFixed(1);
+    const color = RING_COLORS[i] || RING_COLORS[0];
+    const rawColor = RAW_COLORS[i] || RAW_COLORS[0];
+
+    consistencyCircles += `<circle cx="75" cy="75" r="${cfg.r}" fill="none" stroke="${rawColor}" stroke-width="${cfg.sw}" stroke-opacity="0.12" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="0"/>`;
+    consistencyCircles += `<circle cx="75" cy="75" r="${cfg.r}" fill="none" stroke="${color}" stroke-width="${cfg.sw}" stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${offset}" style="filter:drop-shadow(0 0 8px ${rawColor}) drop-shadow(0 0 16px ${rawColor})"/>`;
+  });
+
+  const consistencyAvgPct = Math.round((consistencyTotalPct / n) * 100);
+  const consistencyCenterContent = `<div class="rings-center-pct" style="font-size:28px">${consistencyAvgPct}%</div>`;
+
+  const dailyLabel = lang() === 'he' ? 'יומי' : 'Daily';
+  const consistencyLabel = lang() === 'he' ? 'התמדה' : 'Streak';
 
   return `<div class="rings-hero">
-    <div class="rings-svg-wrap">
-      <svg viewBox="0 0 220 220">${circles}</svg>
-      <div class="rings-center-text">${centerContent}</div>
+    <div class="rings-dual-wrap">
+      <div class="rings-dual-col">
+        <div class="rings-svg-wrap" style="position:relative">
+          <svg viewBox="0 0 150 150">${dailyCircles}</svg>
+          <div class="rings-center-text">${dailyCenterContent}</div>
+        </div>
+        <div class="rings-dual-label">${dailyLabel}</div>
+      </div>
+      <div class="rings-dual-col">
+        <div class="rings-svg-wrap" style="position:relative">
+          <svg viewBox="0 0 150 150">${consistencyCircles}</svg>
+          <div class="rings-center-text">${consistencyCenterContent}</div>
+        </div>
+        <div class="rings-dual-label">${consistencyLabel}</div>
+      </div>
     </div>
     <div class="rings-legend">${legendItems}</div>
   </div>`;
@@ -1543,7 +1620,8 @@ function renderCalendar() {
           } else {
             label = dayNum;
           }
-          return `<div class="cal-cell ${cls}" title="${d}: ${logged}">${label}</div>`;
+          const extra = logged > deal.dailyTarget ? `<span class="cal-extra">+${logged - deal.dailyTarget}</span>` : '';
+          return `<div class="cal-cell ${cls}" title="${d}: ${logged}">${label}${extra}</div>`;
         }).join('')}
       </div>
     </div>`;
@@ -1686,6 +1764,12 @@ function renderStats() {
     </div>
 
     ${debtHtml}
+
+    <div class="stat-card wide fact-card">
+      <div class="fact-icon">💡</div>
+      <div class="fact-label">${lang()==='he' ? 'הידעת?' : 'Did You Know?'}</div>
+      <div class="fact-text">${(() => { const fact = FITNESS_FACTS[Math.floor(Math.random() * FITNESS_FACTS.length)]; return lang()==='he' ? fact.he : fact.en; })()}</div>
+    </div>
   `;
 }
 

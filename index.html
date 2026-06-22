@@ -232,25 +232,25 @@ body.light-mode .s-header { background: rgba(242,242,247,0.92); border-bottom: 1
 
 /* Stats */
 #s-stat{padding-bottom:0;}
-.stat-body{flex:1;overflow-y:auto;padding:20px 20px calc(80px + var(--safe-bottom));display:flex;flex-direction:column;gap:24px;}
-.stat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:28px 24px;margin-bottom:0;}
+.stat-body{flex:1;overflow-y:auto;padding:20px 20px calc(80px + var(--safe-bottom));display:flex;flex-direction:column;gap:28px;}
+.stat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:32px 24px;margin-bottom:4px;box-shadow:0 2px 12px rgba(0,0,0,0.1);}
 .stat-card.wide{width:100%;}
 .stat-label{font-size:11px;color:var(--label2);margin-bottom:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;}
 
-.stat-hero{display:flex;align-items:center;gap:28px;padding:28px 24px;}
+.stat-hero{display:flex;align-items:center;gap:32px;padding:32px 24px;}
 .stat-hero-ring{position:relative;width:120px;height:120px;flex-shrink:0;}
 .stat-hero-ring svg{width:120px;height:120px;transform:rotate(-90deg);}
 .stat-hero-ring .h-track{fill:none;stroke:var(--bg4);stroke-width:10;}
 .stat-hero-ring .h-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);}
 .stat-hero-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;letter-spacing:-1.5px;}
-.stat-hero-info{display:flex;flex-direction:column;gap:16px;flex:1;}
+.stat-hero-info{display:flex;flex-direction:column;gap:20px;flex:1;}
 .stat-hero-row{display:flex;align-items:baseline;gap:6px;}
 .stat-hero-num{font-size:28px;font-weight:700;letter-spacing:-1px;line-height:1;}
 .stat-hero-unit{font-size:13px;color:var(--label2);font-weight:400;}
 
-.streak-visual{display:flex;align-items:center;gap:22px;padding:28px 24px;}
+.streak-visual{display:flex;align-items:center;gap:24px;padding:32px 24px;}
 .streak-fire{font-size:36px;line-height:1;}
-.streak-info{flex:1;display:flex;flex-direction:column;gap:8px;}
+.streak-info{flex:1;display:flex;flex-direction:column;gap:12px;}
 .streak-top{display:flex;align-items:baseline;gap:6px;}
 .streak-num{font-size:28px;font-weight:700;letter-spacing:-1px;}
 .streak-lbl{font-size:13px;color:var(--label2);}
@@ -258,13 +258,13 @@ body.light-mode .s-header { background: rgba(242,242,247,0.92); border-bottom: 1
 .streak-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--orange),var(--accent));transition:width 0.6s ease;}
 .streak-best{font-size:11px;color:var(--label3);text-align:left;}
 
-.progress-chart{display:flex;align-items:flex-end;gap:2px;height:110px;margin-top:12px;width:100%;}
+.progress-chart{display:flex;align-items:flex-end;gap:2px;height:110px;margin-top:16px;padding-top:8px;padding-bottom:8px;width:100%;}
 .progress-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0;gap:3px;}
 .progress-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;transition:height 0.3s ease;}
 .progress-labels{display:flex;justify-content:space-between;margin-top:4px;}
 .progress-labels span{font-size:10px;color:var(--label3);}
 
-.muscles-wrap{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+.muscles-wrap{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
 .muscles-tag{display:flex;align-items:center;gap:5px;background:var(--accent-cont);color:var(--accent);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:500;}
 
 .debt-banner{display:flex;align-items:center;gap:14px;background:rgba(255,179,0,0.1);border:1px solid rgba(255,179,0,0.25);border-radius:16px;padding:16px 20px;}
@@ -365,6 +365,24 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 .rings-dual-col .rings-svg-wrap svg{width:100%;height:100%;transform:rotate(-90deg);}
 .rings-dual-col .rings-center-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none;}
 .rings-dual-label{font-size:11px;color:var(--label2);font-weight:500;text-transform:uppercase;letter-spacing:0.04em;}
+
+/* Calendar debt indicators */
+.cal-debt-dot{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--red);}
+.cal-repaid{position:absolute;bottom:-1px;right:-1px;font-size:7px;color:var(--accent);font-weight:700;}
+.cal-legend-bottom{display:flex;gap:16px;justify-content:center;padding:12px 0;font-size:11px;color:var(--label2);}
+.cal-legend-bottom span{display:flex;align-items:center;gap:4px;}
+
+/* BMI Calculator */
+.bmi-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:20px;}
+.bmi-title{font-size:14px;font-weight:600;margin-bottom:16px;}
+.bmi-inputs{display:flex;gap:12px;margin-bottom:16px;}
+.bmi-input{flex:1;display:flex;flex-direction:column;gap:4px;}
+.bmi-input label{font-size:11px;color:var(--label2);text-transform:uppercase;}
+.bmi-input input{background:var(--bg3);border:1px solid var(--sep);border-radius:10px;color:var(--label);font-size:16px;padding:10px 12px;font-family:inherit;outline:none;text-align:center;}
+.bmi-input input:focus{border-color:var(--accent);}
+.bmi-result{text-align:center;padding:16px;background:var(--bg2);border-radius:12px;}
+.bmi-value{font-size:36px;font-weight:700;letter-spacing:-1px;}
+.bmi-category{font-size:13px;color:var(--label2);margin-top:4px;}
 </style>
 </head>
 <body>
@@ -900,16 +918,14 @@ const EXERCISES = {
 };
 
 const FITNESS_FACTS = [
-  { he: 'שכיבות סמיכה מחזקות יותר מ-200 שרירים בגוף', en: 'Push-ups strengthen over 200 muscles in your body' },
-  { he: '30 דקות אימון יומי מפחיתות סיכון למחלות לב ב-35%', en: '30 minutes of daily exercise reduces heart disease risk by 35%' },
-  { he: 'פלאנק של דקה שורף כ-3-5 קלוריות אבל מחזק את כל הליבה', en: 'A 1-minute plank burns 3-5 calories but strengthens your entire core' },
-  { he: 'כפיפות בטן משפרות יציבה ומפחיתות כאבי גב', en: 'Sit-ups improve posture and reduce back pain' },
-  { he: 'אימון עקבי ל-21 יום יוצר הרגל שנשאר לכל החיים', en: '21 days of consistent training creates a lifelong habit' },
-  { he: 'פעילות גופנית משחררת אנדורפינים שמשפרים מצב רוח', en: 'Exercise releases endorphins that improve mood' },
-  { he: 'שכיבות סמיכה הן התרגיל היעיל ביותר למשקל גוף בלבד', en: 'Push-ups are the most effective bodyweight exercise' },
-  { he: 'אימון בבוקר מגביר מטבוליזם ל-72 שעות', en: 'Morning workouts boost metabolism for up to 72 hours' },
-  { he: 'פלאנק מחזק את שרירי הבטן, הגב, הכתפיים והרגליים בו-זמנית', en: 'Plank strengthens abs, back, shoulders and legs simultaneously' },
-  { he: '10 דקות אימון עדיף על אפס. כל תנועה חשובה!', en: '10 minutes of exercise is better than zero. Every movement counts!' },
+  { he: 'שכיבות סמיכה: 3 סטים של 10-15 חזרות ליום מחזקים חזה, כתפיים וטריצפס. תרגיל יעיל במיוחד למשקל גוף', en: 'Push-ups: 3 sets of 10-15 reps daily strengthen chest, shoulders and triceps. Most effective bodyweight exercise', exercise: 'pushups' },
+  { he: 'כפיפות בטן: 2-3 סטים של 15-20 חזרות. שורפות 5-8 קלוריות לדקה ומחזקות ליבה ויציבה', en: 'Sit-ups: 2-3 sets of 15-20 reps. Burn 5-8 calories per minute and strengthen core and posture', exercise: 'situps' },
+  { he: 'פלאנק: 3 סטים של 30-60 שניות. מפעיל 20+ שרירים בו-זמנית - התרגיל האיזומטרי האפקטיבי ביותר', en: 'Plank: 3 sets of 30-60 sec. Activates 20+ muscles simultaneously - most effective isometric exercise', exercise: 'plank' },
+  { he: 'שכיבות סמיכה מפעילות יותר מ-200 שרירים. 100 שכיבות סמיכה ביום שורפות כ-45 קלוריות', en: 'Push-ups activate 200+ muscles. 100 push-ups a day burn about 45 calories', exercise: 'pushups' },
+  { he: 'פלאנק של 60 שניות שווה ערך ל-20 כפיפות בטן מבחינת חיזוק הליבה', en: 'A 60-second plank equals about 20 sit-ups in terms of core strengthening', exercise: 'plank' },
+  { he: 'המינימום המומלץ: 150 דקות פעילות גופנית בשבוע (כ-20 דקות ביום)', en: 'Recommended minimum: 150 minutes of physical activity per week (~20 min/day)', exercise: null },
+  { he: 'אימון בבוקר מגביר מטבוליזם ב-15% לשאר היום', en: 'Morning workouts boost metabolism by 15% for the rest of the day', exercise: null },
+  { he: 'שילוב של שכיבות סמיכה + פלאנק + כפיפות בטן = אימון גוף מלא ב-15 דקות', en: 'Push-ups + plank + sit-ups = full body workout in 15 minutes', exercise: null },
 ];
 
 function updateFab() {}
@@ -1119,7 +1135,7 @@ function renderObTargets() {
         <div class="target-val">${obTargets[ex]}</div>
         <button class="qty-btn small" onclick="changeObTarget('${ex}',5)">+</button>
       </div>
-      <div class="target-unit-label">${e.unit}</div>
+      <div class="target-unit-label">${e.unit === 'sec' ? (lang() === 'he' ? 'שניות' : 'sec') : e.unit}</div>
     </div>`;
   }).join('');
 }
@@ -1159,7 +1175,7 @@ function updateSummary() {
   const list = document.getElementById('sum-exercises-list');
   list.innerHTML = [...obSelected].map(ex => {
     const e = EXERCISES[ex];
-    return `<div class="summary-row"><span class="summary-key">${exName(ex)}</span><span class="summary-val">${obTargets[ex]} ${e.unit}</span></div>`;
+    return `<div class="summary-row"><span class="summary-key">${exName(ex)}</span><span class="summary-val">${obTargets[ex]} ${e.unit === 'sec' ? (lang() === 'he' ? 'שניות' : 'sec') : e.unit}</span></div>`;
   }).join('');
   if (obPenalty === 'double') {
     document.getElementById('sum-penalty').textContent = t('double');
@@ -1275,13 +1291,13 @@ function renderConcentricRings(deals) {
     dailyCircles += `<circle cx="75" cy="75" r="${cfg.r}" fill="none" stroke="${color}" stroke-width="${cfg.sw}" stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${offset}" style="filter:drop-shadow(0 0 8px ${rawColor}) drop-shadow(0 0 16px ${rawColor})"/>`;
 
     const eName = exName(deal.exercise);
-    legendItems += `<div class="rings-legend-item"><div class="rings-legend-dot" style="background:${color}"></div>${eName} <span class="rings-legend-val">${logged}/${total}</span></div>`;
+    const unitSuffix = EXERCISES[deal.exercise].unit === 'sec' ? (lang() === 'he' ? ' שניות' : ' sec') : '';
+    legendItems += `<div class="rings-legend-item"><div class="rings-legend-dot" style="background:${color}"></div>${eName} <span class="rings-legend-val">${logged}/${total}${unitSuffix}</span></div>`;
   });
 
-  const dailyAvgPct = Math.round((dailyTotalPct / n) * 100);
   const dailyCenterContent = allDone
     ? `<div class="rings-center-pct" style="color:var(--accent);font-size:28px">&#10003;</div><div class="rings-center-label" style="font-size:10px">${t('doneToday')}</div>`
-    : `<div class="rings-center-pct" style="font-size:28px">${dailyAvgPct}%</div>`;
+    : '';
 
   // --- Consistency rings ---
   let consistencyCircles = '';
@@ -1310,11 +1326,27 @@ function renderConcentricRings(deals) {
     consistencyCircles += `<circle cx="75" cy="75" r="${cfg.r}" fill="none" stroke="${color}" stroke-width="${cfg.sw}" stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${offset}" style="filter:drop-shadow(0 0 8px ${rawColor}) drop-shadow(0 0 16px ${rawColor})"/>`;
   });
 
-  const consistencyAvgPct = Math.round((consistencyTotalPct / n) * 100);
-  const consistencyCenterContent = `<div class="rings-center-pct" style="font-size:28px">${consistencyAvgPct}%</div>`;
+  // Build consistency legend items
+  let consistencyLegendItems = '';
+  deals.forEach((deal, i) => {
+    const target = deal.dailyTarget;
+    const daysSinceStart = Math.max(1, daysBetween(deal.startDate, tod) + 1);
+    let completedDays = 0;
+    let cursor = deal.startDate;
+    while (cursor <= tod) {
+      const logged = (deal.logs && deal.logs[cursor]) || 0;
+      if (logged >= target) completedDays++;
+      cursor = addDays(cursor, 1);
+    }
+    const color = RING_COLORS[i] || RING_COLORS[0];
+    const eName = exName(deal.exercise);
+    consistencyLegendItems += `<div class="rings-legend-item"><div class="rings-legend-dot" style="background:${color}"></div>${eName} <span class="rings-legend-val">${completedDays}/${daysSinceStart}</span></div>`;
+  });
+
+  const consistencyCenterContent = '';
 
   const dailyLabel = lang() === 'he' ? 'יומי' : 'Daily';
-  const consistencyLabel = lang() === 'he' ? 'התמדה' : 'Streak';
+  const consistencyLabel = lang() === 'he' ? 'סה״כ' : 'Overall';
 
   return `<div class="rings-hero">
     <div class="rings-dual-wrap">
@@ -1324,6 +1356,7 @@ function renderConcentricRings(deals) {
           <div class="rings-center-text">${dailyCenterContent}</div>
         </div>
         <div class="rings-dual-label">${dailyLabel}</div>
+        <div class="rings-legend" style="flex-direction:column;gap:6px;align-items:center">${legendItems}</div>
       </div>
       <div class="rings-dual-col">
         <div class="rings-svg-wrap" style="position:relative">
@@ -1331,9 +1364,9 @@ function renderConcentricRings(deals) {
           <div class="rings-center-text">${consistencyCenterContent}</div>
         </div>
         <div class="rings-dual-label">${consistencyLabel}</div>
+        <div class="rings-legend" style="flex-direction:column;gap:6px;align-items:center">${consistencyLegendItems}</div>
       </div>
     </div>
-    <div class="rings-legend">${legendItems}</div>
   </div>`;
 }
 
@@ -1346,10 +1379,11 @@ function renderDealCard(deal) {
   const { current: streak } = getDealStreak(deal);
   const eName = exName(deal.exercise);
 
+  const unitLabel = ex.unit === 'sec' ? (lang() === 'he' ? 'שניות' : 'sec') : '';
   let chipsHtml = `<div class="chips-row">
-    <div class="chip"><div class="chip-val">${target}</div><div class="chip-key">${t('goal')}</div></div>`;
-  if (debt > 0) chipsHtml += `<div class="chip c-debt"><div class="chip-val">${debt}</div><div class="chip-key">${t('debt')}</div></div>`;
-  chipsHtml += `<div class="chip c-done"><div class="chip-val">${logged}</div><div class="chip-key">${t('doneLbl')}</div></div></div>`;
+    <div class="chip"><div class="chip-val">${target}${unitLabel ? ' <span style="font-size:12px;font-weight:400">' + unitLabel + '</span>' : ''}</div><div class="chip-key">${t('goal')}</div></div>`;
+  if (debt > 0) chipsHtml += `<div class="chip c-debt"><div class="chip-val">${debt}${unitLabel ? ' <span style="font-size:12px;font-weight:400">' + unitLabel + '</span>' : ''}</div><div class="chip-key">${t('debt')}</div></div>`;
+  chipsHtml += `<div class="chip c-done"><div class="chip-val">${logged}${unitLabel ? ' <span style="font-size:12px;font-weight:400">' + unitLabel + '</span>' : ''}</div><div class="chip-key">${t('doneLbl')}</div></div></div>`;
 
   let capHtml = '';
   if (deal.debtOverCap) {
@@ -1620,12 +1654,31 @@ function renderCalendar() {
           } else {
             label = dayNum;
           }
-          const extra = logged > deal.dailyTarget ? `<span class="cal-extra">+${logged - deal.dailyTarget}</span>` : '';
-          return `<div class="cal-cell ${cls}" title="${d}: ${logged}">${label}${extra}</div>`;
+          // Debt indicators: red dot for missed, checkmark for over-target
+          let debtIndicator = '';
+          const isFuture = s === 'future' || s === 'no-deal';
+          const isToday = s === 'today' || s === 'today-partial';
+          if (!isFuture && !isToday && d >= deal.startDate) {
+            if (logged < deal.dailyTarget && logged >= 0) {
+              // Missed target - debt created (red dot)
+              if (s === 'missed' || s === 'partial') {
+                debtIndicator = '<span class="cal-debt-dot"></span>';
+              }
+            }
+            if (logged > deal.dailyTarget) {
+              // Over target - debt repaid (checkmark)
+              debtIndicator = '<span class="cal-repaid">✓</span>';
+            }
+          }
+          return `<div class="cal-cell ${cls}" title="${d}: ${logged}">${label}${debtIndicator}</div>`;
         }).join('')}
       </div>
     </div>`;
   });
+  // Add debt legend at bottom
+  const debtLegendLabel1 = lang() === 'he' ? '● חוב נוצר' : '● Debt created';
+  const debtLegendLabel2 = lang() === 'he' ? '✓ חוב נפרע' : '✓ Debt repaid';
+  html += `<div class="cal-legend-bottom"><span><span style="color:var(--red)">●</span> ${debtLegendLabel1}</span><span><span style="color:var(--accent)">✓</span> ${debtLegendLabel2}</span></div>`;
   container.innerHTML = html;
 }
 
@@ -1674,6 +1727,7 @@ function renderStats() {
   const exDef = EXERCISES[deal.exercise];
   const totalCal = Math.round(totalReps * (exDef.calPerUnit || 0));
   const todayCal = Math.round(((deal.logs && deal.logs[tod]) || 0) * (exDef.calPerUnit || 0));
+  const displayUnit = exDef.unit === 'sec' ? (lang() === 'he' ? 'שניות' : 'sec') : unit;
 
   // Hero ring
   const heroC = 2 * Math.PI * 46;
@@ -1720,7 +1774,7 @@ function renderStats() {
       </div>
       <div class="stat-hero-info">
         <div class="stat-hero-row"><div class="stat-hero-num">${completedDays}</div><div class="stat-hero-unit">${lang()==='he'?'ימים הושלמו':'days completed'}</div></div>
-        <div class="stat-hero-row"><div class="stat-hero-num">${totalReps.toLocaleString(locale)}</div><div class="stat-hero-unit">${t('totalUnit')(unit)}</div></div>
+        <div class="stat-hero-row"><div class="stat-hero-num">${totalReps.toLocaleString(locale)}</div><div class="stat-hero-unit">${t('totalUnit')(displayUnit)}</div></div>
       </div>
     </div>
 
@@ -1750,7 +1804,7 @@ function renderStats() {
     </div>
 
     <div class="stat-card wide">
-      <div class="stat-label">${t('totalUnit')(unit)}</div>
+      <div class="stat-label">${t('totalUnit')(displayUnit)}</div>
       <div class="stat-big-num" style="color:var(--label)">${totalReps.toLocaleString(locale)}</div>
       <div style="display:flex;gap:20px;margin-top:4px">
         <div><span style="font-size:22px;font-weight:700;color:var(--orange)">${totalCal.toLocaleString(locale)}</span> <span style="font-size:12px;color:var(--label2)">${t('caloriesBurned')}</span></div>
@@ -1767,8 +1821,13 @@ function renderStats() {
 
     <div class="stat-card wide fact-card">
       <div class="fact-icon">💡</div>
-      <div class="fact-label">${lang()==='he' ? 'הידעת?' : 'Did You Know?'}</div>
-      <div class="fact-text">${(() => { const fact = FITNESS_FACTS[Math.floor(Math.random() * FITNESS_FACTS.length)]; return lang()==='he' ? fact.he : fact.en; })()}</div>
+      ${(() => {
+        const fact = FITNESS_FACTS[Math.floor(Math.random() * FITNESS_FACTS.length)];
+        const factExName = fact.exercise && EXERCISES[fact.exercise] ? exName(fact.exercise) : '';
+        const subtitle = factExName ? ` - ${factExName}` : '';
+        return `<div class="fact-label">${lang()==='he' ? 'הידעת? 💡' : 'Did You Know? 💡'}${subtitle}</div>
+      <div class="fact-text">${lang()==='he' ? fact.he : fact.en}</div>`;
+      })()}
     </div>
   `;
 }
@@ -1787,13 +1846,14 @@ function renderSettings() {
     const eName = exName(deal.exercise);
     const penStr = deal.penaltyType === 'double' ? t('double') : t('interest')(deal.penaltyPercent);
     const startStr = new Date(deal.startDate + 'T12:00:00').toLocaleDateString(locale, {month:'short',day:'numeric',year:'numeric'});
+    const setUnit = ex.unit === 'sec' ? (lang() === 'he' ? 'שניות' : 'sec') : ex.unit;
     dealsSection += `
       <div class="set-section-hdr">${eName}</div>
       <div class="set-group">
-        <div class="set-row"><span class="set-label">${t('dailyGoal')}</span><span class="set-value">${deal.dailyTarget} ${ex.unit}</span></div>
+        <div class="set-row"><span class="set-label">${t('dailyGoal')}</span><span class="set-value">${deal.dailyTarget} ${setUnit}</span></div>
         <div class="set-row"><span class="set-label">${t('penaltyLbl')}</span><span class="set-value">${penStr}</span></div>
         <div class="set-row"><span class="set-label">${t('started')}</span><span class="set-value">${startStr}</span></div>
-        <div class="set-row"><span class="set-label">${t('openDebtLbl')}</span><span class="set-value" style="color:${deal.debt>0?'var(--orange)':'var(--accent)'}">${deal.debt > 0 ? deal.debt + ' ' + ex.unit : t('noneCheck')}</span></div>
+        <div class="set-row"><span class="set-label">${t('openDebtLbl')}</span><span class="set-value" style="color:${deal.debt>0?'var(--orange)':'var(--accent)'}">${deal.debt > 0 ? deal.debt + ' ' + setUnit : t('noneCheck')}</span></div>
         <div class="set-row"><button class="danger-btn" style="padding:10px" onclick="removeDeal('${deal.exercise}')">${t('remove')}</button></div>
       </div>`;
   });
@@ -1804,7 +1864,43 @@ function renderSettings() {
   const curLang = lang();
   const langBtnLabel = curLang === 'en' ? 'English → עברית' : 'עברית → English';
 
+  // BMI Calculator
+  const savedHeight = localStorage.getItem('bmi_height') || '';
+  const savedWeight = localStorage.getItem('bmi_weight') || '';
+  let bmiResultHtml = '';
+  if (savedHeight && savedWeight) {
+    const h = parseFloat(savedHeight);
+    const w = parseFloat(savedWeight);
+    if (h > 0 && w > 0) {
+      const bmiVal = (w / Math.pow(h / 100, 2)).toFixed(1);
+      let category, color;
+      if (bmiVal < 18.5) { category = lang() === 'he' ? 'תת-משקל' : 'Underweight'; color = 'var(--ring3)'; }
+      else if (bmiVal < 25) { category = lang() === 'he' ? 'תקין' : 'Normal'; color = 'var(--accent)'; }
+      else if (bmiVal < 30) { category = lang() === 'he' ? 'עודף משקל' : 'Overweight'; color = 'var(--orange)'; }
+      else { category = lang() === 'he' ? 'השמנה' : 'Obese'; color = 'var(--red)'; }
+      bmiResultHtml = `<div class="bmi-result"><div class="bmi-value" style="color:${color}">${bmiVal}</div><div class="bmi-category">${category}</div></div>`;
+    }
+  }
+
+  const bmiSection = `
+    <div class="set-section-hdr">${lang() === 'he' ? 'מחשבון BMI' : 'BMI Calculator'}</div>
+    <div class="bmi-card" id="bmi-section">
+      <div class="bmi-title">${lang() === 'he' ? 'מחשבון BMI' : 'BMI Calculator'}</div>
+      <div class="bmi-inputs">
+        <div class="bmi-input">
+          <label>${lang() === 'he' ? 'גובה (ס״מ)' : 'Height (cm)'}</label>
+          <input type="number" id="bmi-height" placeholder="170" value="${savedHeight}" min="50" max="250">
+        </div>
+        <div class="bmi-input">
+          <label>${lang() === 'he' ? 'משקל (ק״ג)' : 'Weight (kg)'}</label>
+          <input type="number" id="bmi-weight" placeholder="70" value="${savedWeight}" min="20" max="300">
+        </div>
+      </div>
+      <div id="bmi-result-container">${bmiResultHtml}</div>
+    </div>`;
+
   body.innerHTML = `
+    ${bmiSection}
     ${dealsSection}
     <div class="set-section-hdr">Appearance</div>
     <div class="set-group">
@@ -1838,6 +1934,33 @@ function renderSettings() {
         : `<button class="btn-primary" onclick="addNewChallenge()">${t('newDeal')}</button>`}
     </div>
   `;
+
+  // BMI event listeners
+  const bmiHeightInput = document.getElementById('bmi-height');
+  const bmiWeightInput = document.getElementById('bmi-weight');
+  if (bmiHeightInput && bmiWeightInput) {
+    const updateBMI = () => {
+      const h = parseFloat(bmiHeightInput.value);
+      const w = parseFloat(bmiWeightInput.value);
+      if (h) localStorage.setItem('bmi_height', h);
+      if (w) localStorage.setItem('bmi_weight', w);
+      const container = document.getElementById('bmi-result-container');
+      if (!container) return;
+      if (h > 0 && w > 0) {
+        const bmiVal = (w / Math.pow(h / 100, 2)).toFixed(1);
+        let category, color;
+        if (bmiVal < 18.5) { category = lang() === 'he' ? 'תת-משקל' : 'Underweight'; color = 'var(--ring3)'; }
+        else if (bmiVal < 25) { category = lang() === 'he' ? 'תקין' : 'Normal'; color = 'var(--accent)'; }
+        else if (bmiVal < 30) { category = lang() === 'he' ? 'עודף משקל' : 'Overweight'; color = 'var(--orange)'; }
+        else { category = lang() === 'he' ? 'השמנה' : 'Obese'; color = 'var(--red)'; }
+        container.innerHTML = `<div class="bmi-result"><div class="bmi-value" style="color:${color}">${bmiVal}</div><div class="bmi-category">${category}</div></div>`;
+      } else {
+        container.innerHTML = '';
+      }
+    };
+    bmiHeightInput.addEventListener('input', updateBMI);
+    bmiWeightInput.addEventListener('input', updateBMI);
+  }
 }
 
 function toggleLang() {

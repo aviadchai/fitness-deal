@@ -7,7 +7,7 @@
     "scheme": "fitness-deal",
     "userInterfaceStyle": "dark",
     "splash": {
-      "backgroundColor": "#0A0E1A"
+      "backgroundColor": "#0A0A0F"
     },
     "ios": {
       "supportsTablet": false,
@@ -15,14 +15,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#0A0E1A"
+        "backgroundColor": "#0A0A0F"
       },
       "package": "com.aviadchai.fitnessdeal"
     },
     "plugins": [
-      "expo-router",
-      "expo-status-bar",
-      "expo-asset"
+      "expo-router"
     ]
   }
 }

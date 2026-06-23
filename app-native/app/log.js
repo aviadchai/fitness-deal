@@ -87,7 +87,7 @@ export default function LogScreen() {
   if (!deal) return null;
 
   const timerPct = target > 0 ? Math.min(1, seconds / target) : 0;
-  const timerColor = targetReached ? COLORS.green : COLORS.accent;
+  const timerColor = targetReached ? COLORS.green : COLORS.ring1;
 
   return (
     <View style={styles.container}>
@@ -110,7 +110,7 @@ export default function LogScreen() {
             size={200} strokeWidth={12}
             progress={timerPct} color={timerColor}
             centerText={formatTime(seconds)}
-            centerColor={targetReached ? COLORS.green : COLORS.accent}
+            centerColor={targetReached ? COLORS.green : COLORS.ring1}
           />
           <TouchableOpacity
             style={[styles.timerBtn, timerRunning && styles.timerBtnRunning]}

@@ -40,7 +40,7 @@ export default function StatsScreen() {
   const totalCal = Math.round(totalReps * (ex.calPerUnit || 0));
   const todayCal = Math.round(((deal.logs && deal.logs[tod]) || 0) * (ex.calPerUnit || 0));
 
-  const heroColor = completionRate >= 80 ? COLORS.green : completionRate >= 40 ? COLORS.orange : COLORS.accent;
+  const heroColor = completionRate >= 80 ? COLORS.green : completionRate >= 40 ? COLORS.accent : COLORS.ring3;
   const streakPct = bestStreak > 0 ? Math.min(100, Math.round(streak / bestStreak * 100)) : (streak > 0 ? 100 : 0);
   const fireEmoji = streak >= 3 ? '🔥' : streak >= 1 ? '💪' : '😴';
 
@@ -118,7 +118,7 @@ export default function StatsScreen() {
           {last30.map((d, i) => {
             const v = (deal.logs && deal.logs[d]) || 0;
             const h = max30 > 0 ? Math.max(4, Math.round((v / max30) * 100)) : 4;
-            const color = v >= target ? COLORS.green : v > 0 ? COLORS.orange : COLORS.bg4;
+            const color = v >= target ? COLORS.green : v > 0 ? COLORS.accent : COLORS.bg4;
             return (
               <View key={i} style={styles.barWrap}>
                 <View style={[styles.bar, { height: `${h}%`, backgroundColor: color }]} />
@@ -153,7 +153,7 @@ export default function StatsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
-  content: { padding: 20, gap: 20, paddingBottom: 40 },
+  content: { padding: 20, gap: 20, paddingBottom: 100 },
   tabs: { flexGrow: 0 },
   tab: {
     backgroundColor: COLORS.bg2, borderRadius: 50,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   tabActive: { borderColor: COLORS.accent, backgroundColor: COLORS.accentCont },
   tabText: { fontSize: 14, fontWeight: '500', color: COLORS.label2 },
   tabTextActive: { color: COLORS.label },
-  card: { backgroundColor: COLORS.bg2, borderRadius: 20, padding: 28 },
+  card: { backgroundColor: COLORS.bg2, borderRadius: 20, padding: 28, borderWidth: 1, borderColor: COLORS.sep },
   heroRow: { flexDirection: 'row', alignItems: 'center', gap: 28 },
   heroInfo: { flex: 1, gap: 16 },
   heroStat: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },

@@ -4,14 +4,15 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { COLORS } from '../src/theme';
-import { getData, save, getLang } from '../src/utils/storage';
+import { getData, save, setLang } from '../src/utils/storage';
 import { EXERCISES, exName } from '../src/utils/exercises';
 import { todayStr } from '../src/utils/debtEngine';
 import { t } from '../src/utils/translations';
 
 export default function OnboardingScreen() {
   const router = useRouter();
-  const lang = getLang();
+  const [selectedLang, setSelectedLang] = useState('he');
+  const lang = selectedLang;
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(new Set());
   const [targets, setTargets] = useState({});
@@ -46,8 +47,15 @@ export default function OnboardingScreen() {
   }
 
   function next() {
-    if (step === 1 && selected.size === 0) return;
+    if (step === 2 && selected.size === 0) return;
     setStep(s => s + 1);
+  }
+
+  async function chooseLang(l) {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setSelectedLang(l);
+    await setLang(l);
+    setStep(1);
   }
 
   async function signDeal() {
@@ -72,7 +80,28 @@ export default function OnboardingScreen() {
     router.replace('/(tabs)');
   }
 
+  // Step 0 — Language selection
   if (step === 0) {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.iconRing}>
+          <Ionicons name="language" size={48} color={COLORS.accent} />
+        </View>
+        <Text style={styles.bigTitle}>{t('chooseLang', 'en')}</Text>
+        <Text style={styles.bigTitle}>{t('chooseLang', 'he')}</Text>
+        <TouchableOpacity style={styles.langSelectBtn} onPress={() => chooseLang('he')}>
+          <Text style={styles.langSelectBtnText}>🇮🇱  עברית</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.langSelectBtn} onPress={() => chooseLang('en')}>
+          <Text style={styles.langSelectBtnText}>🇺🇸  English</Text>
+        </TouchableOpacity>
+        <Dots active={0} />
+      </View>
+    );
+  }
+
+  // Step 1 — Welcome
+  if (step === 1) {
     return (
       <View style={styles.screen}>
         <View style={styles.iconRing}>
@@ -80,15 +109,19 @@ export default function OnboardingScreen() {
         </View>
         <Text style={styles.bigTitle}>{t('obTitle', lang)}</Text>
         <Text style={styles.body}>{t('obBody', lang)}</Text>
-        <Dots active={0} />
+        <Dots active={1} />
         <TouchableOpacity style={styles.primaryBtn} onPress={next}>
           <Text style={styles.primaryBtnText}>{t('letsGo', lang)} →</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setStep(0)}>
+          <Text style={styles.backText}>{t('back', lang)}</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
-  if (step === 1) {
+  // Step 2 — Choose exercises
+  if (step === 2) {
     return (
       <ScrollView contentContainerStyle={styles.screen}>
         <View style={styles.iconRing}>
@@ -125,24 +158,32 @@ export default function OnboardingScreen() {
             <Text style={styles.unitLabel}>{EXERCISES[ex].unit}</Text>
           </View>
         ))}
-        <Dots active={1} />
+        <Dots active={2} />
         <TouchableOpacity style={[styles.primaryBtn, selected.size === 0 && { opacity: 0.4 }]} onPress={next}>
           <Text style={styles.primaryBtnText}>{t('next', lang)} →</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setStep(0)}>
+        <TouchableOpacity onPress={() => setStep(1)}>
           <Text style={styles.backText}>{t('back', lang)}</Text>
         </TouchableOpacity>
       </ScrollView>
     );
   }
 
-  if (step === 2) {
+  // Step 3 — Penalty selection
+  if (step === 3) {
     return (
       <ScrollView contentContainerStyle={styles.screen}>
         <View style={styles.iconRing}>
           <Ionicons name="warning" size={48} color={COLORS.accent} />
         </View>
         <Text style={styles.bigTitle}>{t('missedDay', lang)}</Text>
+        <TouchableOpacity
+          style={[styles.penaltyCard, penalty === 'accumulate' && styles.penaltyCardSel]}
+          onPress={() => setPenalty('accumulate')}
+        >
+          <Text style={styles.penTitle}>{t('accumulateTitle', lang)}</Text>
+          <Text style={styles.penDesc}>{t('accumulateDesc', lang)}</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[styles.penaltyCard, penalty === 'double' && styles.penaltyCardSel]}
           onPress={() => setPenalty('double')}
@@ -157,18 +198,18 @@ export default function OnboardingScreen() {
           <Text style={styles.penTitle}>{t('compoundTitle', lang)}</Text>
           <Text style={styles.penDesc}>{t('compoundDesc', lang)}</Text>
         </TouchableOpacity>
-        <Dots active={2} />
+        <Dots active={3} />
         <TouchableOpacity style={styles.primaryBtn} onPress={next}>
           <Text style={styles.primaryBtnText}>{t('next', lang)} →</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setStep(1)}>
+        <TouchableOpacity onPress={() => setStep(2)}>
           <Text style={styles.backText}>{t('back', lang)}</Text>
         </TouchableOpacity>
       </ScrollView>
     );
   }
 
-  // Step 3 — summary + sign
+  // Step 4 — Summary + sign
   return (
     <View style={styles.screen}>
       <View style={styles.iconRing}>
@@ -185,7 +226,7 @@ export default function OnboardingScreen() {
         <View style={styles.summaryRow}>
           <Text style={styles.summaryKey}>{t('penalty', lang)}</Text>
           <Text style={styles.summaryVal}>
-            {penalty === 'double' ? t('double', lang) : `${pctValue}%`}
+            {penalty === 'double' ? t('double', lang) : penalty === 'accumulate' ? t('accumulate', lang) : `${pctValue}%`}
           </Text>
         </View>
         <View style={styles.summaryRow}>
@@ -204,7 +245,7 @@ export default function OnboardingScreen() {
 function Dots({ active }) {
   return (
     <View style={styles.dots}>
-      {[0, 1, 2, 3].map(i => (
+      {[0, 1, 2, 3, 4].map(i => (
         <View key={i} style={[styles.dot, i === active && styles.dotActive]} />
       ))}
     </View>
@@ -234,6 +275,12 @@ const styles = StyleSheet.create({
   },
   primaryBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
   backText: { color: COLORS.accent, fontSize: 16, paddingVertical: 12 },
+  langSelectBtn: {
+    width: '100%', backgroundColor: COLORS.bg2, borderRadius: 16,
+    paddingVertical: 20, alignItems: 'center',
+    borderWidth: 2, borderColor: 'transparent',
+  },
+  langSelectBtnText: { fontSize: 22, fontWeight: '600', color: COLORS.label },
   exerciseRow: { flexDirection: 'row', gap: 8, width: '100%' },
   exerciseCard: {
     flex: 1, backgroundColor: COLORS.bg2, borderWidth: 2, borderColor: 'transparent',

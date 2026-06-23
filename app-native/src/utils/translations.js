@@ -42,6 +42,10 @@ const T = {
     days: 'days',
     best: 'Best',
     completionRate: 'Completion',
+    chooseLang: 'Choose Language',
+    accumulateTitle: 'Simple Carry-Over',
+    accumulateDesc: 'Missed reps simply add to tomorrow. Miss 25 — owe 25.',
+    accumulate: 'Carry-Over',
   },
   he: {
     appTitle: 'דיל כושר',
@@ -86,6 +90,10 @@ const T = {
     days: 'ימים',
     best: 'שיא',
     completionRate: 'השלמה',
+    chooseLang: 'בחר שפה',
+    accumulateTitle: 'צבירה פשוטה',
+    accumulateDesc: 'חזרות שהוחמצו פשוט מתווספות למחר. פספסת 25 — חייב 25.',
+    accumulate: 'צבירה',
   }
 };
 

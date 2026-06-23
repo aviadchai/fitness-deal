@@ -22,6 +22,7 @@
   --ring1:#FF6B00;--ring2:#FF4D8C;--ring3:#4DA6FF;
   --card-bg:linear-gradient(145deg,#1A1A20,#111116);--card-border:rgba(255,255,255,0.07);
   --safe-top:env(safe-area-inset-top);--safe-bottom:env(safe-area-inset-bottom);
+  --safe-left:env(safe-area-inset-left);--safe-right:env(safe-area-inset-right);
 }
 body.light-mode{
   --bg:#F2F2F7;--bg2:#FFFFFF;--bg3:#E8E8EF;--bg4:#D4D4DC;
@@ -33,8 +34,9 @@ body.light-mode{
   --card-bg:linear-gradient(145deg,#FFFFFF,#F8F8FC);--card-border:rgba(0,0,0,0.08);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--label);overflow:hidden;font-variant-numeric:tabular-nums;}
-#app{display:flex;flex-direction:column;height:100dvh;position:relative;}
+html{position:fixed;width:100%;height:100%;overflow:hidden;background:var(--bg);}
+body{width:100%;height:100%;height:100dvh;font-family:Roboto,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--label);overflow:hidden;font-variant-numeric:tabular-nums;-webkit-text-size-adjust:100%;touch-action:manipulation;}
+#app{display:flex;flex-direction:column;height:100dvh;height:100%;position:relative;}
 
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.22s ease;overflow:hidden;}
 .screen.active{opacity:1;pointer-events:all;}
@@ -212,25 +214,30 @@ body.light-mode .s-header { background: rgba(242,242,247,0.92); border-bottom: 1
 .cal-body{flex:1;overflow-y:auto;padding:16px 20px calc(90px + var(--safe-bottom));}
 .cal-legend{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--label2);}
-.legend-dot{width:10px;height:10px;border-radius:4px;}
-.ld-complete{background:var(--accent);}
-.ld-partial{background:var(--orange);}
-.ld-missed{background:var(--red);}
-.ld-today{background:var(--accent);}
+.legend-dot{width:14px;height:14px;border-radius:50%;position:relative;overflow:hidden;background:var(--bg3);border:1.5px solid var(--sep);}
+.legend-dot::after{content:'';position:absolute;bottom:0;left:0;right:0;border-radius:0 0 50% 50%;}
+.ld-complete::after{height:100%;background:linear-gradient(to top,#CC5500,var(--accent));}
+.ld-partial::after{height:50%;background:linear-gradient(to top,#2A6BBF,#4DA6FF);}
+.ld-missed{opacity:0.5;}
+.ld-today{border-color:var(--accent);box-shadow:0 0 6px rgba(255,107,0,0.4);}
+.ld-today::after{height:40%;background:linear-gradient(to top,#CC5500,var(--accent));}
 .ld-none{background:var(--bg4);}
 .cal-month{margin-bottom:32px;}
 .cal-month-label{font-size:18px;font-weight:600;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.05em;}
 .cal-week-labels{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
 .cal-week-labels span{font-size:11px;color:var(--label3);text-align:center;font-weight:600;text-transform:uppercase;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-cell{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--label3);position:relative;border:2px solid transparent;overflow:visible;}
-.cal-extra{position:absolute;bottom:-2px;right:-2px;font-size:8px;background:var(--accent);color:var(--accent-dark);border-radius:4px;padding:0 3px;font-weight:700;z-index:1;}
-.cal-cell.complete{border-color:transparent;color:var(--accent-dark);background:var(--accent);}
-.cal-cell.partial{border-color:var(--accent);color:var(--accent);background:transparent;}
-.cal-cell.missed{border-color:transparent;color:var(--label3);background:var(--bg3);opacity:0.6;}
-.cal-cell.today{border-color:transparent;background:var(--accent);color:var(--accent-dark);font-weight:700;box-shadow:0 0 16px rgba(255,107,0,0.4);}
-.cal-cell.future{background:var(--bg2);opacity:0.2;}
-.cal-cell.empty{background:transparent;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.cal-cell{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--label2);position:relative;border:2px solid var(--sep);overflow:hidden;background:var(--bg3);transition:all 0.3s;}
+.cal-liquid{position:absolute;bottom:0;left:0;right:0;z-index:0;transition:height 0.6s cubic-bezier(0.4,0,0.2,1);opacity:0.85;}
+.cal-liquid::before{content:'';position:absolute;top:-3px;left:-10%;width:120%;height:7px;border-radius:50%;background:inherit;filter:brightness(1.2);animation:calWave 3s ease-in-out infinite alternate;}
+@keyframes calWave{0%{transform:translateX(-4%) scaleY(0.8);}100%{transform:translateX(4%) scaleY(1.2);}}
+.cal-date{position:relative;z-index:1;text-shadow:0 1px 3px rgba(0,0,0,0.5);}
+.cal-cell.complete{border-color:rgba(255,107,0,0.4);color:#fff;}
+.cal-cell.partial{border-color:rgba(77,166,255,0.3);color:#fff;}
+.cal-cell.missed{border-color:transparent;color:var(--label3);opacity:0.6;}
+.cal-cell.today{border-color:var(--accent);color:#fff;font-weight:800;box-shadow:0 0 12px rgba(255,107,0,0.5);}
+.cal-cell.future{background:var(--bg2);border-color:transparent;opacity:0.2;}
+.cal-cell.empty{background:transparent;border-color:transparent;}
 .cal-cell:not(.future):not(.empty){cursor:pointer;}
 
 /* Calendar popup */
@@ -385,10 +392,17 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:999;}
 .fact-text{font-size:15px;color:var(--label);line-height:1.6;}
 
 
-/* Calendar debt indicators */
-.cal-badge{position:absolute;top:-4px;right:-6px;font-size:7px;font-weight:700;min-width:14px;height:14px;border-radius:7px;display:flex;align-items:center;justify-content:center;padding:0 3px;line-height:1;}
-.cal-badge.done{background:#4DA6FF;color:#fff;}
-.cal-badge.partial{background:#FF4D8C;color:#fff;}
+/* Calendar liquid fill colors */
+.cal-liquid.liq-complete{background:linear-gradient(to top,#CC5500,var(--accent));}
+.cal-liquid.liq-partial{background:linear-gradient(to top,#2A6BBF,#4DA6FF);}
+.cal-liquid.liq-today{background:linear-gradient(to top,#CC5500,var(--accent));}
+.cal-liquid.liq-missed{background:var(--bg4);opacity:0.5;}
+body.light-mode .cal-cell{background:var(--bg3);border-color:rgba(0,0,0,0.06);}
+body.light-mode .cal-cell.complete{border-color:rgba(255,107,0,0.3);}
+body.light-mode .cal-cell.partial{border-color:rgba(77,166,255,0.2);}
+body.light-mode .cal-cell.today{border-color:var(--accent);box-shadow:0 0 12px rgba(255,85,0,0.3);}
+body.light-mode .cal-date{text-shadow:0 1px 2px rgba(0,0,0,0.3);}
+body.light-mode .cal-cell.future .cal-date,body.light-mode .cal-cell.missed .cal-date{text-shadow:none;color:var(--label3);}
 .cal-legend-bottom{display:flex;gap:16px;justify-content:center;padding:12px 0;font-size:11px;color:var(--label2);}
 .cal-legend-bottom span{display:flex;align-items:center;gap:4px;}
 
@@ -1560,7 +1574,14 @@ function renderCalendar() {
   const container = document.getElementById('cal-container');
   const deals = activeDeals();
 
-  document.getElementById('cal-legend').innerHTML = '';
+  const legendEl = document.getElementById('cal-legend');
+  const isHe = lang() === 'he';
+  legendEl.innerHTML = `
+    <div class="legend-item"><div class="legend-dot ld-complete"></div>${isHe ? 'הושלם' : 'Done'}</div>
+    <div class="legend-item"><div class="legend-dot ld-partial"></div>${isHe ? 'חלקי' : 'Partial'}</div>
+    <div class="legend-item"><div class="legend-dot ld-missed"></div>${isHe ? 'לא בוצע' : 'Missed'}</div>
+    <div class="legend-item"><div class="legend-dot ld-today"></div>${isHe ? 'היום' : 'Today'}</div>
+  `;
 
   if (deals.length === 0) {
     tabsEl.innerHTML = '';
@@ -1615,23 +1636,19 @@ function renderCalendar() {
             'today': 'today', 'today-partial': 'today',
             'future': 'future', 'no-deal': 'future'
           }[s] || '';
-          const isTime = EXERCISES[deal.exercise].unit === 'sec';
-          let badge = '';
-          if (logged > 0) {
-            let badgeText;
-            if (isTime) {
-              const mm = Math.floor(logged / 60), ss = logged % 60;
-              badgeText = mm > 0 ? `${mm}:${String(ss).padStart(2,'0')}` : `${ss}s`;
-            } else {
-              badgeText = logged;
-            }
-            const badgeCls = logged >= deal.dailyTarget ? 'cal-badge done' : 'cal-badge partial';
-            badge = `<span class="${badgeCls}">${badgeText}</span>`;
-          }
           const isFuture = s === 'future' || s === 'no-deal';
           const clickable = !isFuture;
           const clickAttr = clickable ? ` onclick="showCalDay('${d}')"` : '';
-          return `<div class="cal-cell ${cls}" title="${d}: ${logged}"${clickAttr}>${dayNum}${badge}</div>`;
+          let liquid = '';
+          if (!isFuture && s !== 'no-deal') {
+            const pct = deal.dailyTarget > 0 ? Math.min(logged / deal.dailyTarget, 1) : 0;
+            const fillH = s === 'missed' && logged === 0 ? 0 : Math.max(Math.round(pct * 100), logged > 0 ? 12 : 0);
+            if (fillH > 0) {
+              const liqCls = logged >= deal.dailyTarget ? 'liq-complete' : (s === 'today' || s === 'today-partial') ? 'liq-today' : 'liq-partial';
+              liquid = `<div class="cal-liquid ${liqCls}" style="height:${fillH}%"></div>`;
+            }
+          }
+          return `<div class="cal-cell ${cls}" title="${d}: ${logged}"${clickAttr}>${liquid}<span class="cal-date">${dayNum}</span></div>`;
         }).join('')}
       </div>
     </div>`;

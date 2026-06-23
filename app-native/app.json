@@ -6,23 +6,9 @@
     "orientation": "portrait",
     "scheme": "fitness-deal",
     "userInterfaceStyle": "dark",
-    "splash": {
-      "backgroundColor": "#0A0E1A"
-    },
-    "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.aviadchai.fitnessdeal"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#0A0E1A"
-      },
-      "package": "com.aviadchai.fitnessdeal"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-status-bar",
-      "expo-asset"
-    ]
+    "splash": { "backgroundColor": "#0A0A0F" },
+    "ios": { "supportsTablet": false, "bundleIdentifier": "com.aviadchai.fitnessdeal" },
+    "android": { "adaptiveIcon": { "backgroundColor": "#0A0A0F" }, "package": "com.aviadchai.fitnessdeal" },
+    "plugins": ["expo-router"]
   }
 }

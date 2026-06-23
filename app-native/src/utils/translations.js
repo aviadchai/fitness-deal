@@ -42,11 +42,15 @@ const T = {
     days: 'days',
     best: 'Best',
     completionRate: 'Completion',
+    chooseLang: 'Choose Language',
+    accumulateTitle: 'Simple Carry-Over',
+    accumulateDesc: 'Missed reps simply add to tomorrow. Miss 25 — owe 25.',
+    accumulate: 'Carry-Over',
   },
   he: {
     appTitle: 'דיל כושר',
     home: 'בית', calendar: 'יומן', stats: 'סטטיסטיקות', settings: 'הגדרות',
-    letsGo: 'יאללה', next: 'הבא', back: 'חזור',
+    letsGo: 'קדימה', next: 'הבא', back: 'חזור',
     obTitle: 'דיל כושר',
     obBody: 'אתה עושה דיל עם עצמך — התחייבות יומית להתאמן.\n\nיום שהוחמץ לא נעלם. הוא הופך לחוב שגדל.\n\nכי התחייבות אמיתית לא מתאפסת.',
     chooseChallenges: 'בחר אתגרים', pickOne: 'אפשר לבחור יותר מאחד',
@@ -86,6 +90,10 @@ const T = {
     days: 'ימים',
     best: 'שיא',
     completionRate: 'השלמה',
+    chooseLang: 'בחר שפה',
+    accumulateTitle: 'צבירה פשוטה',
+    accumulateDesc: 'חזרות שהוחמצו פשוט מתווספות למחר. פספסת 25 — חייב 25.',
+    accumulate: 'צבירה',
   }
 };
 

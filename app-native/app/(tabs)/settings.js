@@ -69,11 +69,11 @@ export default function SettingsScreen() {
   const canAddMore = deals.length < Object.keys(EXERCISES).length;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={[styles.container, { direction: lang === 'he' ? 'rtl' : 'ltr' }]} contentContainerStyle={styles.content}>
       {deals.map(deal => {
         const ex = EXERCISES[deal.exercise];
         const name = exName(deal.exercise, lang);
-        const penStr = deal.penaltyType === 'double' ? t('double', lang) : `${deal.penaltyPercent}%`;
+        const penStr = deal.penaltyType === 'double' ? t('double', lang) : deal.penaltyType === 'accumulate' ? t('accumulate', lang) : `${deal.penaltyPercent}%`;
         return (
           <View key={deal.exercise}>
             <Text style={styles.sectionHdr}>{name}</Text>
@@ -142,7 +142,7 @@ function Row({ label, value, valueColor }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
-  content: { padding: 16, paddingBottom: 40 },
+  content: { padding: 16, paddingBottom: 100 },
   sectionHdr: {
     fontSize: 12, fontWeight: '500', color: COLORS.accent,
     textTransform: 'uppercase', letterSpacing: 0.6,

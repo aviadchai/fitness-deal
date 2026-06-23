@@ -8,8 +8,11 @@ import { getLang } from '../utils/storage';
 import { t } from '../utils/translations';
 import ProgressRing from './ProgressRing';
 
-export default function DealCard({ deal, onLog }) {
+const RING_COLORS = [COLORS.ring1, COLORS.ring2, COLORS.ring3];
+
+export default function DealCard({ deal, onLog, ringIndex = 0 }) {
   const lang = getLang();
+  const rtl = lang === 'he';
   const ex = EXERCISES[deal.exercise];
   const name = exName(deal.exercise, lang);
   const target = deal.dailyTarget;
@@ -21,7 +24,8 @@ export default function DealCard({ deal, onLog }) {
   const total = target + debt;
   const pct = total > 0 ? Math.min(1, logged / total) : 1;
 
-  const ringColor = done ? COLORS.green : debt > 0 ? COLORS.orange : COLORS.accent;
+  const dealRingColor = RING_COLORS[ringIndex % RING_COLORS.length];
+  const ringColor = done ? COLORS.green : debt > 0 ? COLORS.accent : dealRingColor;
 
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
   useEffect(() => {
@@ -30,11 +34,17 @@ export default function DealCard({ deal, onLog }) {
   }, []);
 
   return (
-    <View style={styles.card}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{name}</Text>
+    <View style={[styles.card, rtl && { direction: 'rtl' }]}>
+      <View style={[styles.header, rtl && { flexDirection: 'row-reverse' }]}>
+        <View style={[styles.headerLeft, rtl && { flexDirection: 'row-reverse' }]}>
+          <View style={[styles.ringDot, { backgroundColor: dealRingColor }]} />
+          <Text style={[styles.title, rtl && { writingDirection: 'rtl', textAlign: 'right' }]}>{name}</Text>
+        </View>
         {streak > 1 && (
-          <Text style={styles.streak}>{streak} {t('days', lang)} {'🔥'}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Text style={styles.streak}>{streak} {t('days', lang)}</Text>
+            <Ionicons name="flame" size={14} color={COLORS.orange} />
+          </View>
         )}
       </View>
 
@@ -60,7 +70,7 @@ export default function DealCard({ deal, onLog }) {
         </View>
         {debt > 0 && (
           <View style={styles.chip}>
-            <Text style={[styles.chipVal, { color: COLORS.orange }]}>{debt}</Text>
+            <Text style={[styles.chipVal, { color: COLORS.accent }]}>{debt}</Text>
             <Text style={styles.chipKey}>{t('debt', lang)}</Text>
           </View>
         )}
@@ -87,6 +97,8 @@ const styles = StyleSheet.create({
     padding: 22,
     alignItems: 'center',
     gap: 16,
+    borderWidth: 1,
+    borderColor: COLORS.sep,
   },
   header: {
     flexDirection: 'row',
@@ -94,12 +106,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  ringDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
   title: { fontSize: 16, fontWeight: '600', color: COLORS.label },
   streak: { fontSize: 12, color: COLORS.label2 },
   countdown: { fontSize: 12, color: COLORS.label3 },
   chips: { flexDirection: 'row', gap: 12 },
   chip: {
-    backgroundColor: COLORS.bg2,
+    backgroundColor: COLORS.bg3,
     borderRadius: 12,
     paddingVertical: 10,
     paddingHorizontal: 18,

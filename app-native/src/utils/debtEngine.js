@@ -32,7 +32,13 @@ function processDealDebt(deal) {
       const logged = deal.logs[cursor] || 0;
       const missed = Math.max(0, dailyTarget - logged);
       if (missed > 0) {
-        deal.debt += penaltyType === 'double' ? missed * 2 : missed;
+        if (penaltyType === 'double') {
+          deal.debt += missed * 2;
+        } else if (penaltyType === 'accumulate') {
+          deal.debt += missed;
+        } else {
+          deal.debt += missed;
+        }
       }
     }
     cursor = addDays(cursor, 1);

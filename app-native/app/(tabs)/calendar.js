@@ -38,10 +38,10 @@ export default function CalendarScreen() {
     months[m].push(d);
   });
 
-  const isTime = EXERCISES[deal.exercise].unit === 'sec';
+  const target = deal.dailyTarget;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={[styles.container, { direction: lang === 'he' ? 'rtl' : 'ltr' }]} contentContainerStyle={styles.content}>
       {deals.length > 1 && (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabs}>
           {deals.map(d => {
@@ -60,20 +60,6 @@ export default function CalendarScreen() {
           })}
         </ScrollView>
       )}
-
-      <View style={styles.legend}>
-        {[
-          [t('done', lang), COLORS.green],
-          [t('partial', lang), COLORS.orange],
-          [t('missed', lang), COLORS.red],
-          [t('today', lang), COLORS.accent],
-        ].map(([label, color]) => (
-          <View key={label} style={styles.legendItem}>
-            <View style={[styles.legendDot, { backgroundColor: color }]} />
-            <Text style={styles.legendText}>{label}</Text>
-          </View>
-        ))}
-      </View>
 
       {Object.entries(months).reverse().map(([m, mDays]) => {
         const mLabel = new Date(mDays[0] + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
@@ -94,39 +80,60 @@ export default function CalendarScreen() {
             </View>
             <View style={styles.grid}>
               {cells.map((d, i) => {
-                if (!d) return <View key={i} style={styles.cell} />;
+                if (!d) return <View key={i} style={styles.cellOuter} />;
                 const s = getDealDayStatus(deal, d);
                 const logged = (deal.logs && deal.logs[d]) || 0;
                 const dayNum = parseInt(d.substring(8));
+                const fillPct = target > 0 ? Math.min(1, logged / target) : 0;
+                const isToday = s === 'today' || s === 'today-partial';
+                const isComplete = s === 'complete' || (isToday && logged >= target);
+                const isMissed = s === 'missed';
+                const isFuture = s === 'future' || s === 'no-deal';
 
-                let label;
-                if (logged > 0 && isTime) {
-                  const mm = Math.floor(logged / 60), ss = logged % 60;
-                  label = mm > 0 ? `${mm}:${String(ss).padStart(2, '0')}` : `${ss}s`;
-                } else if (logged > 0) {
-                  label = String(logged);
-                } else {
-                  label = String(dayNum);
+                // Determine fill color and height
+                let fillColor = 'transparent';
+                let fillHeight = '0%';
+                if (isComplete) {
+                  fillColor = COLORS.ring1;
+                  fillHeight = '100%';
+                } else if (fillPct > 0) {
+                  fillColor = COLORS.ring3;
+                  fillHeight = `${Math.round(fillPct * 100)}%`;
+                } else if (isMissed) {
+                  fillColor = COLORS.bg4;
+                  fillHeight = '100%';
                 }
 
-                const cellStyle = {
-                  complete: { borderColor: COLORS.accent, backgroundColor: 'rgba(59,130,246,0.1)' },
-                  partial: { borderColor: COLORS.orange, backgroundColor: 'rgba(245,158,11,0.08)' },
-                  missed: { backgroundColor: COLORS.bg3 },
-                  today: { borderColor: COLORS.accent, backgroundColor: COLORS.accent },
-                  'today-partial': { borderColor: COLORS.accent, backgroundColor: COLORS.accent },
-                  future: { backgroundColor: COLORS.bg2, opacity: 0.3 },
-                  'no-deal': { backgroundColor: COLORS.bg2, opacity: 0.3 },
-                }[s] || {};
-
-                const textColor = s === 'today' || s === 'today-partial' ? '#fff'
-                  : s === 'complete' ? COLORS.accent
-                  : s === 'partial' ? COLORS.orange
-                  : COLORS.label3;
+                const textColor = isComplete ? '#fff'
+                  : fillPct > 0.5 ? '#fff'
+                  : isFuture ? COLORS.label3
+                  : isMissed ? COLORS.label3
+                  : COLORS.label2;
 
                 return (
-                  <View key={i} style={[styles.cell, styles.cellBorder, cellStyle]}>
-                    <Text style={[styles.cellText, { color: textColor }]}>{label}</Text>
+                  <View key={i} style={styles.cellOuter}>
+                    <View style={[
+                      styles.cell,
+                      isFuture && styles.cellFuture,
+                      isToday && styles.cellToday,
+                    ]}>
+                      {/* Liquid fill */}
+                      {fillHeight !== '0%' && (
+                        <View
+                          style={[
+                            styles.cellFill,
+                            {
+                              height: fillHeight,
+                              backgroundColor: fillColor,
+                              opacity: isMissed ? 0.4 : 0.85,
+                            },
+                          ]}
+                        />
+                      )}
+                      <Text style={[styles.cellText, { color: textColor, zIndex: 1 }]}>
+                        {dayNum}
+                      </Text>
+                    </View>
                   </View>
                 );
               })}
@@ -140,7 +147,7 @@ export default function CalendarScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
-  content: { padding: 16, paddingBottom: 40 },
+  content: { padding: 16, paddingBottom: 100 },
   tabs: { marginBottom: 16, flexGrow: 0 },
   tab: {
     backgroundColor: COLORS.bg2, borderRadius: 50,
@@ -150,16 +157,37 @@ const styles = StyleSheet.create({
   tabActive: { borderColor: COLORS.accent, backgroundColor: COLORS.accentCont },
   tabText: { fontSize: 14, fontWeight: '500', color: COLORS.label2 },
   tabTextActive: { color: COLORS.label },
-  legend: { flexDirection: 'row', gap: 14, marginBottom: 20, flexWrap: 'wrap' },
-  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  legendDot: { width: 10, height: 10, borderRadius: 4 },
-  legendText: { fontSize: 12, color: COLORS.label2 },
   month: { marginBottom: 32 },
   monthLabel: { fontSize: 18, fontWeight: '600', color: COLORS.label, marginBottom: 14, letterSpacing: 0.5 },
   weekLabels: { flexDirection: 'row', marginBottom: 8 },
   weekDay: { flex: 1, fontSize: 11, color: COLORS.label3, textAlign: 'center', fontWeight: '600' },
   grid: { flexDirection: 'row', flexWrap: 'wrap' },
-  cell: { width: '14.28%', aspectRatio: 1, alignItems: 'center', justifyContent: 'center' },
-  cellBorder: { borderRadius: 100, borderWidth: 2, borderColor: 'transparent', margin: 1 },
-  cellText: { fontSize: 11, fontWeight: '600' },
+  cellOuter: { width: '14.28%', aspectRatio: 1, padding: 2, alignItems: 'center', justifyContent: 'center' },
+  cell: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 100,
+    overflow: 'hidden',
+    backgroundColor: COLORS.bg2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cellFuture: { backgroundColor: COLORS.bg2, opacity: 0.3 },
+  cellToday: {
+    borderWidth: 2,
+    borderColor: COLORS.accent,
+    shadowColor: COLORS.accent,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  cellFill: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderRadius: 0,
+  },
+  cellText: { fontSize: 11, fontWeight: '600', position: 'absolute' },
 });

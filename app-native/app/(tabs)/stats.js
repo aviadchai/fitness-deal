@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFocusEffect } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../src/theme';
 import { activeDeals, getLang } from '../../src/utils/storage';
 import { EXERCISES, exName } from '../../src/utils/exercises';
@@ -40,9 +41,10 @@ export default function StatsScreen() {
   const totalCal = Math.round(totalReps * (ex.calPerUnit || 0));
   const todayCal = Math.round(((deal.logs && deal.logs[tod]) || 0) * (ex.calPerUnit || 0));
 
-  const heroColor = completionRate >= 80 ? COLORS.green : completionRate >= 40 ? COLORS.orange : COLORS.accent;
+  const heroColor = completionRate >= 80 ? COLORS.green : completionRate >= 40 ? COLORS.accent : COLORS.ring3;
   const streakPct = bestStreak > 0 ? Math.min(100, Math.round(streak / bestStreak * 100)) : (streak > 0 ? 100 : 0);
-  const fireEmoji = streak >= 3 ? '🔥' : streak >= 1 ? '💪' : '😴';
+  const fireIcon = streak >= 3 ? 'flame' : streak >= 1 ? 'fitness' : 'moon';
+  const fireColor = streak >= 3 ? COLORS.orange : streak >= 1 ? COLORS.accent : COLORS.label3;
 
   const last30 = [];
   for (let i = 29; i >= 0; i--) last30.push(addDays(tod, -i));
@@ -51,7 +53,7 @@ export default function StatsScreen() {
   const muscles = (ex.muscles || '').split(',').map(m => m.trim());
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={[styles.container, { direction: lang === 'he' ? 'rtl' : 'ltr' }]} contentContainerStyle={styles.content}>
       {deals.length > 1 && (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabs}>
           {deals.map(d => (
@@ -97,13 +99,13 @@ export default function StatsScreen() {
       {/* Streak */}
       <View style={styles.card}>
         <View style={styles.streakRow}>
-          <Text style={styles.streakFire}>{fireEmoji}</Text>
+          <Ionicons name={fireIcon} size={36} color={fireColor} />
           <View style={styles.streakInfo}>
             <View style={styles.streakTop}>
               <Text style={styles.streakNum}>{streak}</Text>
               <Text style={styles.streakLbl}>{t('dayStreak', lang)}</Text>
             </View>
-            <View style={styles.barBg}>
+            <View style={[styles.barBg, { direction: 'ltr' }]}>
               <View style={[styles.barFill, { width: `${streakPct}%` }]} />
             </View>
             <Text style={styles.streakBest}>{t('best', lang)}: {bestStreak} {t('days', lang)}</Text>
@@ -114,11 +116,11 @@ export default function StatsScreen() {
       {/* 30-day chart */}
       <View style={styles.card}>
         <Text style={styles.sectionLabel}>{t('progress30', lang)}</Text>
-        <View style={styles.chart}>
+        <View style={[styles.chart, { direction: 'ltr' }]}>
           {last30.map((d, i) => {
             const v = (deal.logs && deal.logs[d]) || 0;
             const h = max30 > 0 ? Math.max(4, Math.round((v / max30) * 100)) : 4;
-            const color = v >= target ? COLORS.green : v > 0 ? COLORS.orange : COLORS.bg4;
+            const color = v >= target ? COLORS.green : v > 0 ? COLORS.accent : COLORS.bg4;
             return (
               <View key={i} style={styles.barWrap}>
                 <View style={[styles.bar, { height: `${h}%`, backgroundColor: color }]} />
@@ -134,7 +136,7 @@ export default function StatsScreen() {
         <View style={styles.musclesWrap}>
           {muscles.map(m => (
             <View key={m} style={styles.muscleTag}>
-              <Text style={styles.muscleText}>{'💪'} {m}</Text>
+              <Text style={styles.muscleText}>{m}</Text>
             </View>
           ))}
         </View>
@@ -153,7 +155,7 @@ export default function StatsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
-  content: { padding: 20, gap: 20, paddingBottom: 40 },
+  content: { padding: 20, gap: 20, paddingBottom: 100 },
   tabs: { flexGrow: 0 },
   tab: {
     backgroundColor: COLORS.bg2, borderRadius: 50,
@@ -163,14 +165,14 @@ const styles = StyleSheet.create({
   tabActive: { borderColor: COLORS.accent, backgroundColor: COLORS.accentCont },
   tabText: { fontSize: 14, fontWeight: '500', color: COLORS.label2 },
   tabTextActive: { color: COLORS.label },
-  card: { backgroundColor: COLORS.bg2, borderRadius: 20, padding: 28 },
+  card: { backgroundColor: COLORS.bg2, borderRadius: 20, padding: 28, borderWidth: 1, borderColor: COLORS.sep },
   heroRow: { flexDirection: 'row', alignItems: 'center', gap: 28 },
   heroInfo: { flex: 1, gap: 16 },
   heroStat: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
   heroNum: { fontSize: 28, fontWeight: '700', color: COLORS.label, letterSpacing: -1 },
   heroUnit: { fontSize: 13, color: COLORS.label2 },
   streakRow: { flexDirection: 'row', alignItems: 'center', gap: 22 },
-  streakFire: { fontSize: 36 },
+  streakIcon: { width: 36, alignItems: 'center' },
   streakInfo: { flex: 1, gap: 8 },
   streakTop: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
   streakNum: { fontSize: 28, fontWeight: '700', color: COLORS.label, letterSpacing: -1 },

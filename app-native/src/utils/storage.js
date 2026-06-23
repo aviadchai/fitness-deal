@@ -53,7 +53,7 @@ function migrateData() {
     delete DATA.debtOverCap;
   }
   if (!DATA.deals) DATA.deals = [];
-  if (!DATA.settings) DATA.settings = { notificationsEnabled: false, reminderHour: 20, lang: 'en' };
+  if (!DATA.settings) DATA.settings = { notificationsEnabled: false, reminderHour: 20, lang: 'he', theme: 'system' };
 }
 
 export function getData() { return DATA; }
@@ -74,5 +74,15 @@ export function getLang() {
 export async function setLang(lang) {
   if (!DATA.settings) DATA.settings = {};
   DATA.settings.lang = lang;
+  await save();
+}
+
+export function getTheme() {
+  return (DATA.settings && DATA.settings.theme) || 'system';
+}
+
+export async function setThemeMode(mode) {
+  if (!DATA.settings) DATA.settings = {};
+  DATA.settings.theme = mode;
   await save();
 }

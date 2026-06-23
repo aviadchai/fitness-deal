@@ -1,13 +1,13 @@
-import { useEffect, useState, useCallback } from 'react';
-import { Stack } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator } from 'react-native';
-import { COLORS } from '../src/theme';
+import { ThemeProvider, useTheme } from '../src/ThemeContext';
 import { load, activeDeals } from '../src/utils/storage';
 import { processDebt } from '../src/utils/debtEngine';
-import { useRouter } from 'expo-router';
 
-export default function RootLayout() {
+function RootStack() {
+  const { C, isDark } = useTheme();
   const [ready, setReady] = useState(false);
   const [hasDeals, setHasDeals] = useState(false);
   const router = useRouter();
@@ -30,21 +30,29 @@ export default function RootLayout() {
 
   if (!ready) {
     return (
-      <View style={{ flex: 1, backgroundColor: COLORS.bg, alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator size="large" color={COLORS.accent} />
-        <StatusBar style="light" />
+      <View style={{ flex: 1, backgroundColor: C.bg, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator size="large" color={C.accent} />
+        <StatusBar style={isDark ? 'light' : 'dark'} />
       </View>
     );
   }
 
   return (
     <>
-      <StatusBar style="light" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: COLORS.bg } }}>
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg } }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
         <Stack.Screen name="log" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
       </Stack>
     </>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <RootStack />
+    </ThemeProvider>
   );
 }

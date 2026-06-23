@@ -3,21 +3,21 @@ import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle } from 'react-native-svg';
-import { COLORS } from '../../src/theme';
-import { activeDeals, getLang } from '../../src/utils/storage';
+import { useTheme } from '../../src/ThemeContext';
+import { activeDeals } from '../../src/utils/storage';
 import { processDebt, dealLogged, dealDue } from '../../src/utils/debtEngine';
 import { t } from '../../src/utils/translations';
 import DealCard from '../../src/components/DealCard';
 
-const RING_COLORS = [COLORS.ring1, COLORS.ring2, COLORS.ring3];
-
-function ConcentricRings({ deals }) {
+function ConcentricRings({ deals, C }) {
   const size = 220;
   const baseStroke = 14;
   const gap = 6;
 
   let totalLogged = 0;
   let totalTarget = 0;
+
+  const ringColors = [C.ring1, C.ring2, C.ring3];
 
   const rings = deals.slice(0, 3).map((deal, i) => {
     const logged = dealLogged(deal);
@@ -28,7 +28,7 @@ function ConcentricRings({ deals }) {
     const radius = (size - baseStroke) / 2 - i * (baseStroke + gap);
     const circumference = 2 * Math.PI * radius;
     const offset = circumference * (1 - pct);
-    return { radius, circumference, offset, color: RING_COLORS[i] || COLORS.accent };
+    return { radius, circumference, offset, color: ringColors[i] || C.accent };
   });
 
   return (
@@ -38,7 +38,7 @@ function ConcentricRings({ deals }) {
           <React.Fragment key={i}>
             <Circle
               cx={size / 2} cy={size / 2} r={ring.radius}
-              fill="none" stroke={COLORS.bg3} strokeWidth={baseStroke}
+              fill="none" stroke={C.bg3} strokeWidth={baseStroke}
               strokeOpacity={0.4}
             />
             <Circle
@@ -52,8 +52,8 @@ function ConcentricRings({ deals }) {
         ))}
       </Svg>
       <View style={ringStyles.center}>
-        <Text style={ringStyles.centerNum}>{totalLogged}</Text>
-        <Text style={ringStyles.centerSlash}>/ {totalTarget}</Text>
+        <Text style={[ringStyles.centerNum, { color: C.label }]}>{totalLogged}</Text>
+        <Text style={[ringStyles.centerSlash, { color: C.label2 }]}>/ {totalTarget}</Text>
       </View>
     </View>
   );
@@ -62,14 +62,14 @@ function ConcentricRings({ deals }) {
 const ringStyles = StyleSheet.create({
   container: { alignItems: 'center', justifyContent: 'center', marginBottom: 8 },
   center: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },
-  centerNum: { fontSize: 36, fontWeight: '700', color: COLORS.label, letterSpacing: -2 },
-  centerSlash: { fontSize: 14, color: COLORS.label2, marginTop: 2 },
+  centerNum: { fontSize: 36, fontWeight: '700', letterSpacing: -2 },
+  centerSlash: { fontSize: 14, marginTop: 2 },
 });
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { C, lang, rtl } = useTheme();
   const [deals, setDeals] = useState([]);
-  const lang = getLang();
 
   useFocusEffect(
     useCallback(() => {
@@ -82,18 +82,21 @@ export default function HomeScreen() {
 
   if (deals.length === 0) {
     return (
-      <View style={styles.empty}>
-        <View style={styles.emptyIcon}>
-          <Ionicons name="alert-circle-outline" size={40} color={COLORS.accent} />
+      <View style={[styles.empty, { backgroundColor: C.bg }]}>
+        <View style={[styles.emptyIcon, { backgroundColor: C.accentCont }]}>
+          <Ionicons name="alert-circle-outline" size={40} color={C.accent} />
         </View>
-        <Text style={styles.emptyText}>{t('noActiveDeal', lang)}</Text>
+        <Text style={[styles.emptyText, { color: C.label2 }]}>{t('noActiveDeal', lang)}</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView style={[styles.scroll, { direction: lang === 'he' ? 'rtl' : 'ltr' }]} contentContainerStyle={styles.content}>
-      <ConcentricRings deals={deals} />
+    <ScrollView
+      style={[styles.scroll, { backgroundColor: C.bg, direction: rtl ? 'rtl' : 'ltr' }]}
+      contentContainerStyle={styles.content}
+    >
+      <ConcentricRings deals={deals} C={C} />
       {deals.map((deal, index) => (
         <DealCard
           key={deal.exercise}
@@ -107,13 +110,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  scroll: { flex: 1, backgroundColor: COLORS.bg },
+  scroll: { flex: 1 },
   content: { padding: 20, gap: 20, paddingBottom: 100 },
-  empty: { flex: 1, backgroundColor: COLORS.bg, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 32 },
+  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 32 },
   emptyIcon: {
     width: 80, height: 80, borderRadius: 40,
-    backgroundColor: COLORS.accentCont,
     alignItems: 'center', justifyContent: 'center',
   },
-  emptyText: { fontSize: 16, color: COLORS.label2, textAlign: 'center', lineHeight: 24 },
+  emptyText: { fontSize: 16, textAlign: 'center', lineHeight: 24 },
 });

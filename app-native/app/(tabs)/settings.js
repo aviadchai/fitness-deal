@@ -1,15 +1,16 @@
 import { useState, useCallback } from 'react';
 import { View, ScrollView, Text, TouchableOpacity, Switch, Alert, StyleSheet } from 'react-native';
 import { useFocusEffect, useRouter } from 'expo-router';
-import { COLORS } from '../../src/theme';
-import { getData, save, activeDeals, getLang, setLang } from '../../src/utils/storage';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../../src/ThemeContext';
+import { getData, save, activeDeals, setLang } from '../../src/utils/storage';
 import { EXERCISES, exName } from '../../src/utils/exercises';
 import { t } from '../../src/utils/translations';
 
 export default function SettingsScreen() {
+  const { C, isDark, lang, toggleTheme, refresh } = useTheme();
   const [, setRefresh] = useState(0);
   const router = useRouter();
-  const lang = getLang();
   const DATA = getData();
   const deals = activeDeals();
   const s = DATA.settings || {};
@@ -25,7 +26,7 @@ export default function SettingsScreen() {
 
   async function handleToggleLang() {
     await setLang(lang === 'en' ? 'he' : 'en');
-    setRefresh(n => n + 1);
+    refresh();
   }
 
   function removeDeal(exercise) {
@@ -69,47 +70,65 @@ export default function SettingsScreen() {
   const canAddMore = deals.length < Object.keys(EXERCISES).length;
 
   return (
-    <ScrollView style={[styles.container, { direction: lang === 'he' ? 'rtl' : 'ltr' }]} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: C.bg, direction: lang === 'he' ? 'rtl' : 'ltr' }}
+      contentContainerStyle={styles.content}
+    >
       {deals.map(deal => {
         const ex = EXERCISES[deal.exercise];
         const name = exName(deal.exercise, lang);
         const penStr = deal.penaltyType === 'double' ? t('double', lang) : deal.penaltyType === 'accumulate' ? t('accumulate', lang) : `${deal.penaltyPercent}%`;
         return (
           <View key={deal.exercise}>
-            <Text style={styles.sectionHdr}>{name}</Text>
-            <View style={styles.group}>
-              <Row label={t('dailyGoal', lang)} value={`${deal.dailyTarget} ${ex.unit}`} />
-              <Row label={t('penaltyLbl', lang)} value={penStr} />
-              <Row label={t('openDebtLbl', lang)} value={deal.debt > 0 ? `${deal.debt} ${ex.unit}` : t('noneCheck', lang)}
-                valueColor={deal.debt > 0 ? COLORS.orange : COLORS.green} />
-              <TouchableOpacity style={styles.dangerRow} onPress={() => removeDeal(deal.exercise)}>
-                <Text style={styles.dangerText}>{t('remove', lang)}</Text>
+            <Text style={[styles.sectionHdr, { color: C.accent }]}>{name}</Text>
+            <View style={[styles.group, { backgroundColor: C.bg2 }]}>
+              <Row C={C} label={t('dailyGoal', lang)} value={`${deal.dailyTarget} ${ex.unit}`} />
+              <Row C={C} label={t('penaltyLbl', lang)} value={penStr} />
+              <Row C={C} label={t('openDebtLbl', lang)} value={deal.debt > 0 ? `${deal.debt} ${ex.unit}` : t('noneCheck', lang)}
+                valueColor={deal.debt > 0 ? C.orange : C.green} />
+              <TouchableOpacity style={[styles.dangerRow, { borderBottomWidth: 0 }]} onPress={() => removeDeal(deal.exercise)}>
+                <Text style={[styles.dangerText, { color: C.red }]}>{t('remove', lang)}</Text>
               </TouchableOpacity>
             </View>
           </View>
         );
       })}
 
-      <Text style={styles.sectionHdr}>{t('language', lang)}</Text>
-      <View style={styles.group}>
-        <View style={styles.row}>
-          <Text style={styles.rowLabel}>{t('langLabel', lang)}</Text>
-          <TouchableOpacity style={styles.langBtn} onPress={handleToggleLang}>
-            <Text style={styles.langBtnText}>
+      <Text style={[styles.sectionHdr, { color: C.accent }]}>{t('language', lang)}</Text>
+      <View style={[styles.group, { backgroundColor: C.bg2 }]}>
+        <View style={[styles.row, { borderBottomColor: C.sep }]}>
+          <Text style={[styles.rowLabel, { color: C.label }]}>{t('langLabel', lang)}</Text>
+          <TouchableOpacity style={[styles.langBtn, { backgroundColor: C.bg3 }]} onPress={handleToggleLang}>
+            <Text style={[styles.langBtnText, { color: C.label2 }]}>
               {lang === 'en' ? 'English → עברית' : 'עברית → English'}
             </Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <Text style={styles.sectionHdr}>{t('notifications', lang)}</Text>
-      <View style={styles.group}>
-        <View style={styles.row}>
-          <Text style={styles.rowLabel}>{t('dailyReminder', lang)}</Text>
+      <Text style={[styles.sectionHdr, { color: C.accent }]}>{t('theme', lang) || 'THEME'}</Text>
+      <View style={[styles.group, { backgroundColor: C.bg2 }]}>
+        <View style={[styles.row, { borderBottomColor: C.sep }]}>
+          <Text style={[styles.rowLabel, { color: C.label }]}>{isDark ? 'Dark' : 'Light'}</Text>
+          <TouchableOpacity style={[styles.langBtn, { backgroundColor: C.bg3 }]} onPress={toggleTheme}>
+            <View style={styles.themeToggle}>
+              <Ionicons name={isDark ? 'moon' : 'sunny'} size={18} color={C.accent} />
+              <Text style={[styles.langBtnText, { color: C.label2 }]}>
+                {isDark ? 'Switch to Light' : 'Switch to Dark'}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <Text style={[styles.sectionHdr, { color: C.accent }]}>{t('notifications', lang)}</Text>
+      <View style={[styles.group, { backgroundColor: C.bg2 }]}>
+        <View style={[styles.row, { borderBottomColor: C.sep }]}>
+          <Text style={[styles.rowLabel, { color: C.label }]}>{t('dailyReminder', lang)}</Text>
           <Switch
             value={!!s.notificationsEnabled}
             onValueChange={toggleNotif}
-            trackColor={{ false: COLORS.bg4, true: COLORS.accent }}
+            trackColor={{ false: C.bg4, true: C.accent }}
             thumbColor="#fff"
           />
         </View>
@@ -117,13 +136,13 @@ export default function SettingsScreen() {
 
       <View style={styles.actions}>
         {canAddMore && (
-          <TouchableOpacity style={styles.primaryBtn} onPress={() => router.push('/onboarding')}>
+          <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: C.accent }]} onPress={() => router.push('/onboarding')}>
             <Text style={styles.primaryBtnText}>{t('addChallenge', lang)}</Text>
           </TouchableOpacity>
         )}
         {deals.length > 0 && (
           <TouchableOpacity style={styles.dangerBtn} onPress={confirmReset}>
-            <Text style={styles.dangerBtnText}>{t('resetEverything', lang)}</Text>
+            <Text style={[styles.dangerBtnText, { color: C.red }]}>{t('resetEverything', lang)}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -131,44 +150,44 @@ export default function SettingsScreen() {
   );
 }
 
-function Row({ label, value, valueColor }) {
+function Row({ C, label, value, valueColor }) {
   return (
-    <View style={styles.row}>
-      <Text style={styles.rowLabel}>{label}</Text>
-      <Text style={[styles.rowValue, valueColor && { color: valueColor }]}>{value}</Text>
+    <View style={[styles.row, { borderBottomColor: C.sep }]}>
+      <Text style={[styles.rowLabel, { color: C.label }]}>{label}</Text>
+      <Text style={[styles.rowValue, { color: valueColor || C.label2 }]}>{value}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: COLORS.bg },
   content: { padding: 16, paddingBottom: 100 },
   sectionHdr: {
-    fontSize: 12, fontWeight: '500', color: COLORS.accent,
+    fontSize: 12, fontWeight: '500',
     textTransform: 'uppercase', letterSpacing: 0.6,
     paddingHorizontal: 6, marginTop: 28, marginBottom: 8,
   },
-  group: { backgroundColor: COLORS.bg2, borderRadius: 16, overflow: 'hidden' },
+  group: { borderRadius: 16, overflow: 'hidden' },
   row: {
     flexDirection: 'row', alignItems: 'center',
     paddingHorizontal: 16, paddingVertical: 16,
-    borderBottomWidth: 1, borderBottomColor: COLORS.sep,
+    borderBottomWidth: 1,
   },
-  rowLabel: { flex: 1, fontSize: 16, color: COLORS.label },
-  rowValue: { fontSize: 16, color: COLORS.label2 },
+  rowLabel: { flex: 1, fontSize: 16 },
+  rowValue: { fontSize: 16 },
   dangerRow: {
     paddingHorizontal: 16, paddingVertical: 12,
     alignItems: 'center',
   },
-  dangerText: { fontSize: 16, color: COLORS.red, fontWeight: '500' },
+  dangerText: { fontSize: 16, fontWeight: '500' },
   langBtn: {
-    backgroundColor: COLORS.bg3, borderRadius: 12,
+    borderRadius: 12,
     paddingHorizontal: 16, paddingVertical: 8,
   },
-  langBtnText: { fontSize: 14, color: COLORS.label2, fontWeight: '500' },
+  langBtnText: { fontSize: 14, fontWeight: '500' },
+  themeToggle: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   actions: { marginTop: 28, gap: 10 },
   primaryBtn: {
-    backgroundColor: COLORS.accent, borderRadius: 50,
+    borderRadius: 50,
     paddingVertical: 16, alignItems: 'center',
   },
   primaryBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
@@ -176,5 +195,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(207,102,121,0.12)', borderRadius: 16,
     paddingVertical: 16, alignItems: 'center',
   },
-  dangerBtnText: { color: COLORS.red, fontSize: 16, fontWeight: '500' },
+  dangerBtnText: { fontSize: 16, fontWeight: '500' },
 });

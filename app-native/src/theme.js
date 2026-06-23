@@ -1,4 +1,4 @@
-export const COLORS = {
+export const DARK = {
   bg: '#0A0A0F',
   bg2: '#141418',
   bg3: '#1C1C22',
@@ -18,4 +18,30 @@ export const COLORS = {
   ring2: '#FF4D8C',
   ring3: '#4DA6FF',
   navBg: 'rgba(30,30,35,0.75)',
+  cardBorder: 'rgba(255,255,255,0.07)',
 };
+
+export const LIGHT = {
+  bg: '#F2F2F7',
+  bg2: '#FFFFFF',
+  bg3: '#E8E8EF',
+  bg4: '#D4D4DC',
+  label: '#0A0A0F',
+  label2: '#6E6E80',
+  label3: 'rgba(10,10,15,0.35)',
+  sep: 'rgba(0,0,0,0.08)',
+  fill: 'rgba(255,85,0,0.06)',
+  accent: '#FF5500',
+  accentDark: '#FFFFFF',
+  accentCont: 'rgba(255,85,0,0.12)',
+  green: '#FFB800',
+  orange: '#FF8C00',
+  red: '#FF453A',
+  ring1: '#FF6B00',
+  ring2: '#FF4D8C',
+  ring3: '#4DA6FF',
+  navBg: 'rgba(255,255,255,0.78)',
+  cardBorder: 'rgba(0,0,0,0.08)',
+};
+
+export const COLORS = DARK;

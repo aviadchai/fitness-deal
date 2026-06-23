@@ -1,30 +1,33 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../../src/theme';
-import { getLang } from '../../src/utils/storage';
+import { useTheme } from '../../src/ThemeContext';
 import { t } from '../../src/utils/translations';
 
 export default function TabLayout() {
-  const lang = getLang();
+  const { C, isDark, lang, rtl } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: COLORS.bg, borderBottomColor: COLORS.sep, borderBottomWidth: 1 },
-        headerTintColor: COLORS.label,
+        headerStyle: {
+          backgroundColor: C.bg,
+          borderBottomColor: C.sep,
+          borderBottomWidth: 1,
+        },
+        headerTintColor: C.label,
         headerTitleStyle: { fontSize: 20, fontWeight: '500' },
-        headerTitleAlign: lang === 'he' ? 'right' : 'left',
+        headerTitleAlign: rtl ? 'right' : 'left',
         tabBarStyle: {
           position: 'absolute',
           bottom: 16,
           left: 16,
           right: 16,
           borderRadius: 28,
-          backgroundColor: COLORS.navBg,
+          backgroundColor: C.navBg,
           borderWidth: 1,
-          borderColor: 'rgba(255,255,255,0.1)',
+          borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
           borderTopWidth: 1,
-          borderTopColor: 'rgba(255,255,255,0.1)',
+          borderTopColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
           paddingBottom: 0,
           paddingTop: 8,
           height: 60,
@@ -34,8 +37,8 @@ export default function TabLayout() {
           shadowRadius: 32,
           elevation: 12,
         },
-        tabBarActiveTintColor: COLORS.accent,
-        tabBarInactiveTintColor: COLORS.label3,
+        tabBarActiveTintColor: C.accent,
+        tabBarInactiveTintColor: C.label3,
         tabBarLabelStyle: { fontSize: 11, fontWeight: '500' },
       }}
     >

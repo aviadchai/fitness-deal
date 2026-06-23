@@ -3,7 +3,7 @@ import { View, ScrollView, Text, TouchableOpacity, PanResponder, StyleSheet } fr
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { COLORS } from '../src/theme';
+import { useTheme } from '../src/ThemeContext';
 import { getData, save, setLang } from '../src/utils/storage';
 import { EXERCISES, exName } from '../src/utils/exercises';
 import { todayStr } from '../src/utils/debtEngine';
@@ -13,7 +13,8 @@ const MAX_STEP = 4;
 
 export default function OnboardingScreen() {
   const router = useRouter();
-  const [selectedLang, setSelectedLang] = useState('he');
+  const { C, lang: themeLang, rtl: themeRtl, refresh } = useTheme();
+  const [selectedLang, setSelectedLang] = useState(themeLang || 'he');
   const lang = selectedLang;
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(new Set());
@@ -74,6 +75,7 @@ export default function OnboardingScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedLang(l);
     await setLang(l);
+    refresh();
     setStep(1);
   }
 
@@ -99,40 +101,42 @@ export default function OnboardingScreen() {
     router.replace('/(tabs)');
   }
 
+  const s = makeStyles(C);
+
   function renderContent() {
     if (step === 0) {
       return (
-        <View style={styles.screen}>
-          <View style={styles.iconRing}>
-            <Ionicons name="language" size={48} color={COLORS.accent} />
+        <View style={s.screen}>
+          <View style={s.iconRing}>
+            <Ionicons name="language" size={48} color={C.accent} />
           </View>
-          <Text style={styles.bigTitle}>{t('chooseLang', 'en')}</Text>
-          <Text style={styles.bigTitle}>{t('chooseLang', 'he')}</Text>
-          <TouchableOpacity style={styles.langSelectBtn} onPress={() => chooseLang('he')}>
-            <Text style={styles.langSelectBtnText}>עברית</Text>
+          <Text style={s.bigTitle}>{t('chooseLang', 'en')}</Text>
+          <Text style={s.bigTitle}>{t('chooseLang', 'he')}</Text>
+          <TouchableOpacity style={s.langSelectBtn} onPress={() => chooseLang('he')}>
+            <Text style={s.langSelectBtnText}>עברית</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.langSelectBtn} onPress={() => chooseLang('en')}>
-            <Text style={styles.langSelectBtnText}>English</Text>
+          <TouchableOpacity style={s.langSelectBtn} onPress={() => chooseLang('en')}>
+            <Text style={s.langSelectBtnText}>English</Text>
           </TouchableOpacity>
-          <Dots active={0} />
+          <Dots active={0} C={C} />
         </View>
       );
     }
 
     if (step === 1) {
       return (
-        <View style={[styles.screen, rtl && styles.rtl]}>
-          <View style={styles.iconRing}>
-            <Ionicons name="shield-checkmark" size={48} color={COLORS.accent} />
+        <View style={[s.screen, rtl && s.rtl]}>
+          <View style={s.iconRing}>
+            <Ionicons name="shield-checkmark" size={48} color={C.accent} />
           </View>
-          <Text style={[styles.bigTitle, rtl && styles.rtlText]}>{t('obTitle', lang)}</Text>
-          <Text style={[styles.body, rtl && styles.rtlText]}>{t('obBody', lang)}</Text>
-          <Dots active={1} />
-          <TouchableOpacity style={styles.primaryBtn} onPress={next}>
-            <Text style={styles.primaryBtnText}>{rtl ? `← ${t('letsGo', lang)}` : `${t('letsGo', lang)} →`}</Text>
+          <Text style={[s.bigTitle, rtl && s.rtlText]}>{t('obTitle', lang)}</Text>
+          <Text style={[s.body, rtl && s.rtlText]}>{t('obBody', lang)}</Text>
+          <Dots active={1} C={C} />
+          <TouchableOpacity style={s.primaryBtn} onPress={next}>
+            <Text style={s.primaryBtnText}>{rtl ? `← ${t('letsGo', lang)}` : `${t('letsGo', lang)} →`}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setStep(0)}>
-            <Text style={styles.backText}>{t('back', lang)}</Text>
+            <Text style={s.backText}>{t('back', lang)}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -140,47 +144,47 @@ export default function OnboardingScreen() {
 
     if (step === 2) {
       return (
-        <ScrollView contentContainerStyle={[styles.screen, rtl && styles.rtl]}>
-          <View style={styles.iconRing}>
-            <Ionicons name="pulse" size={48} color={COLORS.accent} />
+        <ScrollView contentContainerStyle={[s.screen, rtl && s.rtl]}>
+          <View style={s.iconRing}>
+            <Ionicons name="pulse" size={48} color={C.accent} />
           </View>
-          <Text style={[styles.bigTitle, rtl && styles.rtlText]}>{t('chooseChallenges', lang)}</Text>
-          <Text style={[styles.subBody, rtl && styles.rtlText]}>{t('pickOne', lang)}</Text>
-          <View style={styles.exerciseRow}>
+          <Text style={[s.bigTitle, rtl && s.rtlText]}>{t('chooseChallenges', lang)}</Text>
+          <Text style={[s.subBody, rtl && s.rtlText]}>{t('pickOne', lang)}</Text>
+          <View style={s.exerciseRow}>
             {available.map(ex => (
               <TouchableOpacity
                 key={ex}
-                style={[styles.exerciseCard, selected.has(ex) && styles.exerciseCardSel]}
+                style={[s.exerciseCard, selected.has(ex) && s.exerciseCardSel]}
                 onPress={() => toggleExercise(ex)}
               >
-                <View style={styles.ecRing}>
-                  <Ionicons name={EXERCISES[ex].icon} size={22} color={COLORS.accent} />
+                <View style={s.ecRing}>
+                  <Ionicons name={EXERCISES[ex].icon} size={22} color={C.accent} />
                 </View>
-                <Text style={[styles.ecName, rtl && styles.rtlText]}>{exName(ex, lang)}</Text>
+                <Text style={[s.ecName, rtl && s.rtlText]}>{exName(ex, lang)}</Text>
               </TouchableOpacity>
             ))}
           </View>
           {[...selected].map(ex => (
-            <View key={ex} style={[styles.targetRow, rtl && { flexDirection: 'row-reverse' }]}>
-              <Text style={[styles.targetName, rtl && styles.rtlText]}>{exName(ex, lang)}</Text>
-              <View style={styles.stepper}>
-                <TouchableOpacity style={styles.stepBtn} onPress={() => changeTarget(ex, -5)}>
-                  <Text style={styles.stepBtnText}>−</Text>
+            <View key={ex} style={[s.targetRow, rtl && { flexDirection: 'row-reverse' }]}>
+              <Text style={[s.targetName, rtl && s.rtlText]}>{exName(ex, lang)}</Text>
+              <View style={s.stepper}>
+                <TouchableOpacity style={s.stepBtn} onPress={() => changeTarget(ex, -5)}>
+                  <Text style={s.stepBtnText}>{'−'}</Text>
                 </TouchableOpacity>
-                <Text style={styles.targetVal}>{targets[ex]}</Text>
-                <TouchableOpacity style={styles.stepBtn} onPress={() => changeTarget(ex, 5)}>
-                  <Text style={styles.stepBtnText}>+</Text>
+                <Text style={s.targetVal}>{targets[ex]}</Text>
+                <TouchableOpacity style={s.stepBtn} onPress={() => changeTarget(ex, 5)}>
+                  <Text style={s.stepBtnText}>+</Text>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.unitLabel}>{EXERCISES[ex].unit}</Text>
+              <Text style={s.unitLabel}>{EXERCISES[ex].unit}</Text>
             </View>
           ))}
-          <Dots active={2} />
-          <TouchableOpacity style={[styles.primaryBtn, selected.size === 0 && { opacity: 0.4 }]} onPress={next}>
-            <Text style={styles.primaryBtnText}>{rtl ? `← ${t('next', lang)}` : `${t('next', lang)} →`}</Text>
+          <Dots active={2} C={C} />
+          <TouchableOpacity style={[s.primaryBtn, selected.size === 0 && { opacity: 0.4 }]} onPress={next}>
+            <Text style={s.primaryBtnText}>{rtl ? `← ${t('next', lang)}` : `${t('next', lang)} →`}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setStep(1)}>
-            <Text style={styles.backText}>{t('back', lang)}</Text>
+            <Text style={s.backText}>{t('back', lang)}</Text>
           </TouchableOpacity>
         </ScrollView>
       );
@@ -188,69 +192,69 @@ export default function OnboardingScreen() {
 
     if (step === 3) {
       return (
-        <ScrollView contentContainerStyle={[styles.screen, rtl && styles.rtl]}>
-          <View style={styles.iconRing}>
-            <Ionicons name="warning" size={48} color={COLORS.accent} />
+        <ScrollView contentContainerStyle={[s.screen, rtl && s.rtl]}>
+          <View style={s.iconRing}>
+            <Ionicons name="warning" size={48} color={C.accent} />
           </View>
-          <Text style={[styles.bigTitle, rtl && styles.rtlText]}>{t('missedDay', lang)}</Text>
+          <Text style={[s.bigTitle, rtl && s.rtlText]}>{t('missedDay', lang)}</Text>
           <TouchableOpacity
-            style={[styles.penaltyCard, penalty === 'accumulate' && styles.penaltyCardSel]}
+            style={[s.penaltyCard, penalty === 'accumulate' && s.penaltyCardSel]}
             onPress={() => setPenalty('accumulate')}
           >
-            <Text style={[styles.penTitle, rtl && styles.rtlText]}>{t('accumulateTitle', lang)}</Text>
-            <Text style={[styles.penDesc, rtl && styles.rtlText]}>{t('accumulateDesc', lang)}</Text>
+            <Text style={[s.penTitle, rtl && s.rtlText]}>{t('accumulateTitle', lang)}</Text>
+            <Text style={[s.penDesc, rtl && s.rtlText]}>{t('accumulateDesc', lang)}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.penaltyCard, penalty === 'double' && styles.penaltyCardSel]}
+            style={[s.penaltyCard, penalty === 'double' && s.penaltyCardSel]}
             onPress={() => setPenalty('double')}
           >
-            <Text style={[styles.penTitle, rtl && styles.rtlText]}>{t('doubleTitle', lang)}</Text>
-            <Text style={[styles.penDesc, rtl && styles.rtlText]}>{t('doubleDesc', lang)}</Text>
+            <Text style={[s.penTitle, rtl && s.rtlText]}>{t('doubleTitle', lang)}</Text>
+            <Text style={[s.penDesc, rtl && s.rtlText]}>{t('doubleDesc', lang)}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.penaltyCard, penalty === 'percent' && styles.penaltyCardSel]}
+            style={[s.penaltyCard, penalty === 'percent' && s.penaltyCardSel]}
             onPress={() => setPenalty('percent')}
           >
-            <Text style={[styles.penTitle, rtl && styles.rtlText]}>{t('compoundTitle', lang)}</Text>
-            <Text style={[styles.penDesc, rtl && styles.rtlText]}>{t('compoundDesc', lang)}</Text>
+            <Text style={[s.penTitle, rtl && s.rtlText]}>{t('compoundTitle', lang)}</Text>
+            <Text style={[s.penDesc, rtl && s.rtlText]}>{t('compoundDesc', lang)}</Text>
           </TouchableOpacity>
-          <Dots active={3} />
-          <TouchableOpacity style={styles.primaryBtn} onPress={next}>
-            <Text style={styles.primaryBtnText}>{rtl ? `← ${t('next', lang)}` : `${t('next', lang)} →`}</Text>
+          <Dots active={3} C={C} />
+          <TouchableOpacity style={s.primaryBtn} onPress={next}>
+            <Text style={s.primaryBtnText}>{rtl ? `← ${t('next', lang)}` : `${t('next', lang)} →`}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setStep(2)}>
-            <Text style={styles.backText}>{t('back', lang)}</Text>
+            <Text style={s.backText}>{t('back', lang)}</Text>
           </TouchableOpacity>
         </ScrollView>
       );
     }
 
     return (
-      <View style={[styles.screen, rtl && styles.rtl]}>
-        <View style={styles.iconRing}>
-          <Ionicons name="clipboard" size={48} color={COLORS.accent} />
+      <View style={[s.screen, rtl && s.rtl]}>
+        <View style={s.iconRing}>
+          <Ionicons name="clipboard" size={48} color={C.accent} />
         </View>
-        <Text style={[styles.bigTitle, rtl && styles.rtlText]}>{t('yourDeal', lang)}</Text>
-        <View style={styles.summaryCard}>
+        <Text style={[s.bigTitle, rtl && s.rtlText]}>{t('yourDeal', lang)}</Text>
+        <View style={s.summaryCard}>
           {[...selected].map(ex => (
-            <View key={ex} style={[styles.summaryRow, rtl && { flexDirection: 'row-reverse' }]}>
-              <Text style={[styles.summaryKey, rtl && styles.rtlText]}>{exName(ex, lang)}</Text>
-              <Text style={[styles.summaryVal, rtl && styles.rtlText]}>{targets[ex]} {EXERCISES[ex].unit}</Text>
+            <View key={ex} style={[s.summaryRow, rtl && { flexDirection: 'row-reverse' }]}>
+              <Text style={[s.summaryKey, rtl && s.rtlText]}>{exName(ex, lang)}</Text>
+              <Text style={[s.summaryVal, rtl && s.rtlText]}>{targets[ex]} {EXERCISES[ex].unit}</Text>
             </View>
           ))}
-          <View style={[styles.summaryRow, rtl && { flexDirection: 'row-reverse' }]}>
-            <Text style={[styles.summaryKey, rtl && styles.rtlText]}>{t('penalty', lang)}</Text>
-            <Text style={[styles.summaryVal, rtl && styles.rtlText]}>
+          <View style={[s.summaryRow, rtl && { flexDirection: 'row-reverse' }]}>
+            <Text style={[s.summaryKey, rtl && s.rtlText]}>{t('penalty', lang)}</Text>
+            <Text style={[s.summaryVal, rtl && s.rtlText]}>
               {penalty === 'double' ? t('double', lang) : penalty === 'accumulate' ? t('accumulate', lang) : `${pctValue}%`}
             </Text>
           </View>
-          <View style={[styles.summaryRow, rtl && { flexDirection: 'row-reverse' }]}>
-            <Text style={[styles.summaryKey, rtl && styles.rtlText]}>{t('starts', lang)}</Text>
-            <Text style={[styles.summaryVal, rtl && styles.rtlText]}>{t('today', lang)}</Text>
+          <View style={[s.summaryRow, rtl && { flexDirection: 'row-reverse' }]}>
+            <Text style={[s.summaryKey, rtl && s.rtlText]}>{t('starts', lang)}</Text>
+            <Text style={[s.summaryVal, rtl && s.rtlText]}>{t('today', lang)}</Text>
           </View>
         </View>
-        <Text style={[styles.subBody, rtl && styles.rtlText]}>{t('tapToSign', lang)}</Text>
-        <TouchableOpacity style={styles.signBtn} onPress={signDeal}>
+        <Text style={[s.subBody, rtl && s.rtlText]}>{t('tapToSign', lang)}</Text>
+        <TouchableOpacity style={s.signBtn} onPress={signDeal}>
           <Ionicons name="checkmark" size={56} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -264,91 +268,98 @@ export default function OnboardingScreen() {
   );
 }
 
-function Dots({ active }) {
+function Dots({ active, C }) {
   return (
-    <View style={styles.dots}>
+    <View style={{ flexDirection: 'row', gap: 6 }}>
       {[0, 1, 2, 3, 4].map(i => (
-        <View key={i} style={[styles.dot, i === active && styles.dotActive]} />
+        <View
+          key={i}
+          style={{
+            width: i === active ? 22 : 8,
+            height: 8,
+            borderRadius: 4,
+            backgroundColor: i === active ? C.accent : C.bg4,
+          }}
+        />
       ))}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1, backgroundColor: COLORS.bg,
-    alignItems: 'center', justifyContent: 'center',
-    padding: 28, gap: 20,
-  },
-  rtl: { direction: 'rtl' },
-  rtlText: { writingDirection: 'rtl', textAlign: 'right' },
-  iconRing: {
-    width: 96, height: 96, borderRadius: 48,
-    backgroundColor: COLORS.accentCont,
-    alignItems: 'center', justifyContent: 'center', marginBottom: 4,
-  },
-  bigTitle: { fontSize: 26, fontWeight: '500', color: COLORS.label, textAlign: 'center' },
-  body: { fontSize: 15, color: COLORS.label2, textAlign: 'center', lineHeight: 26 },
-  subBody: { fontSize: 13, color: COLORS.label2, textAlign: 'center' },
-  dots: { flexDirection: 'row', gap: 6 },
-  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.bg4 },
-  dotActive: { width: 22, backgroundColor: COLORS.accent },
-  primaryBtn: {
-    width: '100%', backgroundColor: COLORS.accent,
-    borderRadius: 50, paddingVertical: 16, alignItems: 'center',
-  },
-  primaryBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-  backText: { color: COLORS.accent, fontSize: 16, paddingVertical: 12 },
-  langSelectBtn: {
-    width: '100%', backgroundColor: COLORS.bg2, borderRadius: 16,
-    paddingVertical: 20, alignItems: 'center',
-    borderWidth: 2, borderColor: 'transparent',
-  },
-  langSelectBtnText: { fontSize: 22, fontWeight: '600', color: COLORS.label },
-  exerciseRow: { flexDirection: 'row', gap: 8, width: '100%' },
-  exerciseCard: {
-    flex: 1, backgroundColor: COLORS.bg2, borderWidth: 2, borderColor: 'transparent',
-    borderRadius: 14, padding: 12, alignItems: 'center', gap: 8,
-  },
-  exerciseCardSel: { borderColor: COLORS.accent, backgroundColor: COLORS.accentCont },
-  ecRing: {
-    width: 44, height: 44, borderRadius: 22,
-    backgroundColor: 'rgba(59,130,246,0.1)',
-    alignItems: 'center', justifyContent: 'center',
-  },
-  ecName: { fontSize: 12, fontWeight: '600', color: COLORS.label, textAlign: 'center' },
-  targetRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 12, width: '100%',
-    backgroundColor: COLORS.bg2, borderRadius: 12, padding: 10, paddingHorizontal: 14,
-  },
-  targetName: { flex: 1, fontSize: 14, color: COLORS.label },
-  stepper: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  stepBtn: {
-    width: 36, height: 36, borderRadius: 18, backgroundColor: COLORS.bg3,
-    alignItems: 'center', justifyContent: 'center',
-  },
-  stepBtnText: { fontSize: 18, color: COLORS.label },
-  targetVal: { fontSize: 18, fontWeight: '700', color: COLORS.label, minWidth: 32, textAlign: 'center' },
-  unitLabel: { fontSize: 12, color: COLORS.label3, minWidth: 42 },
-  penaltyCard: {
-    width: '100%', backgroundColor: COLORS.bg2, borderRadius: 14,
-    padding: 16, borderWidth: 2, borderColor: 'transparent',
-  },
-  penaltyCardSel: { borderColor: COLORS.accent, backgroundColor: COLORS.accentCont },
-  penTitle: { fontSize: 16, fontWeight: '600', color: COLORS.label, marginBottom: 4 },
-  penDesc: { fontSize: 13, color: COLORS.label2, lineHeight: 20 },
-  summaryCard: { width: '100%', backgroundColor: COLORS.bg2, borderRadius: 16, overflow: 'hidden' },
-  summaryRow: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    paddingHorizontal: 18, paddingVertical: 15,
-    borderBottomWidth: 1, borderBottomColor: COLORS.sep,
-  },
-  summaryKey: { fontSize: 15, color: COLORS.label2 },
-  summaryVal: { fontSize: 15, fontWeight: '500', color: COLORS.label },
-  signBtn: {
-    width: 120, height: 120, borderRadius: 60,
-    backgroundColor: COLORS.accent, alignItems: 'center', justifyContent: 'center',
-    shadowColor: COLORS.accent, shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35, shadowRadius: 32, elevation: 12,
-  },
-});
+function makeStyles(C) {
+  return StyleSheet.create({
+    screen: {
+      flex: 1, backgroundColor: C.bg,
+      alignItems: 'center', justifyContent: 'center',
+      padding: 28, gap: 20,
+    },
+    rtl: { direction: 'rtl' },
+    rtlText: { writingDirection: 'rtl', textAlign: 'right' },
+    iconRing: {
+      width: 96, height: 96, borderRadius: 48,
+      backgroundColor: C.accentCont,
+      alignItems: 'center', justifyContent: 'center', marginBottom: 4,
+    },
+    bigTitle: { fontSize: 26, fontWeight: '500', color: C.label, textAlign: 'center' },
+    body: { fontSize: 15, color: C.label2, textAlign: 'center', lineHeight: 26 },
+    subBody: { fontSize: 13, color: C.label2, textAlign: 'center' },
+    primaryBtn: {
+      width: '100%', backgroundColor: C.accent,
+      borderRadius: 50, paddingVertical: 16, alignItems: 'center',
+    },
+    primaryBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
+    backText: { color: C.accent, fontSize: 16, paddingVertical: 12 },
+    langSelectBtn: {
+      width: '100%', backgroundColor: C.bg2, borderRadius: 16,
+      paddingVertical: 20, alignItems: 'center',
+      borderWidth: 2, borderColor: 'transparent',
+    },
+    langSelectBtnText: { fontSize: 22, fontWeight: '600', color: C.label },
+    exerciseRow: { flexDirection: 'row', gap: 8, width: '100%' },
+    exerciseCard: {
+      flex: 1, backgroundColor: C.bg2, borderWidth: 2, borderColor: 'transparent',
+      borderRadius: 14, padding: 12, alignItems: 'center', gap: 8,
+    },
+    exerciseCardSel: { borderColor: C.accent, backgroundColor: C.accentCont },
+    ecRing: {
+      width: 44, height: 44, borderRadius: 22,
+      backgroundColor: C.accentCont,
+      alignItems: 'center', justifyContent: 'center',
+    },
+    ecName: { fontSize: 12, fontWeight: '600', color: C.label, textAlign: 'center' },
+    targetRow: {
+      flexDirection: 'row', alignItems: 'center', gap: 12, width: '100%',
+      backgroundColor: C.bg2, borderRadius: 12, padding: 10, paddingHorizontal: 14,
+    },
+    targetName: { flex: 1, fontSize: 14, color: C.label },
+    stepper: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    stepBtn: {
+      width: 36, height: 36, borderRadius: 18, backgroundColor: C.bg3,
+      alignItems: 'center', justifyContent: 'center',
+    },
+    stepBtnText: { fontSize: 18, color: C.label },
+    targetVal: { fontSize: 18, fontWeight: '700', color: C.label, minWidth: 32, textAlign: 'center' },
+    unitLabel: { fontSize: 12, color: C.label3, minWidth: 42 },
+    penaltyCard: {
+      width: '100%', backgroundColor: C.bg2, borderRadius: 14,
+      padding: 16, borderWidth: 2, borderColor: 'transparent',
+    },
+    penaltyCardSel: { borderColor: C.accent, backgroundColor: C.accentCont },
+    penTitle: { fontSize: 16, fontWeight: '600', color: C.label, marginBottom: 4 },
+    penDesc: { fontSize: 13, color: C.label2, lineHeight: 20 },
+    summaryCard: { width: '100%', backgroundColor: C.bg2, borderRadius: 16, overflow: 'hidden' },
+    summaryRow: {
+      flexDirection: 'row', justifyContent: 'space-between',
+      paddingHorizontal: 18, paddingVertical: 15,
+      borderBottomWidth: 1, borderBottomColor: C.sep,
+    },
+    summaryKey: { fontSize: 15, color: C.label2 },
+    summaryVal: { fontSize: 15, fontWeight: '500', color: C.label },
+    signBtn: {
+      width: 120, height: 120, borderRadius: 60,
+      backgroundColor: C.accent, alignItems: 'center', justifyContent: 'center',
+      shadowColor: C.accent, shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.35, shadowRadius: 32, elevation: 12,
+    },
+  });
+}

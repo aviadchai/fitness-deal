@@ -19,9 +19,9 @@ export default function TabLayout() {
         headerTitleAlign: rtl ? 'right' : 'left',
         tabBarStyle: {
           position: 'absolute',
-          bottom: 16,
-          left: 16,
-          right: 16,
+          bottom: 24,
+          left: 20,
+          right: 20,
           borderRadius: 28,
           backgroundColor: C.navBg,
           borderWidth: 1,

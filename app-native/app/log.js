@@ -43,9 +43,12 @@ export default function LogScreen() {
       { text: t('cancel', lang), style: 'cancel' },
       { text: 'OK', onPress: val => {
         const n = parseInt(val);
-        if (!isNaN(n) && n >= 0 && n <= 500) setReps(n);
+        if (!isNaN(n) && n >= 0 && n <= 500) {
+          setReps(n);
+          if (useTimer) setSeconds(n);
+        }
       }},
-    ], 'plain-text', String(reps), 'number-pad');
+    ], 'plain-text', String(useTimer ? seconds : reps), 'number-pad');
   }
 
   function toggleTimer() {
@@ -89,25 +92,23 @@ export default function LogScreen() {
   const timerPct = target > 0 ? Math.min(1, seconds / target) : 0;
   const timerColor = targetReached ? C.green : C.ring1;
 
-  const s = makeStyles(C, rtl);
-
   return (
-    <View style={s.container}>
-      <View style={s.handle} />
+    <View style={[st.container, { backgroundColor: C.bg2, direction: rtl ? 'rtl' : 'ltr' }]}>
+      <View style={[st.handle, { backgroundColor: C.bg4 }]} />
 
-      <View style={s.headerRow}>
-        <View>
-          <Text style={[s.title, rtl && s.rtlText]}>{t('logWorkout', lang)} {name}</Text>
-          <Text style={[s.sub, rtl && s.rtlText]}>
-            {logged > 0
-              ? `${logged} ${t('done', lang)} — ${Math.max(0, due - logged)} ${ex.unit} ${t('remaining', lang)}`
-              : `${t('goal', lang)}: ${due} ${ex.unit}`}
-          </Text>
-        </View>
+      <View style={st.headerRow}>
+        <Text style={[st.title, { color: C.label }, rtl && st.rtlText]}>
+          {t('logWorkout', lang)} {name}
+        </Text>
+        <Text style={[st.sub, { color: C.label2 }, rtl && st.rtlText]}>
+          {logged > 0
+            ? `${logged} ${t('done', lang)} — ${Math.max(0, due - logged)} ${ex.unit} ${t('remaining', lang)}`
+            : `${t('goal', lang)}: ${due} ${ex.unit}`}
+        </Text>
       </View>
 
       {useTimer ? (
-        <View style={s.timerSection}>
+        <View style={st.timerSection}>
           <ProgressRing
             size={200} strokeWidth={12}
             progress={timerPct} color={timerColor}
@@ -115,87 +116,91 @@ export default function LogScreen() {
             centerColor={targetReached ? C.green : C.ring1}
           />
           <TouchableOpacity
-            style={[s.timerBtn, timerRunning && s.timerBtnRunning]}
+            style={[st.timerBtn, { backgroundColor: timerRunning ? C.red : C.accent }]}
             onPress={toggleTimer} activeOpacity={0.75}
           >
-            <Text style={s.timerBtnText}>
+            <Ionicons name={timerRunning ? 'stop' : 'play'} size={22} color="#fff" />
+            <Text style={st.timerBtnText}>
               {timerRunning ? t('stop', lang) : seconds > 0 ? t('resume', lang) : t('start', lang)}
             </Text>
           </TouchableOpacity>
+          {!timerRunning && (
+            <TouchableOpacity onPress={editManual} activeOpacity={0.7}>
+              <Text style={[st.manualLink, { color: C.accent }]}>{t('orManual', lang)}</Text>
+            </TouchableOpacity>
+          )}
         </View>
       ) : (
-        <View style={s.repsSection}>
-          <View style={s.repsControls}>
-            <TouchableOpacity style={s.repsBtn} onPress={() => changeReps(-1)}>
-              <Text style={s.repsBtnText}>{'−'}</Text>
+        <View style={st.repsSection}>
+          <View style={st.repsControls}>
+            <TouchableOpacity style={[st.repsBtn, { backgroundColor: C.bg3 }]} onPress={() => changeReps(-1)}>
+              <Text style={[st.repsBtnText, { color: C.label }]}>−</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={editManual}>
-              <Text style={s.repsDisplay}>{reps}</Text>
+              <Text style={[st.repsDisplay, { color: C.accent }]}>{reps}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={s.repsBtn} onPress={() => changeReps(1)}>
-              <Text style={s.repsBtnText}>+</Text>
+            <TouchableOpacity style={[st.repsBtn, { backgroundColor: C.bg3 }]} onPress={() => changeReps(1)}>
+              <Text style={[st.repsBtnText, { color: C.label }]}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
 
-      <View style={s.actions}>
-        <TouchableOpacity style={s.saveBtn} onPress={handleSave} activeOpacity={0.75}>
-          <Text style={s.saveBtnText}>{t('save', lang)}</Text>
+      <View style={[st.actions, { direction: 'ltr' }]}>
+        <TouchableOpacity style={[st.saveBtn, { backgroundColor: C.accent }]} onPress={handleSave} activeOpacity={0.75}>
+          <Text style={st.saveBtnText}>{t('save', lang)}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={s.cancelBtn} onPress={() => router.back()} activeOpacity={0.7}>
-          <Text style={s.cancelBtnText}>{t('cancel', lang)}</Text>
+        <TouchableOpacity style={[st.cancelBtn, { backgroundColor: C.bg3 }]} onPress={() => router.back()} activeOpacity={0.7}>
+          <Text style={[st.cancelBtnText, { color: C.label2 }]}>{t('cancel', lang)}</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
 
-function makeStyles(C, rtl) {
-  return StyleSheet.create({
-    container: {
-      flex: 1, backgroundColor: C.bg2,
-      borderTopLeftRadius: 28, borderTopRightRadius: 28,
-      paddingHorizontal: 24, paddingBottom: 40,
-      alignItems: 'center', gap: 16,
-    },
-    handle: {
-      width: 36, height: 4, borderRadius: 2,
-      backgroundColor: C.bg4, marginTop: 12, marginBottom: 4,
-    },
-    headerRow: { width: '100%' },
-    title: { fontSize: 20, fontWeight: '500', color: C.label },
-    sub: { fontSize: 14, color: C.label2, marginTop: 4 },
-    rtlText: { writingDirection: 'rtl', textAlign: 'right' },
-    repsSection: { flex: 1, justifyContent: 'center' },
-    repsControls: { flexDirection: 'row', alignItems: 'center', gap: 24 },
-    repsBtn: {
-      width: 64, height: 64, borderRadius: 32,
-      backgroundColor: C.bg3,
-      alignItems: 'center', justifyContent: 'center',
-    },
-    repsBtnText: { fontSize: 32, color: C.label },
-    repsDisplay: {
-      fontSize: 88, fontWeight: '700', letterSpacing: -5,
-      color: C.accent, textAlign: 'center', minWidth: 120,
-    },
-    timerSection: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 20 },
-    timerBtn: {
-      width: '100%', backgroundColor: C.accent,
-      borderRadius: 50, paddingVertical: 16, alignItems: 'center',
-    },
-    timerBtnRunning: { backgroundColor: C.red },
-    timerBtnText: { color: '#fff', fontSize: 18, fontWeight: '700' },
-    actions: { flexDirection: 'row', gap: 10, width: '100%' },
-    saveBtn: {
-      flex: 1, backgroundColor: C.accent,
-      borderRadius: 50, paddingVertical: 16, alignItems: 'center',
-    },
-    saveBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-    cancelBtn: {
-      flex: 1, backgroundColor: C.bg3,
-      borderRadius: 50, paddingVertical: 16, alignItems: 'center',
-    },
-    cancelBtnText: { color: C.label2, fontSize: 16, fontWeight: '600' },
-  });
-}
+const st = StyleSheet.create({
+  container: {
+    flex: 1,
+    borderTopLeftRadius: 28, borderTopRightRadius: 28,
+    paddingHorizontal: 24, paddingBottom: 40,
+    alignItems: 'center', gap: 16,
+  },
+  handle: {
+    width: 36, height: 4, borderRadius: 2,
+    marginTop: 12, marginBottom: 4,
+  },
+  headerRow: { width: '100%' },
+  title: { fontSize: 20, fontWeight: '500' },
+  sub: { fontSize: 14, marginTop: 4 },
+  rtlText: { writingDirection: 'rtl', textAlign: 'right' },
+  repsSection: { flex: 1, justifyContent: 'center' },
+  repsControls: { flexDirection: 'row', alignItems: 'center', gap: 24 },
+  repsBtn: {
+    width: 64, height: 64, borderRadius: 32,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  repsBtnText: { fontSize: 32 },
+  repsDisplay: {
+    fontSize: 88, fontWeight: '700', letterSpacing: -5,
+    textAlign: 'center', minWidth: 120,
+  },
+  timerSection: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 24 },
+  timerBtn: {
+    width: '100%',
+    borderRadius: 50, paddingVertical: 18, paddingHorizontal: 32,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10,
+  },
+  timerBtnText: { color: '#fff', fontSize: 18, fontWeight: '700' },
+  manualLink: { fontSize: 15, fontWeight: '500', paddingVertical: 8 },
+  actions: { flexDirection: 'row', gap: 10, width: '100%' },
+  saveBtn: {
+    flex: 1,
+    borderRadius: 50, paddingVertical: 16, alignItems: 'center',
+  },
+  saveBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
+  cancelBtn: {
+    flex: 1,
+    borderRadius: 50, paddingVertical: 16, alignItems: 'center',
+  },
+  cancelBtnText: { fontSize: 16, fontWeight: '600' },
+});

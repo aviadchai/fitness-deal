@@ -46,6 +46,13 @@ const T = {
     accumulateTitle: 'Simple Carry-Over',
     accumulateDesc: 'Missed reps simply add to tomorrow. Miss 25 — owe 25.',
     accumulate: 'Carry-Over',
+    theme: 'Theme', dark: 'Dark', light: 'Light',
+    debtAlert: 'Debt Alert',
+    debtAlertMsg: 'You have accumulated debt for',
+    fromDate: 'since',
+    dismiss: 'Got it',
+    manualEntry: 'Enter Manually',
+    orManual: 'or enter manually',
   },
   he: {
     appTitle: 'דיל כושר',
@@ -94,6 +101,13 @@ const T = {
     accumulateTitle: 'צבירה פשוטה',
     accumulateDesc: 'חזרות שהוחמצו פשוט מתווספות למחר. פספסת 25 — חייב 25.',
     accumulate: 'צבירה',
+    theme: 'ערכת נושא', dark: 'כהה', light: 'בהיר',
+    debtAlert: 'התראת חוב',
+    debtAlertMsg: 'נצבר עבורך חוב עבור',
+    fromDate: 'מתאריך',
+    dismiss: 'הבנתי',
+    manualEntry: 'הכנסה ידנית',
+    orManual: 'או הכנס ידנית',
   }
 };
 

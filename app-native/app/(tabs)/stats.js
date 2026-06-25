@@ -49,7 +49,9 @@ export default function StatsScreen() {
   for (let i = 29; i >= 0; i--) last30.push(addDays(tod, -i));
   const max30 = Math.max(...last30.map(d => (deal.logs && deal.logs[d]) || 0), target);
 
-  const muscles = (ex.muscles || '').split(',').map(m => m.trim());
+  const rtl = lang === 'he';
+  const muscleStr = rtl ? (ex.musclesHe || ex.muscles || '') : (ex.muscles || '');
+  const muscles = muscleStr.split(',').map(m => m.trim());
 
   return (
     <ScrollView

@@ -3,9 +3,10 @@ import { View, ScrollView, Text, TouchableOpacity, Modal, StyleSheet } from 'rea
 import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle } from 'react-native-svg';
+import { Pedometer } from 'expo-sensors';
 import { useTheme } from '../../src/ThemeContext';
-import { activeDeals } from '../../src/utils/storage';
-import { processDebt, dealLogged, dealDue, todayStr, addDays } from '../../src/utils/debtEngine';
+import { activeDeals, getShownDebtKeys, markDebtShown } from '../../src/utils/storage';
+import { processDebt, dealLogged, todayStr, addDays } from '../../src/utils/debtEngine';
 import { t } from '../../src/utils/translations';
 import { exName } from '../../src/utils/exercises';
 import DealCard from '../../src/components/DealCard';
@@ -84,7 +85,7 @@ export default function HomeScreen() {
   const { C, lang, rtl } = useTheme();
   const [deals, setDeals] = useState([]);
   const [debtPopup, setDebtPopup] = useState(null);
-  const [popupShown, setPopupShown] = useState(false);
+  const [steps, setSteps] = useState(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -92,22 +93,53 @@ export default function HomeScreen() {
         await processDebt();
         const d = [...activeDeals()];
         setDeals(d);
-        if (!popupShown) {
-          const debtDeals = d.filter(deal => (deal.debt || 0) > 0);
-          if (debtDeals.length > 0) {
-            const info = debtDeals.map(deal => ({
-              name: exName(deal.exercise, lang),
-              debt: deal.debt,
-              unit: deal.exercise === 'plank' ? 'sec' : 'reps',
-              missedDate: findLastMissedDate(deal),
-            }));
-            setDebtPopup(info);
-            setPopupShown(true);
-          }
+
+        const shownKeys = getShownDebtKeys();
+        const debtDeals = d.filter(deal => (deal.debt || 0) > 0);
+        const newDebts = debtDeals.filter(deal => {
+          const key = `${deal.exercise}:${deal.debt}`;
+          return !shownKeys.includes(key);
+        });
+
+        if (newDebts.length > 0) {
+          const info = newDebts.map(deal => ({
+            name: exName(deal.exercise, lang),
+            exercise: deal.exercise,
+            debt: deal.debt,
+            unit: deal.exercise === 'plank' ? 'sec' : 'reps',
+            missedDate: findLastMissedDate(deal),
+          }));
+          setDebtPopup(info);
         }
       })();
+
+      let sub;
+      (async () => {
+        const available = await Pedometer.isAvailableAsync();
+        if (available) {
+          const end = new Date();
+          const start = new Date();
+          start.setHours(0, 0, 0, 0);
+          const result = await Pedometer.getStepCountAsync(start, end);
+          if (result) setSteps(result.steps);
+          sub = Pedometer.watchStepCount(r => {
+            setSteps(prev => (prev || 0) + r.steps);
+          });
+        }
+      })();
+
+      return () => { if (sub) sub.remove(); };
     }, [])
   );
+
+  async function dismissDebt() {
+    if (debtPopup) {
+      for (const item of debtPopup) {
+        await markDebtShown(`${item.exercise}:${item.debt}`);
+      }
+    }
+    setDebtPopup(null);
+  }
 
   if (deals.length === 0) {
     return (
@@ -127,6 +159,25 @@ export default function HomeScreen() {
         contentContainerStyle={styles.content}
       >
         <ConcentricRings deals={deals} C={C} />
+
+        {steps !== null && (
+          <View style={[styles.stepsCard, { backgroundColor: C.bg2, borderColor: C.cardBorder }]}>
+            <View style={[styles.stepsRow, rtl && { flexDirection: 'row-reverse' }]}>
+              <View style={[styles.stepsIconRing, { backgroundColor: C.accentCont }]}>
+                <Ionicons name="footsteps" size={22} color={C.accent} />
+              </View>
+              <View style={rtl ? { alignItems: 'flex-end' } : {}}>
+                <Text style={[styles.stepsCount, { color: C.label }]}>
+                  {steps.toLocaleString()}
+                </Text>
+                <Text style={[styles.stepsLabel, { color: C.label2 }]}>
+                  {t('stepsToday', lang)}
+                </Text>
+              </View>
+            </View>
+          </View>
+        )}
+
         {deals.map((deal, index) => (
           <DealCard
             key={deal.exercise}
@@ -137,7 +188,7 @@ export default function HomeScreen() {
         ))}
       </ScrollView>
 
-      <Modal visible={!!debtPopup} transparent animationType="fade" onRequestClose={() => setDebtPopup(null)}>
+      <Modal visible={!!debtPopup} transparent animationType="fade" onRequestClose={dismissDebt}>
         <View style={styles.overlay}>
           <View style={[styles.popup, { backgroundColor: C.bg2, borderColor: C.cardBorder, direction: rtl ? 'rtl' : 'ltr' }]}>
             <View style={[styles.popupIconRing, { backgroundColor: 'rgba(255,140,0,0.15)' }]}>
@@ -163,7 +214,7 @@ export default function HomeScreen() {
             ))}
             <TouchableOpacity
               style={[styles.popupBtn, { backgroundColor: C.accent }]}
-              onPress={() => setDebtPopup(null)}
+              onPress={dismissDebt}
               activeOpacity={0.75}
             >
               <Text style={styles.popupBtnText}>{t('dismiss', lang)}</Text>
@@ -185,6 +236,18 @@ const styles = StyleSheet.create({
   },
   emptyText: { fontSize: 16, textAlign: 'center', lineHeight: 24 },
   rtlText: { writingDirection: 'rtl', textAlign: 'right' },
+  stepsCard: {
+    borderRadius: 16, padding: 16, borderWidth: 1,
+  },
+  stepsRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 14,
+  },
+  stepsIconRing: {
+    width: 44, height: 44, borderRadius: 22,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  stepsCount: { fontSize: 24, fontWeight: '700' },
+  stepsLabel: { fontSize: 13 },
   overlay: {
     flex: 1, backgroundColor: 'rgba(0,0,0,0.5)',
     alignItems: 'center', justifyContent: 'center', padding: 32,

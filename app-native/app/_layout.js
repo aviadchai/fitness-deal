@@ -44,6 +44,7 @@ function RootStack() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
         <Stack.Screen name="log" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="add-challenge" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
       </Stack>
     </>
   );

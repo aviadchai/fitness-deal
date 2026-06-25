@@ -80,11 +80,11 @@ export default function SettingsScreen() {
         const penStr = deal.penaltyType === 'double' ? t('double', lang) : deal.penaltyType === 'accumulate' ? t('accumulate', lang) : `${deal.penaltyPercent}%`;
         return (
           <View key={deal.exercise}>
-            <Text style={[styles.sectionHdr, { color: C.accent }]}>{name}</Text>
+            <Text style={[styles.sectionHdr, { color: C.accent }, lang === 'he' && { textAlign: 'right' }]}>{name}</Text>
             <View style={[styles.group, { backgroundColor: C.bg2 }]}>
-              <Row C={C} label={t('dailyGoal', lang)} value={`${deal.dailyTarget} ${ex.unit}`} />
-              <Row C={C} label={t('penaltyLbl', lang)} value={penStr} />
-              <Row C={C} label={t('openDebtLbl', lang)} value={deal.debt > 0 ? `${deal.debt} ${ex.unit}` : t('noneCheck', lang)}
+              <Row C={C} rtl={lang === 'he'} label={t('dailyGoal', lang)} value={`${deal.dailyTarget} ${ex.unit}`} />
+              <Row C={C} rtl={lang === 'he'} label={t('penaltyLbl', lang)} value={penStr} />
+              <Row C={C} rtl={lang === 'he'} label={t('openDebtLbl', lang)} value={deal.debt > 0 ? `${deal.debt} ${ex.unit}` : t('noneCheck', lang)}
                 valueColor={deal.debt > 0 ? C.orange : C.green} />
               <TouchableOpacity style={[styles.dangerRow, { borderBottomWidth: 0 }]} onPress={() => removeDeal(deal.exercise)}>
                 <Text style={[styles.dangerText, { color: C.red }]}>{t('remove', lang)}</Text>
@@ -94,10 +94,10 @@ export default function SettingsScreen() {
         );
       })}
 
-      <Text style={[styles.sectionHdr, { color: C.accent }]}>{t('language', lang)}</Text>
+      <Text style={[styles.sectionHdr, { color: C.accent }, lang === 'he' && { textAlign: 'right' }]}>{t('language', lang)}</Text>
       <View style={[styles.group, { backgroundColor: C.bg2 }]}>
-        <View style={[styles.row, { borderBottomColor: C.sep }]}>
-          <Text style={[styles.rowLabel, { color: C.label }]}>{t('langLabel', lang)}</Text>
+        <View style={[styles.row, { borderBottomColor: C.sep }, lang === 'he' && { flexDirection: 'row-reverse' }]}>
+          <Text style={[styles.rowLabel, { color: C.label }, lang === 'he' && { textAlign: 'right' }]}>{t('langLabel', lang)}</Text>
           <TouchableOpacity style={[styles.langBtn, { backgroundColor: C.bg3 }]} onPress={handleToggleLang}>
             <Text style={[styles.langBtnText, { color: C.label2 }]}>
               {lang === 'en' ? 'English → עברית' : 'עברית → English'}
@@ -106,25 +106,25 @@ export default function SettingsScreen() {
         </View>
       </View>
 
-      <Text style={[styles.sectionHdr, { color: C.accent }]}>{t('theme', lang) || 'THEME'}</Text>
+      <Text style={[styles.sectionHdr, { color: C.accent }, lang === 'he' && { textAlign: 'right' }]}>{t('theme', lang)}</Text>
       <View style={[styles.group, { backgroundColor: C.bg2 }]}>
-        <View style={[styles.row, { borderBottomColor: C.sep }]}>
-          <Text style={[styles.rowLabel, { color: C.label }]}>{isDark ? 'Dark' : 'Light'}</Text>
+        <View style={[styles.row, { borderBottomColor: C.sep }, lang === 'he' && { flexDirection: 'row-reverse' }]}>
+          <Text style={[styles.rowLabel, { color: C.label }, lang === 'he' && { textAlign: 'right' }]}>{isDark ? t('dark', lang) : t('light', lang)}</Text>
           <TouchableOpacity style={[styles.langBtn, { backgroundColor: C.bg3 }]} onPress={toggleTheme}>
             <View style={styles.themeToggle}>
               <Ionicons name={isDark ? 'moon' : 'sunny'} size={18} color={C.accent} />
               <Text style={[styles.langBtnText, { color: C.label2 }]}>
-                {isDark ? 'Switch to Light' : 'Switch to Dark'}
+                {isDark ? t('light', lang) : t('dark', lang)}
               </Text>
             </View>
           </TouchableOpacity>
         </View>
       </View>
 
-      <Text style={[styles.sectionHdr, { color: C.accent }]}>{t('notifications', lang)}</Text>
+      <Text style={[styles.sectionHdr, { color: C.accent }, lang === 'he' && { textAlign: 'right' }]}>{t('notifications', lang)}</Text>
       <View style={[styles.group, { backgroundColor: C.bg2 }]}>
-        <View style={[styles.row, { borderBottomColor: C.sep }]}>
-          <Text style={[styles.rowLabel, { color: C.label }]}>{t('dailyReminder', lang)}</Text>
+        <View style={[styles.row, { borderBottomColor: C.sep }, lang === 'he' && { flexDirection: 'row-reverse' }]}>
+          <Text style={[styles.rowLabel, { color: C.label }, lang === 'he' && { textAlign: 'right' }]}>{t('dailyReminder', lang)}</Text>
           <Switch
             value={!!s.notificationsEnabled}
             onValueChange={toggleNotif}
@@ -136,7 +136,7 @@ export default function SettingsScreen() {
 
       <View style={styles.actions}>
         {canAddMore && (
-          <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: C.accent }]} onPress={() => router.push('/onboarding')}>
+          <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: C.accent }]} onPress={() => router.push('/add-challenge')}>
             <Text style={styles.primaryBtnText}>{t('addChallenge', lang)}</Text>
           </TouchableOpacity>
         )}
@@ -150,10 +150,10 @@ export default function SettingsScreen() {
   );
 }
 
-function Row({ C, label, value, valueColor }) {
+function Row({ C, label, value, valueColor, rtl }) {
   return (
-    <View style={[styles.row, { borderBottomColor: C.sep }]}>
-      <Text style={[styles.rowLabel, { color: C.label }]}>{label}</Text>
+    <View style={[styles.row, { borderBottomColor: C.sep }, rtl && { flexDirection: 'row-reverse' }]}>
+      <Text style={[styles.rowLabel, { color: C.label }, rtl && { textAlign: 'right' }]}>{label}</Text>
       <Text style={[styles.rowValue, { color: valueColor || C.label2 }]}>{value}</Text>
     </View>
   );

@@ -86,3 +86,16 @@ export async function setThemeMode(mode) {
   DATA.settings.theme = mode;
   await save();
 }
+
+export function getShownDebtKeys() {
+  return (DATA.settings && DATA.settings.shownDebtKeys) || [];
+}
+
+export async function markDebtShown(key) {
+  if (!DATA.settings) DATA.settings = {};
+  if (!DATA.settings.shownDebtKeys) DATA.settings.shownDebtKeys = [];
+  if (!DATA.settings.shownDebtKeys.includes(key)) {
+    DATA.settings.shownDebtKeys.push(key);
+    await save();
+  }
+}

@@ -6,6 +6,15 @@ import { t } from '../../src/utils/translations';
 export default function TabLayout() {
   const { C, isDark, lang, rtl } = useTheme();
 
+  const tabs = [
+    { name: 'index', title: t('appTitle', lang), label: t('home', lang), icon: 'home' },
+    { name: 'calendar', title: t('workoutCalendar', lang), label: t('calendar', lang), icon: 'calendar' },
+    { name: 'stats', title: t('statistics', lang), label: t('stats', lang), icon: 'bar-chart' },
+    { name: 'settings', title: t('settings', lang), label: t('settings', lang), icon: 'settings' },
+  ];
+
+  const ordered = rtl ? [...tabs].reverse() : tabs;
+
   return (
     <Tabs
       screenOptions={{
@@ -19,9 +28,9 @@ export default function TabLayout() {
         headerTitleAlign: rtl ? 'right' : 'left',
         tabBarStyle: {
           position: 'absolute',
-          bottom: 24,
-          left: 20,
-          right: 20,
+          bottom: 28,
+          left: 24,
+          right: 24,
           borderRadius: 28,
           backgroundColor: C.navBg,
           borderWidth: 1,
@@ -42,38 +51,17 @@ export default function TabLayout() {
         tabBarLabelStyle: { fontSize: 11, fontWeight: '500' },
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: t('appTitle', lang),
-          tabBarLabel: t('home', lang),
-          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="calendar"
-        options={{
-          title: t('workoutCalendar', lang),
-          tabBarLabel: t('calendar', lang),
-          tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="stats"
-        options={{
-          title: t('statistics', lang),
-          tabBarLabel: t('stats', lang),
-          tabBarIcon: ({ color, size }) => <Ionicons name="bar-chart" size={size} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: t('settings', lang),
-          tabBarLabel: t('settings', lang),
-          tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
-        }}
-      />
+      {ordered.map(tab => (
+        <Tabs.Screen
+          key={tab.name}
+          name={tab.name}
+          options={{
+            title: tab.title,
+            tabBarLabel: tab.label,
+            tabBarIcon: ({ color, size }) => <Ionicons name={tab.icon} size={size} color={color} />,
+          }}
+        />
+      ))}
     </Tabs>
   );
 }

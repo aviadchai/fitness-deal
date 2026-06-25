@@ -1,13 +1,38 @@
 import { useState, useCallback } from 'react';
 import { View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFocusEffect } from 'expo-router';
+import Svg, { Path } from 'react-native-svg';
 import { useTheme } from '../../src/ThemeContext';
 import { activeDeals } from '../../src/utils/storage';
 import { EXERCISES } from '../../src/utils/exercises';
 import { todayStr, addDays, getDealDayStatus } from '../../src/utils/debtEngine';
 import { t } from '../../src/utils/translations';
 
-const WEEK_DAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+function WaveFill({ width, height, fillPct, color }) {
+  if (fillPct <= 0) return null;
+  const fillH = height * fillPct;
+  const waveY = height - fillH;
+  const amp = 3;
+  const w = width;
+
+  if (fillPct >= 1) {
+    return (
+      <View style={[styles.cellFill, { height: '100%', backgroundColor: color, opacity: 0.85 }]} />
+    );
+  }
+
+  return (
+    <View style={StyleSheet.absoluteFill}>
+      <Svg width={w} height={height} style={StyleSheet.absoluteFill}>
+        <Path
+          d={`M0,${waveY + amp} Q${w * 0.25},${waveY - amp} ${w * 0.5},${waveY + amp} T${w},${waveY + amp} V${height} H0 Z`}
+          fill={color}
+          opacity={0.85}
+        />
+      </Svg>
+    </View>
+  );
+}
 
 export default function CalendarScreen() {
   const { C, lang, rtl } = useTheme();
@@ -39,6 +64,10 @@ export default function CalendarScreen() {
   });
 
   const target = deal.dailyTarget;
+
+  const weekDays = rtl
+    ? [t('sat', lang), t('fri', lang), t('thu', lang), t('wed', lang), t('tue', lang), t('mon', lang), t('sun', lang)]
+    : [t('sun', lang), t('mon', lang), t('tue', lang), t('wed', lang), t('thu', lang), t('fri', lang), t('sat', lang)];
 
   return (
     <ScrollView
@@ -74,19 +103,27 @@ export default function CalendarScreen() {
       )}
 
       {Object.entries(months).reverse().map(([m, mDays]) => {
-        const mLabel = new Date(mDays[0] + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+        const mLabel = new Date(mDays[0] + 'T12:00:00').toLocaleDateString(rtl ? 'he-IL' : 'en-US', { month: 'short' }).toUpperCase();
         const mYear = mDays[0].substring(0, 4);
         const firstDow = new Date(mDays[0] + 'T12:00:00').getDay();
         const cells = [];
-        for (let i = 0; i < firstDow; i++) cells.push(null);
-        mDays.forEach(d => cells.push(d));
-        while (cells.length % 7 !== 0) cells.push(null);
+        if (rtl) {
+          const lastDow = 6 - firstDow;
+          for (let i = 0; i < lastDow; i++) cells.push(null);
+          const reversed = [...mDays].reverse();
+          reversed.forEach(d => cells.push(d));
+          while (cells.length % 7 !== 0) cells.push(null);
+        } else {
+          for (let i = 0; i < firstDow; i++) cells.push(null);
+          mDays.forEach(d => cells.push(d));
+          while (cells.length % 7 !== 0) cells.push(null);
+        }
 
         return (
           <View key={m} style={styles.month}>
-            <Text style={[styles.monthLabel, { color: C.label }]}>{mLabel} {mYear}</Text>
+            <Text style={[styles.monthLabel, { color: C.label }, rtl && { textAlign: 'right' }]}>{mLabel} {mYear}</Text>
             <View style={styles.weekLabels}>
-              {WEEK_DAYS.map((d, i) => (
+              {weekDays.map((d, i) => (
                 <Text key={i} style={[styles.weekDay, { color: C.label3 }]}>{d}</Text>
               ))}
             </View>
@@ -103,16 +140,16 @@ export default function CalendarScreen() {
                 const isFuture = s === 'future' || s === 'no-deal';
 
                 let fillColor = 'transparent';
-                let fillHeight = '0%';
+                let useFill = false;
                 if (isComplete) {
                   fillColor = C.ring1;
-                  fillHeight = '100%';
+                  useFill = true;
                 } else if (fillPct > 0) {
-                  fillColor = C.ring3;
-                  fillHeight = `${Math.round(fillPct * 100)}%`;
+                  fillColor = 'rgba(255,160,40,0.7)';
+                  useFill = true;
                 } else if (isMissed) {
                   fillColor = C.bg4;
-                  fillHeight = '100%';
+                  useFill = true;
                 }
 
                 const textColor = isComplete ? '#fff'
@@ -137,17 +174,26 @@ export default function CalendarScreen() {
                         elevation: 6,
                       },
                     ]}>
-                      {fillHeight !== '0%' && (
-                        <View
-                          style={[
-                            styles.cellFill,
-                            {
-                              height: fillHeight,
-                              backgroundColor: fillColor,
-                              opacity: isMissed ? 0.4 : 0.85,
-                            },
-                          ]}
-                        />
+                      {useFill && (
+                        isComplete || isMissed ? (
+                          <View
+                            style={[
+                              styles.cellFill,
+                              {
+                                height: '100%',
+                                backgroundColor: fillColor,
+                                opacity: isMissed ? 0.4 : 0.85,
+                              },
+                            ]}
+                          />
+                        ) : (
+                          <WaveFill
+                            width={42}
+                            height={42}
+                            fillPct={fillPct}
+                            color={fillColor}
+                          />
+                        )
                       )}
                       <Text style={[styles.cellText, { color: textColor, zIndex: 1 }]}>
                         {dayNum}

@@ -3,7 +3,8 @@ import { View, ScrollView, Text, TouchableOpacity, Modal, StyleSheet } from 'rea
 import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle } from 'react-native-svg';
-import { Pedometer } from 'expo-sensors';
+let Pedometer = null;
+try { Pedometer = require('expo-sensors').Pedometer; } catch (e) {}
 import { useTheme } from '../../src/ThemeContext';
 import { activeDeals, getShownDebtKeys, markDebtShown } from '../../src/utils/storage';
 import { processDebt, dealLogged, todayStr, addDays } from '../../src/utils/debtEngine';
@@ -114,19 +115,23 @@ export default function HomeScreen() {
       })();
 
       let sub;
-      (async () => {
-        const available = await Pedometer.isAvailableAsync();
-        if (available) {
-          const end = new Date();
-          const start = new Date();
-          start.setHours(0, 0, 0, 0);
-          const result = await Pedometer.getStepCountAsync(start, end);
-          if (result) setSteps(result.steps);
-          sub = Pedometer.watchStepCount(r => {
-            setSteps(prev => (prev || 0) + r.steps);
-          });
-        }
-      })();
+      if (Pedometer) {
+        (async () => {
+          try {
+            const available = await Pedometer.isAvailableAsync();
+            if (available) {
+              const end = new Date();
+              const start = new Date();
+              start.setHours(0, 0, 0, 0);
+              const result = await Pedometer.getStepCountAsync(start, end);
+              if (result) setSteps(result.steps);
+              sub = Pedometer.watchStepCount(r => {
+                setSteps(prev => (prev || 0) + r.steps);
+              });
+            }
+          } catch (e) {}
+        })();
+      }
 
       return () => { if (sub) sub.remove(); };
     }, [])

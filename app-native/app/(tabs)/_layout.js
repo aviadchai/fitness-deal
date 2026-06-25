@@ -6,15 +6,6 @@ import { t } from '../../src/utils/translations';
 export default function TabLayout() {
   const { C, isDark, lang, rtl } = useTheme();
 
-  const tabs = [
-    { name: 'index', title: t('appTitle', lang), label: t('home', lang), icon: 'home' },
-    { name: 'calendar', title: t('workoutCalendar', lang), label: t('calendar', lang), icon: 'calendar' },
-    { name: 'stats', title: t('statistics', lang), label: t('stats', lang), icon: 'bar-chart' },
-    { name: 'settings', title: t('settings', lang), label: t('settings', lang), icon: 'settings' },
-  ];
-
-  const ordered = rtl ? [...tabs].reverse() : tabs;
-
   return (
     <Tabs
       screenOptions={{
@@ -45,23 +36,45 @@ export default function TabLayout() {
           shadowOpacity: 0.3,
           shadowRadius: 32,
           elevation: 12,
+          flexDirection: rtl ? 'row-reverse' : 'row',
         },
         tabBarActiveTintColor: C.accent,
         tabBarInactiveTintColor: C.label3,
         tabBarLabelStyle: { fontSize: 11, fontWeight: '500' },
       }}
     >
-      {ordered.map(tab => (
-        <Tabs.Screen
-          key={tab.name}
-          name={tab.name}
-          options={{
-            title: tab.title,
-            tabBarLabel: tab.label,
-            tabBarIcon: ({ color, size }) => <Ionicons name={tab.icon} size={size} color={color} />,
-          }}
-        />
-      ))}
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: t('appTitle', lang),
+          tabBarLabel: t('home', lang),
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="calendar"
+        options={{
+          title: t('workoutCalendar', lang),
+          tabBarLabel: t('calendar', lang),
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="stats"
+        options={{
+          title: t('statistics', lang),
+          tabBarLabel: t('stats', lang),
+          tabBarIcon: ({ color, size }) => <Ionicons name="bar-chart" size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: t('settings', lang),
+          tabBarLabel: t('settings', lang),
+          tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
+        }}
+      />
     </Tabs>
   );
 }

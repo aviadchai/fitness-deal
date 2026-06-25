@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, Modal, ScrollView, StyleSheet, Platform }
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { CameraView } from 'expo-camera';
+let CameraView = null;
+try { CameraView = require('expo-camera').CameraView; } catch (e) {}
 import { useTheme } from '../src/ThemeContext';
 import { getDeal } from '../src/utils/storage';
 import { EXERCISES, exName, isTimerExercise } from '../src/utils/exercises';
@@ -188,7 +189,7 @@ export default function LogScreen() {
   const timerPct = target > 0 ? Math.min(1, seconds / target) : 0;
   const timerColor = targetReached ? C.green : C.ring1;
 
-  if (cameraMode) {
+  if (cameraMode && CameraView) {
     return (
       <View style={[st.container, { backgroundColor: '#000' }]}>
         <CameraView style={StyleSheet.absoluteFill} facing="front" />
@@ -262,7 +263,7 @@ export default function LogScreen() {
             </TouchableOpacity>
           </View>
 
-          {isPushups && (
+          {isPushups && CameraView && (
             <TouchableOpacity
               style={[st.cameraBtn, { backgroundColor: C.bg3 }]}
               onPress={() => setCameraMode(true)}

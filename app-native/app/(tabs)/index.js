@@ -7,66 +7,120 @@ let Pedometer = null;
 try { Pedometer = require('expo-sensors').Pedometer; } catch (e) {}
 import { useTheme } from '../../src/ThemeContext';
 import { activeDeals, getShownDebtKeys, markDebtShown } from '../../src/utils/storage';
-import { processDebt, dealLogged, todayStr, addDays } from '../../src/utils/debtEngine';
+import { processDebt, dealLogged, dealDue, todayStr, addDays, daysBetween, getDealTotalReps, getTimeLeft } from '../../src/utils/debtEngine';
 import { t } from '../../src/utils/translations';
-import { exName } from '../../src/utils/exercises';
+import { exName, EXERCISES, isTimerExercise } from '../../src/utils/exercises';
 import DealCard from '../../src/components/DealCard';
 
-function ConcentricRings({ deals, C }) {
-  const size = 220;
-  const baseStroke = 14;
-  const gap = 6;
-
-  let totalLogged = 0;
-  let totalTarget = 0;
-
-  const ringColors = [C.ring1, C.ring2, C.ring3];
+function RingChart({ size, deals, getProgress, ringColors, C }) {
+  const baseStroke = 12;
+  const gap = 5;
 
   const rings = deals.slice(0, 3).map((deal, i) => {
-    const logged = dealLogged(deal);
-    const target = deal.dailyTarget + (deal.debt || 0);
-    totalLogged += logged;
-    totalTarget += target;
-    const pct = target > 0 ? Math.min(1, logged / target) : 1;
+    const pct = getProgress(deal);
     const radius = (size - baseStroke) / 2 - i * (baseStroke + gap);
     const circumference = 2 * Math.PI * radius;
-    const offset = circumference * (1 - pct);
+    const offset = circumference * (1 - Math.min(1, pct));
     return { radius, circumference, offset, color: ringColors[i] || C.accent };
   });
 
   return (
-    <View style={ringStyles.container}>
-      <Svg width={size} height={size} style={{ transform: [{ rotate: '-90deg' }] }}>
-        {rings.map((ring, i) => (
-          <React.Fragment key={i}>
-            <Circle
-              cx={size / 2} cy={size / 2} r={ring.radius}
-              fill="none" stroke={C.bg3} strokeWidth={baseStroke}
-              strokeOpacity={0.4}
-            />
-            <Circle
-              cx={size / 2} cy={size / 2} r={ring.radius}
-              fill="none" stroke={ring.color} strokeWidth={baseStroke}
-              strokeLinecap="round"
-              strokeDasharray={ring.circumference}
-              strokeDashoffset={ring.offset}
-            />
-          </React.Fragment>
-        ))}
-      </Svg>
-      <View style={ringStyles.center}>
-        <Text style={[ringStyles.centerNum, { color: C.label }]}>{totalLogged}</Text>
-        <Text style={[ringStyles.centerSlash, { color: C.label2 }]}>/ {totalTarget}</Text>
+    <Svg width={size} height={size} style={{ transform: [{ rotate: '-90deg' }] }}>
+      {rings.map((ring, i) => (
+        <React.Fragment key={i}>
+          <Circle
+            cx={size / 2} cy={size / 2} r={ring.radius}
+            fill="none" stroke={C.bg3} strokeWidth={baseStroke}
+            strokeOpacity={0.3}
+          />
+          <Circle
+            cx={size / 2} cy={size / 2} r={ring.radius}
+            fill="none" stroke={ring.color} strokeWidth={baseStroke}
+            strokeLinecap="round"
+            strokeDasharray={ring.circumference}
+            strokeDashoffset={ring.offset}
+          />
+        </React.Fragment>
+      ))}
+    </Svg>
+  );
+}
+
+function DualRings({ deals, C, lang, rtl }) {
+  const ringSize = 150;
+  const ringColors = [C.ring1, C.ring2, C.ring3];
+
+  function dailyProgress(deal) {
+    const target = deal.dailyTarget + (deal.debt || 0);
+    return target > 0 ? dealLogged(deal) / target : 1;
+  }
+
+  function overallProgress(deal) {
+    const tod = todayStr();
+    const totalDays = Math.max(1, daysBetween(deal.startDate, tod));
+    const totalTarget = totalDays * deal.dailyTarget;
+    const totalDone = getDealTotalReps(deal);
+    return totalTarget > 0 ? totalDone / totalTarget : 1;
+  }
+
+  return (
+    <View style={[rs.dualWrap, rtl && { flexDirection: 'row-reverse' }]}>
+      <View style={rs.ringCol}>
+        <RingChart size={ringSize} deals={deals} getProgress={dailyProgress} ringColors={ringColors} C={C} />
+        <Text style={[rs.ringLabel, { color: C.label2 }]}>{t('daily', lang)}</Text>
+      </View>
+      <View style={rs.ringCol}>
+        <RingChart size={ringSize} deals={deals} getProgress={overallProgress} ringColors={ringColors} C={C} />
+        <Text style={[rs.ringLabel, { color: C.label2 }]}>{t('overall', lang)}</Text>
       </View>
     </View>
   );
 }
 
-const ringStyles = StyleSheet.create({
-  container: { alignItems: 'center', justifyContent: 'center', marginBottom: 8 },
-  center: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },
-  centerNum: { fontSize: 36, fontWeight: '700', letterSpacing: -2 },
-  centerSlash: { fontSize: 14, marginTop: 2 },
+function SummaryRows({ deals, C, lang, rtl }) {
+  return (
+    <View style={[rs.summaryCard, { backgroundColor: C.bg2, borderColor: C.cardBorder }]}>
+      {deals.map((deal, i) => {
+        const logged = dealLogged(deal);
+        const due = deal.dailyTarget + (deal.debt || 0);
+        const name = exName(deal.exercise, lang);
+        const isTimer = isTimerExercise(deal.exercise);
+        const ringColors = [C.ring1, C.ring2, C.ring3];
+        const color = ringColors[i] || C.accent;
+
+        function fmtTime(s) {
+          const m = Math.floor(s / 60);
+          const sec = s % 60;
+          return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
+
+        const progressText = isTimer ? `${fmtTime(logged)}/${fmtTime(due)}` : `${logged}/${due}`;
+
+        return (
+          <View key={deal.exercise}>
+            {i > 0 && <View style={[rs.sep, { backgroundColor: C.sep }]} />}
+            <View style={[rs.summaryRow, rtl && { flexDirection: 'row-reverse' }]}>
+              <View style={[rs.summaryDot, { backgroundColor: color }]} />
+              <Text style={[rs.summaryName, { color: C.label }, rtl && { textAlign: 'right' }]}>{name}</Text>
+              <Text style={[rs.summaryProgress, { color }]}>{progressText}</Text>
+            </View>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
+const rs = StyleSheet.create({
+  dualWrap: { flexDirection: 'row', justifyContent: 'center', gap: 16, marginBottom: 4 },
+  ringCol: { alignItems: 'center', gap: 8 },
+  ringLabel: { fontSize: 14, fontWeight: '500' },
+  summaryCard: { borderRadius: 16, padding: 14, borderWidth: 1 },
+  sep: { height: 1, marginVertical: 2 },
+  summaryRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8 },
+  summaryDot: { width: 8, height: 8, borderRadius: 4 },
+  summaryName: { flex: 1, fontSize: 16, fontWeight: '500' },
+  summaryProgress: { fontSize: 18, fontWeight: '700' },
 });
 
 function findLastMissedDate(deal) {
@@ -163,7 +217,9 @@ export default function HomeScreen() {
         style={[styles.scroll, { backgroundColor: C.bg, direction: rtl ? 'rtl' : 'ltr' }]}
         contentContainerStyle={styles.content}
       >
-        <ConcentricRings deals={deals} C={C} />
+        <DualRings deals={deals} C={C} lang={lang} rtl={rtl} />
+
+        <SummaryRows deals={deals} C={C} lang={lang} rtl={rtl} />
 
         {steps !== null && (
           <View style={[styles.stepsCard, { backgroundColor: C.bg2, borderColor: C.cardBorder }]}>
@@ -233,7 +289,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   scroll: { flex: 1 },
-  content: { padding: 20, gap: 20, paddingBottom: 110 },
+  content: { padding: 20, gap: 16, paddingBottom: 110 },
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 32 },
   emptyIcon: {
     width: 80, height: 80, borderRadius: 40,

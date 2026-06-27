@@ -67,6 +67,8 @@ const T = {
     choosePenalty: 'Choose Penalty',
     confirm: 'Confirm',
     sun: 'S', mon: 'M', tue: 'T', wed: 'W', thu: 'T', fri: 'F', sat: 'S',
+    daily: 'Daily',
+    overall: 'Overall',
   },
   he: {
     appTitle: 'דיל כושר',
@@ -136,6 +138,8 @@ const T = {
     choosePenalty: 'בחר עונש',
     confirm: 'אישור',
     sun: 'א', mon: 'ב', tue: 'ג', wed: 'ד', thu: 'ה', fri: 'ו', sat: 'ש',
+    daily: 'יומי',
+    overall: 'כללי',
   }
 };
 
